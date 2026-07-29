@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Wild Games Night - Magical Approval Letter</title>
+    <meta name="description" content="Your Games Night letter of approval has arrived. Open your magical acceptance letter to discover your destiny.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@500;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Pinyon+Script&family=Permanent+Marker&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Background Canvas for Particles, Confetti, Laser Lights, Stars -->
+    <canvas id="magicCanvas"></canvas>
+    
+    <!-- Dark Brick Wall & Neon Glow Ambient Background Layer -->
+    <div class="game-bg-wall">
+        <div class="neon-backlight neon-pink-glow"></div>
+        <div class="neon-backlight neon-gold-glow"></div>
+        <div class="neon-backlight neon-cyan-glow"></div>
+    </div>
+
+    <!-- Floating 3D Game Props & Neon Badges Container -->
+    <div class="game-icons-container">
+        <!-- Floating 3D Playing Cards -->
+        <div class="floating-prop prop-card-1">
+            <div class="card-inner ace-spades">
+                <span class="card-corner top-left">A♠</span>
+                <span class="card-center">♠</span>
+                <span class="card-corner bottom-right">A♠</span>
+            </div>
+        </div>
+        <div class="floating-prop prop-card-2">
+            <div class="card-inner ace-hearts">
+                <span class="card-corner top-left">A♥</span>
+                <span class="card-center">♥</span>
+                <span class="card-corner bottom-right">A♥</span>
+            </div>
+        </div>
+
+        <!-- Floating 3D Dice -->
+        <div class="floating-prop prop-dice-1">
+            <div class="dice-3d">🎲</div>
+        </div>
+        <div class="floating-prop prop-dice-2">
+            <div class="dice-3d gold-dice">🎲</div>
+        </div>
+
+        <!-- Floating Party Cup -->
+        <div class="floating-prop prop-cup">
+            <div class="party-cup">🥤</div>
+        </div>
+
+        <!-- Floating Neon Game Sign Badges -->
+        <div class="game-badge neon-badge-pink badge-pos-1">
+            <span class="badge-icon">😈</span>
+            <span class="badge-text">Dare or Dare</span>
+        </div>
+        <div class="game-badge neon-badge-gold badge-pos-2">
+            <span class="badge-icon">🖐️</span>
+            <span class="badge-text">Never Have I Ever</span>
+        </div>
+        <div class="game-badge neon-badge-cyan badge-pos-3">
+            <span class="badge-icon">❓</span>
+            <span class="badge-text">Would You Rather</span>
+        </div>
+        <div class="game-badge neon-badge-pink badge-pos-4">
+            <span class="badge-icon">🎭</span>
+            <span class="badge-text">Charades</span>
+        </div>
+        <div class="game-badge neon-badge-purple badge-pos-5">
+            <span class="badge-icon">🙈</span>
+            <span class="badge-text">Blindfold Challenge</span>
+        </div>
+        <div class="game-badge neon-badge-gold badge-pos-6">
+            <span class="badge-icon">🔞</span>
+            <span class="badge-text">18+ Wild Night</span>
+        </div>
+        <div class="game-badge neon-badge-cyan badge-pos-7">
+            <span class="badge-icon">👥</span>
+            <span class="badge-text">Who Do You Think Is...</span>
+        </div>
+        <div class="game-badge neon-badge-pink badge-pos-8">
+            <span class="badge-icon">💖</span>
+            <span class="badge-text">Describe Your Crush</span>
+        </div>
+    </div>
+
+    <!-- Top Action Navigation Bar -->
+    <div class="top-nav-bar">
+        <button id="audioToggleBtn" class="audio-btn" aria-label="Toggle Sound">
+            <span class="audio-icon" id="audioIcon">🔊</span>
+            <span class="audio-label" id="audioLabel">Sound On</span>
+        </button>
+
+        <button id="organizerBtn" class="organizer-btn" title="Organizer Admin Panel">
+            <span>👑 Invite Guests</span>
+        </button>
+    </div>
+
+    <!-- Main Container -->
+    <main class="experience-wrapper" id="experienceWrapper">
+        
+        <!-- SCENE 1: THE ARRIVAL -->
+        <section id="scene1" class="scene active-scene">
+            <div class="arrival-content">
+                <div class="mysterious-header">
+                    <h2 class="sub-headline neon-headline">Your Games night letter of approval has arrived</h2>
+                    <p class="instruction-text">Tap the envelope to discover your destiny.</p>
+                </div>
+
+                <!-- Floating Envelope Component -->
+                <div class="envelope-container" id="envelopeContainer" role="button" tabindex="0" aria-label="Open your magical letter">
+                    <div class="envelope-shadow"></div>
+                    <div class="envelope-glow"></div>
+                    
+                    <div class="envelope" id="envelope">
+                        <div class="env-back"></div>
+                        <div class="letter-peek" id="letterPeek">
+                            <div class="peek-header">WGN</div>
+                        </div>
+
+                        <div class="env-flap-left"></div>
+                        <div class="env-flap-right"></div>
+                        <div class="env-flap-bottom"></div>
+                        <div class="env-flap-top" id="envFlapTop"></div>
+
+                        <!-- Deep Red Wax Seal with WGN -->
+                        <div class="wax-seal" id="waxSeal">
+                            <div class="seal-cracks" id="sealCracks"></div>
+                            <div class="seal-inner">
+                                <svg class="seal-svg" viewBox="0 0 100 100">
+                                    <defs>
+                                        <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" stop-color="#ffd700"/>
+                                            <stop offset="50%" stop-color="#b8860b"/>
+                                            <stop offset="100%" stop-color="#ffec8b"/>
+                                        </linearGradient>
+                                    </defs>
+                                    <circle cx="50" cy="50" r="46" fill="none" stroke="url(#goldGrad)" stroke-width="2" stroke-dasharray="3 2" />
+                                    <text x="50" y="62" font-family="'Cinzel Decorative', serif" font-size="32" font-weight="900" fill="url(#goldGrad)" text-anchor="middle" letter-spacing="2">WGN</text>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCENE 2 & 3: THE ACCEPTANCE LETTER -->
+        <section id="scene3" class="scene hidden-scene">
+            <div class="letter-viewport" id="letterViewport">
+                
+                <!-- Parchment Paper Document -->
+                <article class="parchment-letter" id="parchmentLetter">
+                    <!-- Parchment Texture Overlays & Corner Ornaments -->
+                    <div class="parchment-border"></div>
+                    <div class="corner-ornament corner-top-left"></div>
+                    <div class="corner-ornament corner-top-right"></div>
+                    <div class="corner-ornament corner-bottom-left"></div>
+                    <div class="corner-ornament corner-bottom-right"></div>
+
+                    <!-- Header Crest -->
+                    <header class="letter-header">
+                        <div class="magic-crest">
+                            <div class="crest-ring"></div>
+                            <span class="crest-text">WGN</span>
+                        </div>
+                        <h1 class="congratulations-title">Congratulations!</h1>
+                        <div class="title-divider">
+                            <span class="divider-line"></span>
+                            <span class="divider-gem">✦</span>
+                            <span class="divider-line"></span>
+                        </div>
+                    </header>
+
+                    <!-- Letter Body -->
+                    <div class="letter-body">
+                        <p class="salutation">Dear <span id="guestNameDisplay" class="guest-name">Guest</span>,</p>
+                        
+                        <p class="opening-paragraph">
+                            It is with great pleasure that we welcome you as one of the selected guests for <strong>Wild Games Night</strong>.
+                        </p>
+                        
+                        <p class="body-paragraph">
+                            Your application has been reviewed, and we are delighted to inform you that you have officially earned your place at this exclusive gathering.
+                        </p>
+                        
+                        <p class="body-paragraph">
+                            Prepare yourself for an evening filled with exciting games, unforgettable moments, laughter, music, and new friendships.
+                        </p>
+                        
+                        <p class="closing-paragraph">
+                            Your presence will make this night even more memorable.
+                        </p>
+                    </div>
+
+                    <!-- Event Details Section -->
+                    <section class="event-details-card">
+                        <h2 class="section-heading">✦ Event Details ✦</h2>
+                        
+                        <div class="details-grid">
+                            <div class="detail-item">
+                                <span class="detail-icon">📅</span>
+                                <div class="detail-text">
+                                    <span class="detail-label">Date</span>
+                                    <span class="detail-val">Friday, 31 July 2026</span>
+                                </div>
+                            </div>
+                            
+                            <div class="detail-item">
+                                <span class="detail-icon">🕖</span>
+                                <div class="detail-text">
+                                    <span class="detail-label">Time</span>
+                                    <span class="detail-val">9:00 PM</span>
+                                </div>
+                            </div>
+                            
+                            <div class="detail-item">
+                                <span class="detail-icon">📍</span>
+                                <div class="detail-text">
+                                    <span class="detail-label">Venue</span>
+                                    <span class="detail-val">Number 9 Manga Drive, Lumley</span>
+                                </div>
+                            </div>
+                            
+                            <div class="detail-item">
+                                <span class="detail-icon">👕</span>
+                                <div class="detail-text">
+                                    <span class="detail-label">Dress Code</span>
+                                    <span class="detail-val">Choose what you want</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Countdown Timer -->
+                    <section class="countdown-section">
+                        <h3 class="countdown-title">The Magic Begins In</h3>
+                        <div class="countdown-timer" id="countdownTimer">
+                            <div class="time-block">
+                                <span class="time-num" id="cdDays">00</span>
+                                <span class="time-unit">Days</span>
+                            </div>
+                            <span class="time-colon">:</span>
+                            <div class="time-block">
+                                <span class="time-num" id="cdHours">00</span>
+                                <span class="time-unit">Hours</span>
+                            </div>
+                            <span class="time-colon">:</span>
+                            <div class="time-block">
+                                <span class="time-num" id="cdMinutes">00</span>
+                                <span class="time-unit">Minutes</span>
+                            </div>
+                            <span class="time-colon">:</span>
+                            <div class="time-block">
+                                <span class="time-num" id="cdSeconds">00</span>
+                                <span class="time-unit">Seconds</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Game Night Rules -->
+                    <section class="house-rules-card">
+                        <h2 class="section-heading">🎉 GAME NIGHT RULES 🎉</h2>
+                        <ul class="rules-list">
+                            <li>
+                                <span class="rule-num">1.</span>
+                                <div><strong>Privacy First:</strong> What happens here stays here. Respect everyone’s privacy and do not share personal information or videos from the event without permission.</div>
+                            </li>
+                            <li>
+                                <span class="rule-num">2.</span>
+                                <div><strong>Open Mindset:</strong> Be open-minded and ready to participate. Come prepared to enjoy the games and take part in the activities.</div>
+                            </li>
+                            <li>
+                                <span class="rule-num">3.</span>
+                                <div><strong>Fair Play:</strong> Respect the rules of every game. Everyone must follow the rules and play fairly.</div>
+                            </li>
+                            <li>
+                                <span class="rule-num">4.</span>
+                                <div><strong>Active Participation:</strong> Participation is encouraged. If you are not comfortable with the activities planned for the event, please consider whether this is the right event for you.</div>
+                            </li>
+                            <li>
+                                <span class="rule-num">5.</span>
+                                <div><strong>BYOB Policy:</strong> Bring your own bottle. Every guy attending is expected to bring his own bottle. No bottle, no entrance.</div>
+                            </li>
+                            <li>
+                                <span class="rule-num">6.</span>
+                                <div><strong>Zero Tolerance:</strong> Respect everyone. No bullying, harassment, pressure, or disrespectful behavior will be tolerated.</div>
+                            </li>
+                            <li>
+                                <span class="rule-num">7.</span>
+                                <div><strong>Have Fun:</strong> Most importantly, have fun and keep the night enjoyable for everyone! 🎊</div>
+                            </li>
+                        </ul>
+                    </section>
+
+                    <!-- Rules Agreement Checkbox -->
+                    <div class="agreement-wrapper" id="agreementWrapper">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="rulesCheckbox">
+                            <span class="custom-checkmark"></span>
+                            <span class="checkbox-label-text">I have read and agree to all 7 Game Night Rules</span>
+                        </label>
+                        <p class="agreement-warning hidden-warning" id="agreementWarning">⚠️ Please check the agreement box to accept your invitation.</p>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <footer class="letter-actions">
+                        <button id="acceptBtn" class="magic-btn primary-accept-btn">
+                            <span class="btn-sparkle">✨</span>
+                            <span class="btn-text" id="acceptBtnText">I Accept My Invitation</span>
+                            <span class="btn-glow"></span>
+                        </button>
+                        
+                        <div class="secondary-actions">
+                            <button id="locationBtn" class="magic-btn secondary-btn">
+                                <span class="btn-icon">📍</span> View Location
+                            </button>
+                            <button id="calendarBtn" class="magic-btn secondary-btn">
+                                <span class="btn-icon">📅</span> Add to Calendar
+                            </button>
+                        </div>
+                    </footer>
+
+                    <!-- Confirmation Toast / Message -->
+                    <div id="confirmationBox" class="confirmation-box hidden-confirmation">
+                        <div class="conf-sparkles">✨ ✦ ✨</div>
+                        <p class="conf-message">Your attendance has been confirmed!</p>
+                        <p class="conf-submessage" id="confStatusMsg">⚡ Notification dispatches instantly to the hosts.</p>
+                        
+                        <!-- Send WhatsApp Confirmation to Organizer -->
+                        <div class="whatsapp-rsvp-area">
+                            <p class="whatsapp-prompt">Tap below to notify Faisal & Dija directly on WhatsApp:</p>
+                            <div class="wa-buttons">
+                                <a id="waConfirmBtn1" class="wa-btn" href="#" target="_blank">
+                                    💬 Send Instant Confirmation to Faisal (088098340)
+                                </a>
+                                <a id="waConfirmBtn2" class="wa-btn secondary-wa" href="#" target="_blank">
+                                    💬 Send Instant Confirmation to Dija (075119627)
+                                </a>
+                            </div>
+                        </div>
+
+                        <button id="sharePassBtn" class="magic-btn mini-btn" style="margin-top: 15px;">📜 View Invitation Pass</button>
+                    </div>
+
+                </article>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Location Modal -->
+    <div id="locationModal" class="modal-backdrop hidden-modal">
+        <div class="modal-card">
+            <button class="modal-close" id="closeLocModal">&times;</button>
+            <div class="modal-icon">📍</div>
+            <h3 class="modal-title">Venue Location</h3>
+            <p class="modal-subtitle">Number 9 Manga Drive, Lumley, Freetown</p>
+            <div class="map-placeholder">
+                <div class="map-grid"></div>
+                <div class="map-pin">
+                    <div class="pin-pulse"></div>
+                    📍
+                </div>
+                <div class="map-label">Number 9 Manga Drive</div>
+            </div>
+            <p class="modal-desc">Wild Games Night Sanctuary. Entrances: Girls bring 1 bottle or female friend(s). Guys bring 1 bottle (BYOB strictly enforced!).</p>
+            <a href="https://maps.google.com/?q=Number+9+Manga+Drive,Lumley,Freetown,Sierra+Leone" target="_blank" rel="noopener noreferrer" class="modal-btn">
+                🗺️ Open in Google Maps
+            </a>
+        </div>
+    </div>
+
+    <!-- Add to Calendar Modal -->
+    <div id="calendarModal" class="modal-backdrop hidden-modal">
+        <div class="modal-card">
+            <button class="modal-close" id="closeCalModal">&times;</button>
+            <div class="modal-icon">📅</div>
+            <h3 class="modal-title">Add to Your Calendar</h3>
+            <p class="modal-subtitle">Friday, 31 July 2026 • 9:00 PM</p>
+            <div class="calendar-options">
+                <button id="googleCalBtn" class="cal-option-btn">
+                    <span class="cal-icon">🌐</span> Google Calendar
+                </button>
+                <button id="icsCalBtn" class="cal-option-btn">
+                    <span class="cal-icon">📥</span> Download .ICS File (Apple / Outlook)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shareable Digital Pass Modal -->
+    <div id="passModal" class="modal-backdrop hidden-modal">
+        <div class="modal-card pass-card">
+            <button class="modal-close" id="closePassModal">&times;</button>
+            <div class="ticket-stamp">CONFIRMED GUEST</div>
+            <h3 class="ticket-title">WILD GAMES NIGHT</h3>
+            <p class="ticket-subtitle">OFFICIAL ADMISSION PASS</p>
+            <div class="ticket-divider"></div>
+            <div class="ticket-info">
+                <p><strong>GUEST:</strong> <span id="passGuestName">Guest</span></p>
+                <p><strong>DATE:</strong> FRI, 31 JULY 2026 | 9:00 PM</p>
+                <p><strong>LOCATION:</strong> NO. 9 MANGA DRIVE, LUMLEY</p>
+                <p><strong>DRESS CODE:</strong> CHOOSE WHAT YOU WANT</p>
+                <p><strong>REQUIREMENT:</strong> BYOB / AGREEMENT ACCEPTED</p>
+            </div>
+            <div class="ticket-barcode">
+                <span>||| | |||| || ||||| ||| |||| | |||</span>
+            </div>
+            <button id="copyLinkBtn" class="modal-btn">🔗 Copy Invitation Link</button>
+        </div>
+    </div>
+
+    <!-- ORGANIZER ADMIN & INVITATION GENERATOR MODAL -->
+    <div id="organizerModal" class="modal-backdrop hidden-modal">
+        <div class="modal-card admin-card">
+            <button class="modal-close" id="closeOrgModal">&times;</button>
+            <div class="modal-icon">👑</div>
+            <h3 class="modal-title">Organizer Control Panel</h3>
+            <p class="modal-subtitle">Create Invitations & Configure Notifications</p>
+
+            <div class="admin-input-group">
+                <label for="notificationEmailInput" class="admin-label">📧 Host Email for Instant Acceptance Alerts:</label>
+                <input type="email" id="notificationEmailInput" class="admin-input" placeholder="e.g. your-email@gmail.com" value="">
+                <p class="admin-hint">Receive an instant email alert whenever a guest accepts!</p>
+            </div>
+
+            <div class="admin-input-group">
+                <label for="invitationGuestName" class="admin-label">Guest Name to Invite:</label>
+                <input type="text" id="invitationGuestName" class="admin-input" placeholder="e.g. Salieu, Fatima, Abdul...">
+            </div>
+
+            <div class="generated-link-box hidden-box" id="generatedLinkBox">
+                <p class="gen-label">Generated Invitation URL:</p>
+                <input type="text" id="generatedUrlInput" class="admin-input readonly-url" readonly>
+                
+                <div class="gen-actions">
+                    <button id="copyGenLinkBtn" class="modal-btn mini-btn">📋 Copy Link</button>
+                    <a id="shareWaLinkBtn" class="modal-btn mini-btn wa-share" href="#" target="_blank">💬 Send via WhatsApp</a>
+                </div>
+            </div>
+
+            <div class="rsvp-log-section">
+                <h4 class="log-title">📋 Accepted Guests Log:</h4>
+                <ul id="acceptedGuestsList" class="accepted-list">
+                    <li class="empty-log">No local acceptances logged yet on this device.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
