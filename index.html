@@ -9,24 +9,23 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@500;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Pinyon+Script&family=Permanent+Marker&family=Outfit:wght@600;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@500;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Pinyon+Script&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Background Canvas for Particles, Confetti, Laser Lights, Stars -->
+    <!-- Background Canvas for Particles, Confetti, Stars -->
     <canvas id="magicCanvas"></canvas>
     
-    <!-- Dark Brick Wall & Neon Glow Ambient Background Layer -->
+    <!-- Dark Brick Wall & Ambient Neon Backlight Layer -->
     <div class="game-bg-wall">
         <div class="neon-backlight neon-pink-glow"></div>
         <div class="neon-backlight neon-gold-glow"></div>
         <div class="neon-backlight neon-cyan-glow"></div>
     </div>
 
-    <!-- Floating 3D Game Props & Neon Badges Container -->
+    <!-- Floating 3D Game Props & Badges -->
     <div class="game-icons-container">
-        <!-- Floating 3D Playing Cards -->
         <div class="floating-prop prop-card-1">
             <div class="card-inner ace-spades">
                 <span class="card-corner top-left">A♠</span>
@@ -42,7 +41,6 @@
             </div>
         </div>
 
-        <!-- Floating 3D Dice -->
         <div class="floating-prop prop-dice-1">
             <div class="dice-3d">🎲</div>
         </div>
@@ -50,12 +48,10 @@
             <div class="dice-3d gold-dice">🎲</div>
         </div>
 
-        <!-- Floating Party Cup -->
         <div class="floating-prop prop-cup">
             <div class="party-cup">🥤</div>
         </div>
 
-        <!-- Floating Neon Game Sign Badges -->
         <div class="game-badge neon-badge-pink badge-pos-1">
             <span class="badge-icon">😈</span>
             <span class="badge-text">Dare or Dare</span>
@@ -78,31 +74,24 @@
         </div>
         <div class="game-badge neon-badge-gold badge-pos-6">
             <span class="badge-icon">🔞</span>
-            <span class="badge-text">18+ Wild Night</span>
-        </div>
-        <div class="game-badge neon-badge-cyan badge-pos-7">
-            <span class="badge-icon">👥</span>
-            <span class="badge-text">Who Do You Think Is...</span>
-        </div>
-        <div class="game-badge neon-badge-pink badge-pos-8">
-            <span class="badge-icon">💖</span>
-            <span class="badge-text">Describe Your Crush</span>
+            <span class="badge-text">18+ VIP</span>
         </div>
     </div>
 
-    <!-- Top Action Navigation Bar -->
+    <!-- Top Action Bar (Audio & Host Secret Admin Panel) -->
     <div class="top-nav-bar">
         <button id="audioToggleBtn" class="audio-btn" aria-label="Toggle Sound">
             <span class="audio-icon" id="audioIcon">🔊</span>
             <span class="audio-label" id="audioLabel">Sound On</span>
         </button>
 
-        <button id="organizerBtn" class="organizer-btn" title="Organizer Admin Panel">
-            <span>👑 Invite Guests</span>
+        <!-- Hidden by default for guests; only visible if URL contains ?admin=true -->
+        <button id="organizerBtn" class="organizer-btn hidden-admin-btn" title="Organizer Admin Panel">
+            <span>👑 Host Panel</span>
         </button>
     </div>
 
-    <!-- Main Container -->
+    <!-- Main Mobile-First Experience Wrapper -->
     <main class="experience-wrapper" id="experienceWrapper">
         
         <!-- SCENE 1: THE ARRIVAL -->
@@ -157,7 +146,6 @@
                 
                 <!-- Parchment Paper Document -->
                 <article class="parchment-letter" id="parchmentLetter">
-                    <!-- Parchment Texture Overlays & Corner Ornaments -->
                     <div class="parchment-border"></div>
                     <div class="corner-ornament corner-top-left"></div>
                     <div class="corner-ornament corner-top-right"></div>
@@ -166,7 +154,7 @@
 
                     <!-- Header Crest -->
                     <header class="letter-header">
-                        <div class="magic-crest">
+                        <div class="magic-crest" id="crestLogo" title="WGN Crest">
                             <div class="crest-ring"></div>
                             <span class="crest-text">WGN</span>
                         </div>
@@ -418,13 +406,13 @@
         </div>
     </div>
 
-    <!-- ORGANIZER ADMIN & INVITATION GENERATOR MODAL -->
+    <!-- ORGANIZER ADMIN & INVITATION GENERATOR MODAL (Host Only) -->
     <div id="organizerModal" class="modal-backdrop hidden-modal">
         <div class="modal-card admin-card">
             <button class="modal-close" id="closeOrgModal">&times;</button>
             <div class="modal-icon">👑</div>
             <h3 class="modal-title">Organizer Control Panel</h3>
-            <p class="modal-subtitle">Create Invitations & Configure Notifications</p>
+            <p class="modal-subtitle">Create Personalized Guest Invitations</p>
 
             <div class="admin-input-group">
                 <label for="notificationEmailInput" class="admin-label">📧 Host Email for Instant Acceptance Alerts:</label>

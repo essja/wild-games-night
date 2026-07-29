@@ -4,7 +4,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- 1. GUEST NAME PARSER ---
+    // --- 1. GUEST NAME & ADMIN PARSER ---
     const getGuestName = () => {
         const urlParams = new URLSearchParams(window.location.search);
         let name = urlParams.get('name') || urlParams.get('guest');
@@ -22,6 +22,35 @@ document.addEventListener('DOMContentLoaded', () => {
     if (guestNameDisplay) guestNameDisplay.textContent = guestName;
     if (passGuestName) passGuestName.textContent = guestName;
 
+    // Check if host admin mode is enabled via URL (?admin=true or ?host=true)
+    const organizerBtn = document.getElementById('organizerBtn');
+    const urlParams = new URLSearchParams(window.location.search);
+    const isAdminUrl = urlParams.get('admin') === 'true' || urlParams.get('host') === 'true' || urlParams.get('organizer') === 'true';
+
+    if (isAdminUrl && organizerBtn) {
+        organizerBtn.classList.remove('hidden-admin-btn');
+    }
+
+    // Secret Triple-Tap on WGN Crest to reveal Host Admin Panel
+    const crestLogo = document.getElementById('crestLogo');
+    let crestClickCount = 0;
+    let crestClickTimer = null;
+
+    if (crestLogo && organizerBtn) {
+        crestLogo.addEventListener('click', () => {
+            crestClickCount++;
+            clearTimeout(crestClickTimer);
+            crestClickTimer = setTimeout(() => { crestClickCount = 0; }, 1500);
+
+            if (crestClickCount >= 3) {
+                organizerBtn.classList.remove('hidden-admin-btn');
+                organizerModal.classList.remove('hidden-modal');
+                renderAcceptedGuestsLog();
+                crestClickCount = 0;
+            }
+        });
+    }
+
 
     // --- 2. ENCHANTED VOICE & WEB AUDIO SYNTHESIZER ---
     class MagicAudioEngine {
@@ -33,7 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
             this.masterGain = null;
             this.synthVoice = null;
 
-            // Load Web Speech API Voices
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.onvoiceschanged = () => {
                     this.loadVoice();
@@ -45,18 +73,17 @@ document.addEventListener('DOMContentLoaded', () => {
         loadVoice() {
             if (!('speechSynthesis' in window)) return;
             const voices = window.speechSynthesis.getVoices();
-            // Prefer smooth English voices (Google UK English Female, Natural, Daniel, Serena)
             this.synthVoice = voices.find(v => v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Daniel') || v.name.includes('Serena')) || voices.find(v => v.lang.startsWith('en')) || voices[0];
         }
 
         speak(text) {
             if (this.isMuted || !('speechSynthesis' in window)) return;
             try {
-                window.speechSynthesis.cancel(); // Stop any pending speech
+                window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(text);
                 if (this.synthVoice) utterance.voice = this.synthVoice;
                 utterance.pitch = 1.05;
-                utterance.rate = 0.92; // Elegant magical pacing
+                utterance.rate = 0.92;
                 utterance.volume = 1.0;
                 window.speechSynthesis.speak(utterance);
             } catch (e) {
@@ -242,7 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const particles = [];
     const stars = [];
 
-    for (let i = 0; i < 70; i++) {
+    for (let i = 0; i < 60; i++) {
         stars.push({
             x: Math.random() * width,
             y: Math.random() * height,
@@ -261,7 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (type === 'confetti') {
                 this.vx = (Math.random() - 0.5) * 1.5;
                 this.vy = Math.random() * 1.5 + 0.8;
-                this.size = Math.random() * 6 + 4;
+                this.size = Math.random() * 5 + 3;
                 this.alpha = Math.random() * 0.8 + 0.2;
                 this.rotation = Math.random() * Math.PI * 2;
                 this.rotationSpeed = (Math.random() - 0.5) * 0.1;
@@ -269,17 +296,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.life = Math.random() * 300 + 150;
             } else if (type === 'burst') {
                 const angle = Math.random() * Math.PI * 2;
-                const speed = Math.random() * 7 + 2;
+                const speed = Math.random() * 6 + 2;
                 this.vx = Math.cos(angle) * speed;
                 this.vy = Math.sin(angle) * speed;
-                this.radius = Math.random() * 3.5 + 1.5;
+                this.radius = Math.random() * 3 + 1.2;
                 this.alpha = 1;
                 this.life = Math.random() * 80 + 40;
                 this.color = ['#ffd700', '#ff007f', '#00f3ff', '#ffffff'][Math.floor(Math.random() * 4)];
             } else {
                 this.vx = (Math.random() - 0.5) * 0.4;
                 this.vy = -Math.random() * 0.6 - 0.2;
-                this.radius = Math.random() * 1.8 + 0.5;
+                this.radius = Math.random() * 1.6 + 0.5;
                 this.alpha = Math.random() * 0.7 + 0.3;
                 this.life = Math.random() * 200 + 100;
                 this.color = Math.random() > 0.5 ? '#ffd700' : '#ff007f';
@@ -338,10 +365,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    for (let i = 0; i < 30; i++) particles.push(new Particle(undefined, undefined, 'dust'));
-    for (let i = 0; i < 25; i++) particles.push(new Particle(undefined, undefined, 'confetti'));
+    for (let i = 0; i < 25; i++) particles.push(new Particle(undefined, undefined, 'dust'));
+    for (let i = 0; i < 20; i++) particles.push(new Particle(undefined, undefined, 'confetti'));
 
-    function createSparkleBurst(x, y, count = 40) {
+    function createSparkleBurst(x, y, count = 35) {
         for (let i = 0; i < count; i++) {
             particles.push(new Particle(x, y, 'burst'));
             particles.push(new Particle(x, y, 'confetti'));
@@ -378,7 +405,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderCanvas();
 
     window.addEventListener('pointerdown', (e) => {
-        createSparkleBurst(e.clientX, e.clientY, 12);
+        createSparkleBurst(e.clientX, e.clientY, 10);
     });
 
 
@@ -400,7 +427,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (waxSeal) waxSeal.classList.add('cracked');
 
             const rect = waxSeal.getBoundingClientRect();
-            createSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 60);
+            createSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 50);
 
             setTimeout(() => {
                 envelopeContainer.classList.add('opening');
@@ -419,9 +446,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     scene3.classList.add('active-scene');
 
                     window.scrollTo({ top: 0, behavior: 'smooth' });
-                    createSparkleBurst(window.innerWidth / 2, 200, 80);
+                    createSparkleBurst(window.innerWidth / 2, 200, 60);
 
-                    // Speak Magical Acceptance Voiceover!
                     audioSystem.speak(`Congratulations ${guestName}! It is with great pleasure that we welcome you as an official guest for Wild Games Night.`);
                 }, 800);
             }, 1200);
@@ -549,7 +575,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (parchmentLetter) parchmentLetter.classList.add('glowing-accept');
             
             const rect = acceptBtn.getBoundingClientRect();
-            createSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 100);
+            createSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 80);
 
             acceptBtn.classList.add('accepted');
             if (acceptBtnText) acceptBtnText.textContent = '✓ Invitation Accepted!';
@@ -682,7 +708,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // --- 8. ORGANIZER ADMIN PANEL & NOTIFICATION CONFIGURATION ---
-    const organizerBtn = document.getElementById('organizerBtn');
     const organizerModal = document.getElementById('organizerModal');
     const closeOrgModal = document.getElementById('closeOrgModal');
 
@@ -745,7 +770,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (generatedLinkBox) generatedLinkBox.classList.remove('hidden-box');
 
             if (shareWaLinkBtn) {
-                const waText = encodeURIComponent(`Hey ${val}! 🎉 You have received an exclusive magical invitation letter for Wild Games Night on Friday, 31 July at 9:00 PM!\n\nOpen your letter here: ${fullUrl}`);
+                const waText = encodeURIComponent(`Hey ${val}! 🎉 Your Games night letter of approval has arrived for Wild Games Night on Friday, 31 July at 9:00 PM!\n\nOpen your letter here: ${fullUrl}`);
                 shareWaLinkBtn.href = `https://wa.me/?text=${waText}`;
             }
         });
