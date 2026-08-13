@@ -619,6 +619,18 @@
                         </div>
                     </div>
 
+                    <!-- DEVICE SYNC CARD -->
+                    <div class="settings-card" style="border-color: var(--gold-secondary);">
+                        <h3>📲 Sync Between Devices</h3>
+                        <p style="font-size:0.85rem; color:#a0aec0; margin-bottom:12px;">Guest lists are stored on each device separately. Use this to transfer all data from one device to another.</p>
+                        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:12px;">
+                            <button id="btnExportData" class="magic-btn mini-btn" style="margin:0;">📤 EXPORT DATA (Copy)</button>
+                            <button id="btnImportData" class="magic-btn mini-btn secondary-btn" style="margin:0;">📥 IMPORT DATA (Paste)</button>
+                        </div>
+                        <textarea id="syncDataBox" class="admin-input" rows="4" placeholder="Export data will appear here. To import: paste exported data here then click IMPORT DATA." style="font-size:0.75rem; font-family:monospace; width:100%; box-sizing:border-box;"></textarea>
+                        <p style="font-size:0.75rem; color:#68d391; margin-top:8px;" id="syncStatusMsg"></p>
+                    </div>
+
                     <div class="dangerous-actions-zone">
                         <h3>⚠️ Dangerous Actions</h3>
                         <div class="danger-row">

@@ -95,19 +95,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    const pushDataToCloud = async () => {
-        try {
-            await fetch(`${KVDB_BASE}/guests`, {
-                method: 'POST',
-                body: JSON.stringify(guests)
-            });
-            await fetch(`${KVDB_BASE}/invitations`, {
-                method: 'POST',
-                body: JSON.stringify(invitations)
-            });
-        } catch(e) {
-            console.log('Cloud sync upload failed:', e);
-        }
+    const pushDataToCloud = () => {
+        // No-op: guest data travels in invitation URLs, no cloud sync needed.
     };
 
     const pullDataFromCloud = () => {
@@ -723,7 +712,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const deadlineTime = parseInt(deadHr) * 60 + parseInt(deadMin);
         const currentTime = hours * 60 + mins;
 
-        const isClosed = (currentTime >= deadlineTime) || config.manualLockdown;
+        // Only lock the gate on the actual event day (Aug 14 2026) after the deadline
+        // On all other days, gate shows OPEN so admin can manage the list freely
+        const eventDay = new Date('2026-08-14');
+        const isEventDay = (now.getFullYear() === eventDay.getFullYear() &&
+                            now.getMonth() === eventDay.getMonth() &&
+                            now.getDate() === eventDay.getDate());
+        const isPastEventDay = (now > new Date('2026-08-15'));
+
+        const isClosed = config.manualLockdown ||
+                         isPastEventDay ||
+                         (isEventDay && currentTime >= deadlineTime);
 
         const gateBadge = document.getElementById('gateStatusBadge');
         const dashStatus = document.getElementById('dash-gate-status');
@@ -2168,6 +2167,53 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- DEVICE SYNC: Export / Import ---
+    const btnExportData = document.getElementById('btnExportData');
+    const btnImportData = document.getElementById('btnImportData');
+    const syncDataBox = document.getElementById('syncDataBox');
+    const syncStatusMsg = document.getElementById('syncStatusMsg');
+
+    if (btnExportData) {
+        btnExportData.addEventListener('click', () => {
+            const exportPayload = JSON.stringify({ guests, invitations });
+            if (syncDataBox) {
+                syncDataBox.value = exportPayload;
+                syncDataBox.select();
+            }
+            copyToClipboard(exportPayload).then(() => {
+                if (syncStatusMsg) syncStatusMsg.textContent = '✅ Data copied! Paste it on your other device and click IMPORT DATA.';
+            }).catch(() => {
+                if (syncStatusMsg) syncStatusMsg.textContent = '📋 Select all text above and copy it manually, then paste on your other device.';
+            });
+        });
+    }
+
+    if (btnImportData) {
+        btnImportData.addEventListener('click', () => {
+            const rawText = syncDataBox ? syncDataBox.value.trim() : '';
+            if (!rawText) {
+                if (syncStatusMsg) syncStatusMsg.textContent = '⚠️ Paste exported data in the box above first.';
+                return;
+            }
+            try {
+                const parsed = JSON.parse(rawText);
+                if (!parsed.guests || !parsed.invitations) throw new Error('Invalid format');
+                if (confirm(`Import ${parsed.guests.length} guests and ${parsed.invitations.length} invitations? This will overwrite current data.`)) {
+                    guests = parsed.guests;
+                    invitations = parsed.invitations;
+                    saveState();
+                    renderInvitationsTable();
+                    renderMasterGuestList();
+                    updateDashboardStats();
+                    renderGateCheckin();
+                    if (syncStatusMsg) syncStatusMsg.textContent = `✅ Imported! ${guests.length} guests and ${invitations.length} invitations loaded.`;
+                    if (syncDataBox) syncDataBox.value = '';
+                }
+            } catch(e) {
+                if (syncStatusMsg) syncStatusMsg.textContent = '❌ Invalid data. Make sure you copied the full exported text.';
+            }
+        });
+    }
 
     // --- 19. REMINDERS DISPATCHER ---
     const reminderMsgTpl = document.getElementById('reminderMsgTpl');
