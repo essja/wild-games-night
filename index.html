@@ -162,31 +162,11 @@
                         </div>
                     </div>
 
-                    <!-- Guest Self-Registration Form -->
-                    <section class="registration-form-card" id="registrationFormCard">
-                        <h2 class="section-heading">✦ Guest Registration Form ✦</h2>
-                        <div class="reg-form-grid">
-                            <div class="reg-input-group">
-                                <label for="regGuestName" class="reg-label">Full Name:</label>
-                                <input type="text" id="regGuestName" class="reg-field" placeholder="Enter your full name..." required>
-                            </div>
-                            <div class="reg-input-group">
-                                <label for="regGuestPhone" class="reg-label">Phone Number:</label>
-                                <input type="tel" id="regGuestPhone" class="reg-field" placeholder="e.g. 076xxxxxx" required>
-                            </div>
-                            <div class="reg-input-group">
-                                <label for="regGuestEmail" class="reg-label">Email Address:</label>
-                                <input type="email" id="regGuestEmail" class="reg-field" placeholder="e.g. name@example.com" required>
-                            </div>
-                            <div class="reg-input-group">
-                                <label for="regGuestGender" class="reg-label">Gender:</label>
-                                <select id="regGuestGender" class="reg-field" required>
-                                    <option value="boy">Boy (Male) 🍾</option>
-                                    <option value="girl">Girl (Female) 💃</option>
-                                </select>
-                            </div>
-                        </div>
-                    </section>
+                    <!-- Guest Name Input (Only visible when accessing without a personalized link) -->
+                    <div id="fallbackNameCard" class="registration-form-card hidden-box" style="margin-top: 15px;">
+                        <label for="fallbackGuestName" class="reg-label">Enter your full name to accept:</label>
+                        <input type="text" id="fallbackGuestName" class="reg-field" placeholder="Enter first and last name..." style="margin-top:5px;">
+                    </div>
 
                     <!-- Event Details Section -->
                     <section class="event-details-card">

@@ -89,132 +89,174 @@ document.addEventListener('DOMContentLoaded', () => {
         // POST /api/guests/register
         registerGuest: (data) => {
             // Validation
-            if (!data.name || !data.phone || !data.email) {
-                return { success: false, error: 'Please complete all required fields.' };
-            }
-            
-            // Validating phone format (must be numeric and between 8 to 15 digits)
-            const phoneClean = data.phone.replace(/[^0-9]/g, '');
-            if (phoneClean.length < 8) {
-                return { success: false, error: 'Please provide a valid phone number (at least 8 digits).' };
-            }
-            
-            // Validating email format
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(data.email)) {
-                return { success: false, error: 'Please enter a valid email address.' };
+            if (!data.name) {
+                return { success: false, error: 'Please enter your name to accept the invitation.' };
             }
 
             if (!data.termsAccepted) {
                 return { success: false, error: 'You must accept the Rules and Terms & Conditions before registering.' };
             }
 
-            // Duplicate Prevention (Backend check on Phone & Email)
-            const isDuplicate = guests.some(g => 
-                (g.phone_number && g.phone_number.replace(/[^0-9]/g, '') === phoneClean) || 
-                (g.email && g.email.toLowerCase() === data.email.toLowerCase())
-            );
-            if (isDuplicate) {
-                return { success: false, error: 'This guest is already registered.' };
-            }
+            // Duplicate Prevention (Match by Name)
+            const cleanName = data.name.trim().toLowerCase();
+            const matchedGuest = guests.find(g => g.name.toLowerCase() === cleanName);
 
-            // Generate Unique Guest ID (Sequence padded, G-010)
-            let maxNum = 0;
-            guests.forEach(g => {
-                if (g.guest_id && g.guest_id.startsWith('G-')) {
-                    const num = parseInt(g.guest_id.split('-')[1]);
-                    if (!isNaN(num) && num > maxNum) maxNum = num;
+            if (matchedGuest) {
+                // If they've already accepted, block duplicate acceptance
+                if (matchedGuest.terms_accepted === 'Yes') {
+                    return { success: false, error: 'This guest has already accepted the invitation.' };
                 }
-            });
-            const nextId = `G-${String(maxNum + 1).padStart(3, '0')}`;
-
-            const nameParts = data.name.trim().split(' ');
-            const firstName = nameParts[0];
-            const lastName = nameParts.slice(1).join(' ') || '-';
-            const timestamp = new Date().toLocaleString();
-
-            const newGuest = {
-                id: 'g_' + Math.random().toString(36).substr(2, 9),
-                guest_id: nextId,
-                first_name: firstName,
-                last_name: lastName,
-                name: data.name,
-                phone_number: data.phone,
-                email: data.email,
-                gender: data.gender,
-                rsvp: 'Accepted',
-                friendName: data.gender === 'girl' ? data.friendName : '',
-                bottlePayment: data.gender === 'boy' ? 'Pending' : 'N/A',
-                checkIn: 'Not Checked In',
-                checkInTime: '',
-                approvalStatus: 'Approved',
-                terms_accepted: 'Yes',
-                terms_version: 'v1.0',
-                terms_accepted_at: timestamp,
-                registered_at: timestamp,
-                updated_at: timestamp,
-                sms_status: 'Pending',
-                sms_sent_at: ''
-            };
-
-            // Insert Guest record into database
-            guests.push(newGuest);
-
-            // Create dynamic companion friend record if a girl registered one
-            if (data.gender === 'girl' && data.friendName) {
-                const isFriendDuplicate = guests.some(g => g.name.toLowerCase() === data.friendName.toLowerCase());
-                if (!isFriendDuplicate) {
-                    let maxFriendNum = 0;
+                
+                // If they are in the list but haven't accepted yet, update them!
+                matchedGuest.rsvp = 'Accepted';
+                matchedGuest.terms_accepted = 'Yes';
+                matchedGuest.terms_version = data.termsVersion || 'v1.0';
+                matchedGuest.terms_accepted_at = new Date().toLocaleString();
+                matchedGuest.registered_at = new Date().toLocaleString();
+                matchedGuest.updated_at = new Date().toLocaleString();
+                
+                // Generate sequence ID if it doesn't exist
+                if (!matchedGuest.guest_id || matchedGuest.guest_id.startsWith('g_')) {
+                    let maxNum = 0;
                     guests.forEach(g => {
                         if (g.guest_id && g.guest_id.startsWith('G-')) {
                             const num = parseInt(g.guest_id.split('-')[1]);
-                            if (!isNaN(num) && num > maxFriendNum) maxFriendNum = num;
+                            if (!isNaN(num) && num > maxNum) maxNum = num;
                         }
                     });
-                    const friendNextId = `G-${String(maxFriendNum + 1).padStart(3, '0')}`;
-                    const friendNameParts = data.friendName.trim().split(' ');
-                    const friendFirst = friendNameParts[0];
-                    const friendLast = friendNameParts.slice(1).join(' ') || '-';
-
-                    guests.push({
-                        id: 'f_' + Math.random().toString(36).substr(2, 9),
-                        guest_id: friendNextId,
-                        first_name: friendFirst,
-                        last_name: friendLast,
-                        name: data.friendName,
-                        phone_number: '-',
-                        email: '-',
-                        gender: 'girl',
-                        rsvp: 'Guest Added',
-                        rsvpTime: timestamp,
-                        friendName: '',
-                        isFriendOf: data.name,
-                        bottlePayment: 'N/A',
-                        checkIn: 'Not Checked In',
-                        checkInTime: '',
-                        approvalStatus: 'Approved',
-                        terms_accepted: 'Yes',
-                        terms_version: 'v1.0',
-                        terms_accepted_at: timestamp,
-                        registered_at: timestamp,
-                        updated_at: timestamp,
-                        sms_status: 'N/A',
-                        sms_sent_at: ''
-                    });
+                    matchedGuest.guest_id = `G-${String(maxNum + 1).padStart(3, '0')}`;
                 }
+
+                // Companion friend mapping
+                if (matchedGuest.gender === 'girl' && data.friendName) {
+                    matchedGuest.friendName = data.friendName;
+                    
+                    const isFriendDuplicate = guests.some(g => g.name.toLowerCase() === data.friendName.toLowerCase());
+                    if (!isFriendDuplicate) {
+                        let maxFriendNum = 0;
+                        guests.forEach(g => {
+                            if (g.guest_id && g.guest_id.startsWith('G-')) {
+                                const num = parseInt(g.guest_id.split('-')[1]);
+                                if (!isNaN(num) && num > maxFriendNum) maxFriendNum = num;
+                            }
+                        });
+                        const friendNextId = `G-${String(maxFriendNum + 1).padStart(3, '0')}`;
+                        guests.push({
+                            id: 'f_' + Math.random().toString(36).substr(2, 9),
+                            guest_id: friendNextId,
+                            first_name: data.friendName.split(' ')[0],
+                            last_name: data.friendName.split(' ').slice(1).join(' ') || '-',
+                            name: data.friendName,
+                            phone_number: '-',
+                            email: '-',
+                            gender: 'girl',
+                            rsvp: 'Guest Added',
+                            rsvpTime: new Date().toLocaleString(),
+                            friendName: '',
+                            isFriendOf: matchedGuest.name,
+                            bottlePayment: 'N/A',
+                            checkIn: 'Not Checked In',
+                            checkInTime: '',
+                            approvalStatus: 'Approved',
+                            terms_accepted: 'Yes',
+                            terms_version: 'v1.0',
+                            terms_accepted_at: new Date().toLocaleString(),
+                            registered_at: new Date().toLocaleString(),
+                            updated_at: new Date().toLocaleString(),
+                            sms_status: 'N/A',
+                            sms_sent_at: ''
+                        });
+                    }
+                }
+
+                saveState();
+                mockBackend.sendSmsNotification(matchedGuest);
+                return { success: true, guest: matchedGuest };
+            } else {
+                // If they are not in the list, automatically create a new guest!
+                let maxNum = 0;
+                guests.forEach(g => {
+                    if (g.guest_id && g.guest_id.startsWith('G-')) {
+                        const num = parseInt(g.guest_id.split('-')[1]);
+                        if (!isNaN(num) && num > maxNum) maxNum = num;
+                    }
+                });
+                const nextId = `G-${String(maxNum + 1).padStart(3, '0')}`;
+                const timestamp = new Date().toLocaleString();
+
+                const newGuest = {
+                    id: 'g_' + Math.random().toString(36).substr(2, 9),
+                    guest_id: nextId,
+                    first_name: data.name.split(' ')[0],
+                    last_name: data.name.split(' ').slice(1).join(' ') || '-',
+                    name: data.name,
+                    phone_number: '-',
+                    email: '-',
+                    gender: data.gender || 'boy',
+                    rsvp: 'Accepted',
+                    friendName: data.gender === 'girl' ? data.friendName : '',
+                    bottlePayment: (data.gender || 'boy') === 'boy' ? 'Pending' : 'N/A',
+                    checkIn: 'Not Checked In',
+                    checkInTime: '',
+                    approvalStatus: 'Approved',
+                    terms_accepted: 'Yes',
+                    terms_version: data.termsVersion || 'v1.0',
+                    terms_accepted_at: timestamp,
+                    registered_at: timestamp,
+                    updated_at: timestamp,
+                    sms_status: 'Pending',
+                    sms_sent_at: ''
+                };
+
+                guests.push(newGuest);
+
+                if (data.gender === 'girl' && data.friendName) {
+                    const isFriendDuplicate = guests.some(g => g.name.toLowerCase() === data.friendName.toLowerCase());
+                    if (!isFriendDuplicate) {
+                        let maxFriendNum = 0;
+                        guests.forEach(g => {
+                            if (g.guest_id && g.guest_id.startsWith('G-')) {
+                                const num = parseInt(g.guest_id.split('-')[1]);
+                                if (!isNaN(num) && num > maxFriendNum) maxFriendNum = num;
+                            }
+                        });
+                        const friendNextId = `G-${String(maxFriendNum + 1).padStart(3, '0')}`;
+                        guests.push({
+                            id: 'f_' + Math.random().toString(36).substr(2, 9),
+                            guest_id: friendNextId,
+                            first_name: data.friendName.split(' ')[0],
+                            last_name: data.friendName.split(' ').slice(1).join(' ') || '-',
+                            name: data.friendName,
+                            phone_number: '-',
+                            email: '-',
+                            gender: 'girl',
+                            rsvp: 'Guest Added',
+                            rsvpTime: timestamp,
+                            friendName: '',
+                            isFriendOf: data.name,
+                            bottlePayment: 'N/A',
+                            checkIn: 'Not Checked In',
+                            checkInTime: '',
+                            approvalStatus: 'Approved',
+                            terms_accepted: 'Yes',
+                            terms_version: 'v1.0',
+                            terms_accepted_at: timestamp,
+                            registered_at: timestamp,
+                            updated_at: timestamp,
+                            sms_status: 'N/A',
+                            sms_sent_at: ''
+                        });
+                    }
+                }
+
+                saveState();
+                mockBackend.sendSmsNotification(newGuest);
+                return { success: true, guest: newGuest };
             }
-
-            saveState();
-
-            // Trigger SMS Confirmation dispatch
-            mockBackend.sendSmsNotification(newGuest);
-
-            return { success: true, guest: newGuest };
         },
 
         // SMS notification dispatcher
         sendSmsNotification: (guest) => {
-            // Retrieve config values (simulating environment variables secure matching)
             const smsConfig = {
                 apiKey: (typeof process !== 'undefined' && process.env && process.env.SMS_API_KEY) || 'MOCK_SMS_API_KEY_XYZ',
                 senderId: (typeof process !== 'undefined' && process.env && process.env.SMS_SENDER_ID) || 'WGN_ALERTS'
@@ -264,19 +306,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const genderSpecNote = document.getElementById('genderSpecNote');
     const friendRegistrationBlock = document.getElementById('friendRegistrationBlock');
 
-    const regNameInput = document.getElementById('regGuestName');
-    const regPhoneInput = document.getElementById('regGuestPhone');
-    const regEmailInput = document.getElementById('regGuestEmail');
-    const regGenderSelect = document.getElementById('regGuestGender');
+    const fallbackNameCard = document.getElementById('fallbackNameCard');
+    const fallbackGuestName = document.getElementById('fallbackGuestName');
 
-    // Populate registration form values on load
-    if (regNameInput && guestName) {
-        regNameInput.value = guestName;
-        regNameInput.setAttribute('readonly', 'true');
-    }
-    if (regGenderSelect && guestGender) {
-        regGenderSelect.value = guestGender;
-        regGenderSelect.setAttribute('disabled', 'true');
+    // Display fallback name input ONLY if no name is in the URL parameter
+    if (!guestName || guestName === 'Guest') {
+        if (fallbackNameCard) fallbackNameCard.classList.remove('hidden-box');
     }
 
     if (guestNameDisplay) guestNameDisplay.textContent = guestName || 'Guest';
@@ -737,7 +772,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     _subject: subject,
                     Guest_Name: guestName,
                     Category: gender === 'girl' ? 'Girls' : 'Boys',
-                    RSVP_Status: 'Accepted & Registered',
+                    RSVP_Status: 'Accepted',
                     Details: details,
                     Companion_Friend: extra || 'None',
                     Time_Confirmed: new Date().toLocaleString()
@@ -749,7 +784,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
 
-    // --- 10. GUEST RSVP SELF-REGISTRATION ACTIONS (Parchment Form) ---
+    // --- 10. GUEST RSVP SELF-REGISTRATION ACTIONS (T&C Checkbox ONLY) ---
     const acceptBtn = document.getElementById('acceptBtn');
     const acceptBtnText = document.getElementById('acceptBtnText');
     const parchmentLetter = document.getElementById('parchmentLetter');
@@ -785,48 +820,26 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     };
 
-    // Update buttons dynamically as they type values
-    const setupFormLiveTriggers = () => {
-        const phoneField = document.getElementById('regGuestPhone');
-        const emailField = document.getElementById('regGuestEmail');
-
-        [regNameInput, phoneField, emailField, regGenderSelect, friendNameInput].forEach(el => {
-            if (el) {
-                el.addEventListener('input', () => {
-                    const name = regNameInput ? regNameInput.value.trim() : 'Guest';
-                    const gender = regGenderSelect ? regGenderSelect.value : 'boy';
-                    const friend = friendNameInput ? friendNameInput.value.trim() : '';
-                    populateWaButtons(name, gender, friend);
-                });
-            }
+    // Live sync on triggers
+    if (fallbackGuestName) {
+        fallbackGuestName.addEventListener('input', () => {
+            const name = fallbackGuestName.value.trim() || 'Guest';
+            const friend = friendNameInput ? friendNameInput.value.trim() : '';
+            populateWaButtons(name, guestGender, friend);
+            if (guestNameDisplay) guestNameDisplay.textContent = name;
+            if (passGuestName) passGuestName.textContent = name;
         });
-        
-        if (regGenderSelect) {
-            regGenderSelect.addEventListener('change', () => {
-                const gen = regGenderSelect.value;
-                if (gen === 'girl') {
-                    if (friendRegistrationBlock) friendRegistrationBlock.classList.remove('hidden-note');
-                    if (genderSpecNote) {
-                        genderSpecNote.classList.remove('note-boy');
-                        genderSpecNote.classList.add('note-girl');
-                        genderSpecNote.innerHTML = `✨ <strong>Ladies Guest Policy:</strong> You are welcome to register one female friend in advance. Her name will be added to the gate checklist.`;
-                    }
-                } else {
-                    if (friendRegistrationBlock) friendRegistrationBlock.classList.add('hidden-note');
-                    if (genderSpecNote) {
-                        genderSpecNote.classList.remove('note-girl');
-                        genderSpecNote.classList.add('note-boy');
-                        genderSpecNote.innerHTML = `⚠️ <strong>Bottle Purchase Policy:</strong> All accepted male guests are required to purchase one bottle from the organizers at the gate for Le 150 upon arrival.`;
-                    }
-                }
-            });
-        }
-    };
-
-    setupFormLiveTriggers();
+    }
+    if (friendNameInput) {
+        friendNameInput.addEventListener('input', () => {
+            const name = guestName || (fallbackGuestName ? fallbackGuestName.value.trim() : 'Guest');
+            const friend = friendNameInput.value.trim();
+            populateWaButtons(name, guestGender, friend);
+        });
+    }
 
     if (acceptBtn) {
-        // Render initial buttons
+        // Initial button population
         populateWaButtons(guestName || 'Guest', guestGender, '');
 
         acceptBtn.addEventListener('click', () => {
@@ -844,17 +857,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            const nameVal = regNameInput ? regNameInput.value.trim() : '';
-            const phoneVal = regPhoneInput ? regPhoneInput.value.trim() : '';
-            const emailVal = regEmailInput ? regEmailInput.value.trim() : '';
-            const genderVal = regGenderSelect ? regGenderSelect.value : 'boy';
+            const nameVal = guestName || (fallbackGuestName ? fallbackGuestName.value.trim() : '');
+            if (!nameVal) {
+                if (agreementWarning) {
+                    agreementWarning.textContent = 'Please enter your name to accept the invitation.';
+                    agreementWarning.classList.remove('hidden-warning');
+                }
+                if (fallbackGuestName) fallbackGuestName.focus();
+                return;
+            }
+
+            const genderVal = guestGender || 'boy';
             const friendVal = friendNameInput ? friendNameInput.value.trim() : '';
 
-            // Execute Backend Registration Request (Validation & Duplicate prevention)
+            // Register Guest via Backend matching logic
             const response = mockBackend.registerGuest({
                 name: nameVal,
-                phone: phoneVal,
-                email: emailVal,
                 gender: genderVal,
                 friendName: friendVal,
                 termsAccepted: rulesCheckbox.checked,
@@ -862,7 +880,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (!response.success) {
-                // Display Backend Error Message
                 if (agreementWarning) {
                     agreementWarning.innerHTML = `❌ ${response.error}`;
                     agreementWarning.classList.remove('hidden-warning');
@@ -878,14 +895,13 @@ document.addEventListener('DOMContentLoaded', () => {
             // SUCCESS FLOW
             const registeredGuest = response.guest;
 
-            // Clear errors
             if (agreementWarning) agreementWarning.classList.add('hidden-warning');
 
             audioSystem.playAcceptHarps();
             if (genderVal === 'girl') {
-                audioSystem.speak(`Registration confirmed, ${firstNameOf(nameVal)}! Welcome to Games Night.`);
+                audioSystem.speak(`Invitation accepted, ${firstNameOf(nameVal)}! Welcome to Games Night.`);
             } else {
-                audioSystem.speak(`Registration confirmed, ${firstNameOf(nameVal)}! See you at Signal Inn. Bring Le 150 for your bottle!`);
+                audioSystem.speak(`Invitation accepted, ${firstNameOf(nameVal)}! See you at Signal Inn.`);
             }
 
             if (parchmentLetter) parchmentLetter.classList.add('glowing-accept');
@@ -894,34 +910,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
             acceptBtn.classList.add('accepted');
             acceptBtn.disabled = true;
-            if (acceptBtnText) acceptBtnText.textContent = '✓ Registered!';
+            if (acceptBtnText) acceptBtnText.textContent = '✓ Accepted!';
 
-            // Fill details card in Success Toast
+            // Hide fallback name box on success if displayed
+            if (fallbackNameCard) fallbackNameCard.classList.add('hidden-box');
+
+            // Set up success toast elements
             const confGuestId = document.getElementById('confGuestId');
             const confAcceptTime = document.getElementById('confAcceptTime');
             
             if (confGuestId) confGuestId.textContent = registeredGuest.guest_id;
             if (confAcceptTime) confAcceptTime.textContent = registeredGuest.terms_accepted_at;
 
-            // Update WhatsApp pre-filled links
             populateWaButtons(nameVal, genderVal, friendVal);
 
-            // Send background dispatches
+            // Send notification alerts
             sendInstantNotification(
-                `🎉 AUTOMATIC REGISTRATION: ${nameVal} (${registeredGuest.guest_id})`,
+                `🎉 GUEST ACCEPTED: ${nameVal} (${registeredGuest.guest_id})`,
                 nameVal,
                 genderVal,
-                `Added to Master list. Phone: ${phoneVal} | Email: ${emailVal}. SMS confirmation: Pending.`,
+                `Accepted Rules & T&C version v1.0. SMS dispatch logs: Pending.`,
                 friendVal
             );
 
             if (confirmationBox) {
                 confirmationBox.classList.remove('hidden-confirmation');
-                if (confStatusMsg) confStatusMsg.textContent = 'Registration Successful! Confirmation logs submitted.';
+                if (confStatusMsg) confStatusMsg.textContent = 'Invitation accepted! Details registered in Master Guest list.';
                 confirmationBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
 
-            // Open WhatsApp confirmation auto-trigger
+            // Send confirmation auto WhatsApp trigger
             setTimeout(() => {
                 const msg = encodeURIComponent(getCompiledRsvpMessage(nameVal, genderVal, friendVal));
                 window.open(`https://wa.me/${config.phoneFaisal}?text=${msg}`, '_blank');
@@ -1071,11 +1089,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (statTotalAcc) statTotalAcc.textContent = accepted;
         if (statPending) statPending.textContent = pending;
         if (statDeclined) statDeclined.textContent = declined;
-        if (statChecked) statChecked.textContent = todaysRegs; // Re-purposed to Todays Registrations
+        if (statChecked) statChecked.textContent = todaysRegs; // Today's Acceptances
         
         // Re-label card
         const checkinLabel = document.querySelector('.checkin-card .stat-label');
-        if (checkinLabel) checkinLabel.textContent = "Today's Registrations";
+        if (checkinLabel) checkinLabel.textContent = "Today's Acceptances";
 
         // Count categories
         const boys = guests.filter(g => g.gender === 'boy' && (g.rsvp === 'Accepted' || g.rsvp === 'Registered')).length;
@@ -1358,7 +1376,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     logActivity(`Admin updated guest: ${nameVal}`);
                 }
             } else {
-                // Add Mode sequence-based ID generation
+                // Add Mode sequence ID generation
                 let maxNum = 0;
                 guests.forEach(g => {
                     if (g.guest_id && g.guest_id.startsWith('G-')) {
