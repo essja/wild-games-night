@@ -70,12 +70,67 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('wgn_letter_templates', JSON.stringify(templates));
     }
 
+    const KVDB_BASE = 'https://kvdb.io/mns8c4s7p8q1w3o5e9r2_wgn_essja';
+
+    const pushDataToCloud = async () => {
+        try {
+            await fetch(`${KVDB_BASE}/guests`, {
+                method: 'POST',
+                body: JSON.stringify(guests)
+            });
+            await fetch(`${KVDB_BASE}/invitations`, {
+                method: 'POST',
+                body: JSON.stringify(invitations)
+            });
+        } catch(e) {
+            console.log('Cloud sync upload failed:', e);
+        }
+    };
+
+    const pullDataFromCloud = async () => {
+        try {
+            const resG = await fetch(`${KVDB_BASE}/guests`);
+            if (resG.ok) {
+                const cloudGuests = await resG.json();
+                if (cloudGuests && cloudGuests.length > 0) {
+                    guests = cloudGuests;
+                    localStorage.setItem('wgn_master_guests', JSON.stringify(guests));
+                }
+            }
+            const resI = await fetch(`${KVDB_BASE}/invitations`);
+            if (resI.ok) {
+                const cloudInv = await resI.json();
+                if (cloudInv && cloudInv.length > 0) {
+                    invitations = cloudInv;
+                    localStorage.setItem('wgn_invitations', JSON.stringify(invitations));
+                }
+            }
+            
+            // Sync current items in memory
+            if (inviteToken) {
+                loadedInvitation = invitations.find(i => i.secure_token === inviteToken);
+                if (loadedInvitation) {
+                    loadedGuest = guests.find(g => g.guest_id === loadedInvitation.guest_id);
+                }
+            }
+            
+            // Re-render UI
+            if (typeof renderInvitationsTable === 'function') renderInvitationsTable();
+            if (typeof renderMasterGuestList === 'function') renderMasterGuestList();
+            if (typeof updateDashboardStats === 'function') updateDashboardStats();
+            if (typeof renderGateCheckin === 'function') renderGateCheckin();
+        } catch(e) {
+            console.log('Cloud sync download failed, using local cache:', e);
+        }
+    };
+
     // Save State Utility
     const saveState = () => {
         localStorage.setItem('wgn_master_guests', JSON.stringify(guests));
         localStorage.setItem('wgn_invitations', JSON.stringify(invitations));
         localStorage.setItem('wgn_event_config', JSON.stringify(config));
         localStorage.setItem('wgn_letter_templates', JSON.stringify(templates));
+        pushDataToCloud();
     };
 
     // Activity Logger
@@ -546,45 +601,54 @@ document.addEventListener('DOMContentLoaded', () => {
     const waxSeal = document.getElementById('waxSeal');
     let isEnvelopeOpened = false;
 
-    if (envelopeContainer) {
-        envelopeContainer.addEventListener('click', () => {
-            if (isEnvelopeOpened) return;
-            isEnvelopeOpened = true;
-            audioSystem.init();
-            audioSystem.playSealCrack();
-            if (waxSeal) waxSeal.classList.add('cracked');
+    const triggerEnvelopeOpen = () => {
+        if (isEnvelopeOpened) return;
+        isEnvelopeOpened = true;
+        audioSystem.init();
+        audioSystem.playSealCrack();
+        if (waxSeal) waxSeal.classList.add('cracked');
 
-            const rect = waxSeal.getBoundingClientRect();
-            createSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 40);
+        const rect = waxSeal.getBoundingClientRect();
+        createSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 40);
 
+        setTimeout(() => {
+            envelopeContainer.classList.add('opening');
+            audioSystem.playMagicalChime();
+        }, 300);
+
+        setTimeout(() => {
+            scene1.style.opacity = '0';
+            scene1.style.transform = 'scale(1.1)';
             setTimeout(() => {
-                envelopeContainer.classList.add('opening');
-                audioSystem.playMagicalChime();
-            }, 300);
+                scene1.classList.remove('active-scene');
+                scene1.classList.add('hidden-scene');
+                scene3.classList.remove('hidden-scene');
+                scene3.classList.add('active-scene');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                createSparkleBurst(window.innerWidth / 2, 200, 50);
 
-            setTimeout(() => {
-                scene1.style.opacity = '0';
-                scene1.style.transform = 'scale(1.1)';
-                setTimeout(() => {
-                    scene1.classList.remove('active-scene');
-                    scene1.classList.add('hidden-scene');
-                    scene3.classList.remove('hidden-scene');
-                    scene3.classList.add('active-scene');
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                    createSparkleBurst(window.innerWidth / 2, 200, 50);
-
-                    if (hasValidInvite) {
-                        const guestName = loadedGuest.name;
-                        const guestGender = loadedGuest.gender;
-                        if (guestGender === 'girl') {
-                            audioSystem.speak(`Congratulations ${guestName}! We are so excited to invite you to Games Night! Get ready for a wonderful evening.`);
-                        } else {
-                            audioSystem.speak(`Congratulations ${guestName}! You have been selected for Games Night. Remember, bring your bottle! No bottle, no entry.`);
-                        }
+                if (hasValidInvite) {
+                    const guestName = loadedGuest.name;
+                    const guestGender = loadedGuest.gender;
+                    if (guestGender === 'girl') {
+                        audioSystem.speak(`Congratulations ${guestName}! We are so excited to invite you to Games Night! Get ready for a wonderful evening.`);
+                    } else {
+                        audioSystem.speak(`Congratulations ${guestName}! You have been selected for Games Night. Remember, bring your bottle! No bottle, no entry.`);
                     }
-                }, 800);
-            }, 1200);
+                }
+            }, 800);
+        }, 1200);
+    };
+
+    if (envelopeContainer) {
+        envelopeContainer.addEventListener('click', (e) => {
+            e.stopPropagation();
+            triggerEnvelopeOpen();
         });
+        envelopeContainer.addEventListener('touchstart', (e) => {
+            e.stopPropagation();
+            triggerEnvelopeOpen();
+        }, { passive: true });
     }
 
 
@@ -799,11 +863,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 ''
             );
 
-            // Auto WhatsApp trigger
+            // Auto WhatsApp redirect - Navigating location.href is never blocked by pop-up blockers!
             setTimeout(() => {
                 const msg = encodeURIComponent(getCompiledRsvpMessage(loadedGuest.name, loadedGuest.gender, ''));
-                window.open(`https://wa.me/${config.phoneFaisal}?text=${msg}`, '_blank');
-            }, 2000);
+                window.location.href = `https://wa.me/${config.phoneFaisal}?text=${msg}`;
+            }, 1000);
 
         } else {
             // Declined logic
@@ -2173,5 +2237,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target === passModal) passModal.classList.add('hidden-modal');
         if (e.target === guestEditModal) guestEditModal.classList.add('hidden-modal');
     });
+
+    // Pull latest data from cloud bucket on initialization
+    pullDataFromCloud();
 
 });
