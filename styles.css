@@ -754,6 +754,64 @@ html, body {
     color: #ffffff; font-family: var(--font-serif); font-size: 0.95rem; outline: none;
 }
 
+.admin-textarea {
+    resize: vertical;
+    font-family: inherit;
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+.admin-radio-group {
+    display: flex;
+    gap: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.admin-radio-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.admin-radio-label input[type="radio"] {
+    cursor: pointer;
+    accent-color: var(--gold-primary);
+    width: 18px;
+    height: 18px;
+}
+
+/* Gender-Specific Note on Parchment */
+.gender-spec-note {
+    margin: 15px 0;
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-family: var(--font-serif);
+    font-size: 0.95rem;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+}
+
+.gender-spec-note.note-boy {
+    background-color: rgba(139, 0, 0, 0.08);
+    border: 1.5px solid #8b0000;
+    color: #8b0000;
+}
+
+.gender-spec-note.note-girl {
+    background-color: rgba(230, 0, 115, 0.06);
+    border: 1.5px solid #e60073;
+    color: #b80058;
+}
+
+.hidden-note {
+    display: none !important;
+}
+
 .readonly-url { font-size: 0.8rem; color: var(--gold-secondary); margin-bottom: 8px; }
 .generated-link-box { background: rgba(0, 0, 0, 0.3); border: 1px dashed var(--gold-secondary); border-radius: 8px; padding: 12px; margin-bottom: 16px; }
 .hidden-box { display: none !important; }
@@ -766,3 +824,4 @@ html, body {
 .accepted-list { list-style: none; padding: 0; max-height: 100px; overflow-y: auto; }
 .accepted-list li { font-size: 0.8rem; padding: 3px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); color: #e2d7c5; }
 .empty-log { font-style: italic; color: #737c94; }
+

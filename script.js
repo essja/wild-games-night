@@ -15,12 +15,31 @@ document.addEventListener('DOMContentLoaded', () => {
         return name;
     };
 
+    const getGuestGender = () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('gender') || 'boy';
+    };
+
     const guestName = getGuestName();
+    const guestGender = getGuestGender();
+
     const guestNameDisplay = document.getElementById('guestNameDisplay');
     const passGuestName = document.getElementById('passGuestName');
     
     if (guestNameDisplay) guestNameDisplay.textContent = guestName;
     if (passGuestName) passGuestName.textContent = guestName;
+
+    const genderSpecNote = document.getElementById('genderSpecNote');
+    if (genderSpecNote) {
+        genderSpecNote.classList.remove('hidden-note', 'note-boy', 'note-girl');
+        if (guestGender === 'girl') {
+            genderSpecNote.classList.add('note-girl');
+            genderSpecNote.innerHTML = `✨ <strong>Note for the Ladies:</strong> Bring 1 bottle or female friend(s). Get ready to have a blast! 💃`;
+        } else {
+            genderSpecNote.classList.add('note-boy');
+            genderSpecNote.innerHTML = `⚠️ <strong>BYOB Notice for Guys:</strong> Every guy attending is expected to bring his own bottle. No bottle, no entrance! 🍾`;
+        }
+    }
 
     // Check if host admin mode is enabled via URL (?admin=true or ?host=true)
     const organizerBtn = document.getElementById('organizerBtn');
@@ -448,7 +467,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                     createSparkleBurst(window.innerWidth / 2, 200, 60);
 
-                    audioSystem.speak(`Congratulations ${guestName}! It is with great pleasure that we welcome you as an official guest for Wild Games Night.`);
+                    if (guestGender === 'girl') {
+                        audioSystem.speak(`Congratulations ${guestName}! We are so excited to invite you to Wild Games Night! Get ready for a wonderful evening.`);
+                    } else {
+                        audioSystem.speak(`Congratulations ${guestName}! You have been selected for Wild Games Night. Remember, bring your bottle! No bottle, no entry.`);
+                    }
                 }, 800);
             }, 1200);
         });
@@ -503,8 +526,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const waConfirmBtn1 = document.getElementById('waConfirmBtn1');
     const waConfirmBtn2 = document.getElementById('waConfirmBtn2');
 
+    const getCustomRsvpMessage = () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        let template = urlParams.get('rsvp');
+        if (template) {
+            try {
+                template = decodeURIComponent(template);
+            } catch (e) {
+                console.log('Error decoding custom rsvp template:', e);
+            }
+        }
+        
+        if (!template) {
+            if (guestGender === 'girl') {
+                template = "🎉 INVITATION ACCEPTED! 🎉\n\nHi! I, [Name], officially ACCEPT the invitation for Wild Games Night on Friday, 31 July at 9 PM and agree to all 7 Game Night Rules! (Excited for the night! 💃)";
+            } else {
+                template = "🎉 INVITATION ACCEPTED! 🎉\n\nHi! I, [Name], officially ACCEPT the invitation for Wild Games Night on Friday, 31 July at 9 PM and agree to all 7 Game Night Rules! (I'll bring my bottle! 🍾)";
+            }
+        }
+        
+        return template.replace(/\[Name\]/gi, guestName).replace(/\[guest\]/gi, guestName);
+    };
+
     const buildWaUrl = (phone) => {
-        const msg = encodeURIComponent(`🎉 INVITATION ACCEPTED! 🎉\n\nHi! I, ${guestName}, officially ACCEPT the invitation for Wild Games Night on Friday, 31 July at 9 PM and agree to all 7 Game Night Rules!`);
+        const msg = encodeURIComponent(getCustomRsvpMessage());
         return `https://wa.me/${phone}?text=${msg}`;
     };
 
@@ -570,7 +615,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             audioSystem.playAcceptHarps();
-            audioSystem.speak(`Attendance confirmed! We eagerly await your arrival at Wild Games Night, ${guestName}!`);
+            if (guestGender === 'girl') {
+                audioSystem.speak(`Attendance confirmed! We eagerly await your arrival, ${guestName}. Get ready to have a blast!`);
+            } else {
+                audioSystem.speak(`Attendance confirmed! We'll see you there, ${guestName}. Bring your bottle!`);
+            }
             
             if (parchmentLetter) parchmentLetter.classList.add('glowing-accept');
             
@@ -755,25 +804,69 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    if (invitationGuestName) {
-        invitationGuestName.addEventListener('input', () => {
-            const val = invitationGuestName.value.trim();
-            if (!val) {
-                if (generatedLinkBox) generatedLinkBox.classList.add('hidden-box');
-                return;
-            }
+    const boyTemplateInput = document.getElementById('boyTemplateInput');
+    const girlTemplateInput = document.getElementById('girlTemplateInput');
+    const guestGenderRadios = document.getElementsByName('guestGender');
 
-            const baseUrl = window.location.origin + window.location.pathname;
-            const fullUrl = `${baseUrl}?name=${encodeURIComponent(val)}`;
-
-            if (generatedUrlInput) generatedUrlInput.value = fullUrl;
-            if (generatedLinkBox) generatedLinkBox.classList.remove('hidden-box');
-
-            if (shareWaLinkBtn) {
-                const waText = encodeURIComponent(`Hey ${val}! 🎉 Your Games night letter of approval has arrived for Wild Games Night on Friday, 31 July at 9:00 PM!\n\nOpen your letter here: ${fullUrl}`);
-                shareWaLinkBtn.href = `https://wa.me/?text=${waText}`;
-            }
+    if (boyTemplateInput) {
+        const savedBoy = localStorage.getItem('wgn_boy_template');
+        if (savedBoy) boyTemplateInput.value = savedBoy;
+        boyTemplateInput.addEventListener('input', () => {
+            localStorage.setItem('wgn_boy_template', boyTemplateInput.value);
+            updateGeneratedLink();
         });
+    }
+
+    if (girlTemplateInput) {
+        const savedGirl = localStorage.getItem('wgn_girl_template');
+        if (savedGirl) girlTemplateInput.value = savedGirl;
+        girlTemplateInput.addEventListener('input', () => {
+            localStorage.setItem('wgn_girl_template', girlTemplateInput.value);
+            updateGeneratedLink();
+        });
+    }
+
+    guestGenderRadios.forEach(radio => {
+        radio.addEventListener('change', updateGeneratedLink);
+    });
+
+    function updateGeneratedLink() {
+        if (!invitationGuestName) return;
+        const val = invitationGuestName.value.trim();
+        if (!val) {
+            if (generatedLinkBox) generatedLinkBox.classList.add('hidden-box');
+            return;
+        }
+
+        let gender = 'boy';
+        guestGenderRadios.forEach(radio => {
+            if (radio.checked) gender = radio.value;
+        });
+
+        let template = '';
+        if (gender === 'girl' && girlTemplateInput) {
+            template = girlTemplateInput.value.trim();
+        } else if (boyTemplateInput) {
+            template = boyTemplateInput.value.trim();
+        }
+
+        const baseUrl = window.location.origin + window.location.pathname;
+        let fullUrl = `${baseUrl}?name=${encodeURIComponent(val)}&gender=${gender}`;
+        if (template) {
+            fullUrl += `&rsvp=${encodeURIComponent(template)}`;
+        }
+
+        if (generatedUrlInput) generatedUrlInput.value = fullUrl;
+        if (generatedLinkBox) generatedLinkBox.classList.remove('hidden-box');
+
+        if (shareWaLinkBtn) {
+            const waText = encodeURIComponent(`Hey ${val}! 🎉 Your Games night letter of approval has arrived for Wild Games Night on Friday, 31 July at 9:00 PM!\n\nOpen your letter here: ${fullUrl}`);
+            shareWaLinkBtn.href = `https://wa.me/?text=${waText}`;
+        }
+    }
+
+    if (invitationGuestName) {
+        invitationGuestName.addEventListener('input', updateGeneratedLink);
     }
 
     if (copyGenLinkBtn && generatedUrlInput) {

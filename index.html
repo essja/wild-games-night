@@ -287,6 +287,9 @@
                         </ul>
                     </section>
 
+                    <!-- Dynamic Gender-Specific Note -->
+                    <div id="genderSpecNote" class="gender-spec-note hidden-note"></div>
+
                     <!-- Rules Agreement Checkbox -->
                     <div class="agreement-wrapper" id="agreementWrapper">
                         <label class="checkbox-container">
@@ -423,6 +426,32 @@
             <div class="admin-input-group">
                 <label for="invitationGuestName" class="admin-label">Guest Name to Invite:</label>
                 <input type="text" id="invitationGuestName" class="admin-input" placeholder="e.g. Salieu, Fatima, Abdul...">
+            </div>
+
+            <div class="admin-input-group">
+                <label class="admin-label">Guest Gender:</label>
+                <div class="admin-radio-group">
+                    <label class="admin-radio-label">
+                        <input type="radio" name="guestGender" value="boy" checked> Boy 🍾
+                    </label>
+                    <label class="admin-radio-label">
+                        <input type="radio" name="guestGender" value="girl"> Girl 💃
+                    </label>
+                </div>
+            </div>
+
+            <div class="admin-input-group">
+                <label for="boyTemplateInput" class="admin-label">Boy RSVP WhatsApp Template:</label>
+                <textarea id="boyTemplateInput" class="admin-input admin-textarea" rows="3">🎉 INVITATION ACCEPTED! 🎉
+
+Hi! I, [Name], officially ACCEPT the invitation for Wild Games Night on Friday, 31 July at 9 PM and agree to all 7 Game Night Rules! (I'll bring my bottle! 🍾)</textarea>
+            </div>
+
+            <div class="admin-input-group">
+                <label for="girlTemplateInput" class="admin-label">Girl RSVP WhatsApp Template:</label>
+                <textarea id="girlTemplateInput" class="admin-input admin-textarea" rows="3">🎉 INVITATION ACCEPTED! 🎉
+
+Hi! I, [Name], officially ACCEPT the invitation for Wild Games Night on Friday, 31 July at 9 PM and agree to all 7 Game Night Rules! (Excited for the night! 💃)</textarea>
             </div>
 
             <div class="generated-link-box hidden-box" id="generatedLinkBox">
