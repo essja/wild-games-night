@@ -244,6 +244,21 @@ document.addEventListener('DOMContentLoaded', () => {
         if (guestNameDisplay) guestNameDisplay.textContent = guestName;
         if (passGuestName) passGuestName.textContent = guestName;
 
+        // Skip envelope entirely — jump straight to the letter on page load
+        const scene1 = document.getElementById('scene1');
+        const scene3 = document.getElementById('scene3');
+        if (scene1) { scene1.classList.remove('active-scene'); scene1.classList.add('hidden-scene'); }
+        if (scene3) { scene3.classList.remove('hidden-scene'); scene3.classList.add('active-scene'); }
+        window.scrollTo({ top: 0 });
+        // Play a welcome voice greeting
+        setTimeout(() => {
+            if (guestGender === 'girl') {
+                audioSystem.speak(`Congratulations ${guestName}! We are so excited to invite you to Games Night!`);
+            } else {
+                audioSystem.speak(`Congratulations ${guestName}! You have been selected for Games Night. Remember, bring your bottle!`);
+            }
+        }, 800);
+
         // Render letter body text
         if (dynamicLetterContent) {
             let letterTpl = guestGender === 'girl' ? templates.girlLetter : templates.boyLetter;
@@ -618,11 +633,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // --- 6. SCENE TRANSITION & ENVELOPE OPENING ---
-    const scene1 = document.getElementById('scene1');
-    const scene3 = document.getElementById('scene3');
+    // (scene1 / scene3 already resolved above if hasValidInvite — envelope is skipped for invite links)
     const envelopeContainer = document.getElementById('envelopeContainer');
     const waxSeal = document.getElementById('waxSeal');
     let isEnvelopeOpened = false;
+
+    // Resolve scene refs for non-invite paths (envelope still works on admin/empty pages)
+    const _scene1 = document.getElementById('scene1');
+    const _scene3 = document.getElementById('scene3');
 
     const triggerEnvelopeOpen = () => {
         if (isEnvelopeOpened) return;
@@ -640,25 +658,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 300);
 
         setTimeout(() => {
-            scene1.style.opacity = '0';
-            scene1.style.transform = 'scale(1.1)';
+            if (_scene1) { _scene1.style.opacity = '0'; _scene1.style.transform = 'scale(1.1)'; }
             setTimeout(() => {
-                scene1.classList.remove('active-scene');
-                scene1.classList.add('hidden-scene');
-                scene3.classList.remove('hidden-scene');
-                scene3.classList.add('active-scene');
+                if (_scene1) { _scene1.classList.remove('active-scene'); _scene1.classList.add('hidden-scene'); }
+                if (_scene3) { _scene3.classList.remove('hidden-scene'); _scene3.classList.add('active-scene'); }
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 createSparkleBurst(window.innerWidth / 2, 200, 50);
-
-                if (hasValidInvite) {
-                    const guestName = loadedGuest.name;
-                    const guestGender = loadedGuest.gender;
-                    if (guestGender === 'girl') {
-                        audioSystem.speak(`Congratulations ${guestName}! We are so excited to invite you to Games Night! Get ready for a wonderful evening.`);
-                    } else {
-                        audioSystem.speak(`Congratulations ${guestName}! You have been selected for Games Night. Remember, bring your bottle! No bottle, no entry.`);
-                    }
-                }
             }, 800);
         }, 1200);
     };
