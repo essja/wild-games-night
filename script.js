@@ -72,6 +72,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const KVDB_BASE = 'https://kvdb.io/mns8c4s7p8q1w3o5e9r2_wgn_essja';
 
+    const copyToClipboard = (text) => {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            return navigator.clipboard.writeText(text);
+        } else {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.top = '0';
+            textarea.style.left = '0';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                return Promise.resolve();
+            } catch (err) {
+                return Promise.reject(err);
+            } finally {
+                document.body.removeChild(textarea);
+            }
+        }
+    };
+
     const pushDataToCloud = async () => {
         try {
             await fetch(`${KVDB_BASE}/guests`, {
@@ -1291,6 +1314,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 shareGuestStatus.textContent = 'Generated';
                 shareGuestStatus.style.color = '#ecc94b';
             }
+            const inviteUrl = getInvitationUrl(token);
+            const shareUrlInput = document.getElementById('shareGeneratedUrl');
+            if (shareUrlInput) shareUrlInput.value = inviteUrl;
+
             if (inviteShareArea) inviteShareArea.classList.remove('hidden-box');
 
             createInviteName.value = '';
@@ -1350,11 +1377,13 @@ document.addEventListener('DOMContentLoaded', () => {
         btnCopyInviteUrl.addEventListener('click', () => {
             if (latestGeneratedToken) {
                 const url = getInvitationUrl(latestGeneratedToken);
-                navigator.clipboard.writeText(url).then(() => {
+                copyToClipboard(url).then(() => {
                     btnCopyInviteUrl.textContent = '✓ Copied!';
                     const inv = invitations.find(i => i.secure_token === latestGeneratedToken);
                     if (inv) markInviteAsSent(inv);
                     setTimeout(() => { btnCopyInviteUrl.textContent = '📋 COPY LINK'; }, 2000);
+                }).catch(err => {
+                    alert('Copy failed, please copy the link manually from the input box above!');
                 });
             }
         });
@@ -1430,10 +1459,12 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.action-copy').forEach(btn => {
             btn.addEventListener('click', () => {
                 const token = btn.getAttribute('data-token');
-                navigator.clipboard.writeText(getInvitationUrl(token)).then(() => {
+                copyToClipboard(getInvitationUrl(token)).then(() => {
                     alert('Unique link copied to clipboard!');
                     const inv = invitations.find(i => i.secure_token === token);
                     if (inv) markInviteAsSent(inv);
+                }).catch(err => {
+                    alert('Copy failed, please select and copy it manually!');
                 });
             });
         });
@@ -1740,7 +1771,7 @@ document.addEventListener('DOMContentLoaded', () => {
         modalCopyLinkBtn.addEventListener('click', () => {
             const urlVal = document.getElementById('modalGeneratedUrl').value;
             if (urlVal) {
-                navigator.clipboard.writeText(urlVal).then(() => {
+                copyToClipboard(urlVal).then(() => {
                     modalCopyLinkBtn.textContent = '✓ Copied!';
                     setTimeout(() => { modalCopyLinkBtn.textContent = '📋 Copy Link'; }, 2000);
                     
@@ -1757,6 +1788,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             logActivity(`Shared unique invite link for ${inv.guest_name} from guest edit modal`);
                         }
                     } catch(e) { console.log(e); }
+                }).catch(err => {
+                    alert('Copy failed, please copy the URL manually from the input box above!');
                 });
             }
         });
@@ -1858,8 +1891,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (guest) {
                     const matchingInvite = invitations.find(i => i.guest_id === guest.guest_id);
                     if (matchingInvite) {
-                        navigator.clipboard.writeText(getInvitationUrl(matchingInvite.secure_token)).then(() => {
+                        copyToClipboard(getInvitationUrl(matchingInvite.secure_token)).then(() => {
                             alert(`Invitation link copied for ${guest.name}!`);
+                        }).catch(err => {
+                            alert('Copy failed, please copy the URL manually!');
                         });
                     } else {
                         alert('No invitation generated yet for this guest. Create one via Invitation Manager.');
@@ -2224,9 +2259,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (copyLinkBtn) {
         copyLinkBtn.addEventListener('click', () => {
             const currentUrl = window.location.href;
-            navigator.clipboard.writeText(currentUrl).then(() => {
+            copyToClipboard(currentUrl).then(() => {
                 copyLinkBtn.textContent = '✓ Link Copied!';
                 setTimeout(() => { copyLinkBtn.textContent = '🔗 Copy Invitation Link'; }, 3000);
+            }).catch(err => {
+                alert('Copy failed, please copy the URL from your browser address bar!');
             });
         });
     }

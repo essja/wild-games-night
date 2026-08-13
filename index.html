@@ -424,13 +424,19 @@
                         </div>
                         
                         <!-- Instant Share Area after generation -->
-                        <div id="inviteShareArea" class="generated-link-box hidden-box" style="margin-top:20px; background:rgba(255,255,255,0.02); border:1px dashed var(--gold-secondary);">
+                        <div id="inviteShareArea" class="generated-link-box hidden-box" style="margin-top:20px; background:rgba(255,255,255,0.02); border:1px dashed var(--gold-secondary); padding: 15px; border-radius: 8px;">
                             <h4 style="color:#ffd700; margin-bottom:8px;">Invitation Created!</h4>
                             <p style="font-size:0.9rem; color:#cbd5e0; margin-bottom:12px;"><strong>Guest:</strong> <span id="shareGuestName">-</span> | <strong>Status:</strong> <span id="shareGuestStatus" style="color:var(--gold-secondary)">Not Sent</span></p>
+                            
+                            <div style="margin-bottom: 12px; text-align: left;">
+                                <label style="font-size:0.75rem; color:#a0aec0; display:block; margin-bottom:4px;">Unique Invitation Link:</label>
+                                <input type="text" id="shareGeneratedUrl" class="admin-input readonly-url" readonly style="width:100%; background:rgba(0,0,0,0.3); border:1px solid #222d4f; padding:8px; border-radius:4px; color:#cbd5e0; box-sizing: border-box;" onclick="this.select();">
+                            </div>
+
                             <div class="gen-actions" style="display:flex; flex-wrap:wrap; gap:10px;">
-                                <button id="btnShareInvite" class="magic-btn mini-btn">💬 SHARE INVITATION</button>
-                                <button id="btnCopyInviteUrl" class="magic-btn mini-btn secondary-btn">📋 COPY LINK</button>
-                                <button id="btnOpenInviteUrl" class="magic-btn mini-btn secondary-btn">🔗 OPEN INVITATION</button>
+                                <button id="btnShareInvite" class="magic-btn mini-btn" style="margin: 0;">💬 SHARE INVITATION</button>
+                                <button id="btnCopyInviteUrl" class="magic-btn mini-btn secondary-btn" style="margin: 0;">📋 COPY LINK</button>
+                                <button id="btnOpenInviteUrl" class="magic-btn mini-btn secondary-btn" style="margin: 0;">🔗 OPEN INVITATION</button>
                             </div>
                         </div>
                     </div>
