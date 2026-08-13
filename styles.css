@@ -1617,6 +1617,12 @@ html, body {
 .status-badge.Pending { background: rgba(214, 158, 46, 0.15); color: #ecc94b; }
 .status-badge.Declined { background: rgba(229, 62, 62, 0.15); color: #f56565; }
 .status-badge.Friend { background: rgba(49, 151, 149, 0.15); color: #319795; }
+.status-badge.Generated { background: rgba(236, 201, 75, 0.15); color: #ecc94b; }
+.status-badge.Sent { background: rgba(66, 153, 225, 0.15); color: #4299e1; }
+.status-badge.Opened { background: rgba(159, 122, 234, 0.15); color: #9f7aea; }
+.status-badge.Draft { background: rgba(160, 174, 192, 0.15); color: #a0aec0; }
+.status-badge.Friend { background: rgba(72, 187, 120, 0.15); color: #48bb78; }
+.status-badge.Guest\ Added { background: rgba(72, 187, 120, 0.15); color: #48bb78; }
 
 .action-icon-btn {
     background: transparent;

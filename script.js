@@ -8,13 +8,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const DEFAULT_GUESTS = [
         { id: 'g_1', guest_id: 'G-001', name: 'Ibrahim Kamara', phone_number: '076123456', email: 'ibrahim@example.com', gender: 'boy', rsvp: 'Accepted', rsvpTime: '2026-08-13 14:30', friendName: '', bottlePayment: 'Pending', checkIn: 'Not Checked In', checkInTime: '', approvalStatus: 'Approved', terms_accepted: 'Yes', terms_version: 'v1.0', terms_accepted_at: '2026-08-13 14:30', registered_at: '2026-08-13 14:30', sms_status: 'Sent', sms_sent_at: '2026-08-13 14:31' },
         { id: 'g_2', guest_id: 'G-002', name: 'Alhaji Bah', phone_number: '077987654', email: 'alhaj@example.com', gender: 'boy', rsvp: 'Accepted', rsvpTime: '2026-08-13 14:32', friendName: '', bottlePayment: 'Paid', checkIn: 'Checked In', checkInTime: '2026-08-13 20:12', approvalStatus: 'Approved', terms_accepted: 'Yes', terms_version: 'v1.0', terms_accepted_at: '2026-08-13 14:32', registered_at: '2026-08-13 14:32', sms_status: 'Sent', sms_sent_at: '2026-08-13 14:33' },
-        { id: 'g_3', guest_id: 'G-003', name: 'Mariama Kamara', phone_number: '078555444', email: 'mariama@example.com', gender: 'girl', rsvp: 'Accepted', rsvpTime: '2026-08-13 14:40', friendName: 'Fatmata Conteh', bottlePayment: 'N/A', checkIn: 'Not Checked In', checkInTime: '', approvalStatus: 'Approved', terms_accepted: 'Yes', terms_version: 'v1.0', terms_accepted_at: '2026-08-13 14:40', registered_at: '2026-08-13 14:40', sms_status: 'Sent', sms_sent_at: '2026-08-13 14:41' },
-        { id: 'g_4', guest_id: 'G-004', name: 'Fatmata Conteh', phone_number: '079666777', email: 'fatmata@example.com', gender: 'girl', rsvp: 'Guest Added', rsvpTime: '2026-08-13 14:42', friendName: '', isFriendOf: 'Mariama Kamara', bottlePayment: 'N/A', checkIn: 'Not Checked In', checkInTime: '', approvalStatus: 'Approved', terms_accepted: 'Yes', terms_version: 'v1.0', terms_accepted_at: '2026-08-13 14:42', registered_at: '2026-08-13 14:42', sms_status: 'Sent', sms_sent_at: '2026-08-13 14:43' },
+        { id: 'g_3', guest_id: 'G-003', name: 'Mariama Kamara', phone_number: '078555444', email: 'mariama@example.com', gender: 'girl', rsvp: 'Pending', rsvpTime: '', friendName: '', bottlePayment: 'N/A', checkIn: 'Not Checked In', checkInTime: '', approvalStatus: 'Approved', terms_accepted: 'No', terms_version: '', terms_accepted_at: '', registered_at: '2026-08-13 14:40', sms_status: 'Pending', sms_sent_at: '' },
         { id: 'g_5', guest_id: 'G-005', name: 'Kadiatu Bangura', phone_number: '075333222', email: 'kadiatu@example.com', gender: 'girl', rsvp: 'Accepted', rsvpTime: '2026-08-13 14:45', friendName: '', bottlePayment: 'N/A', checkIn: 'Checked In', checkInTime: '2026-08-13 20:15', approvalStatus: 'Approved', terms_accepted: 'Yes', terms_version: 'v1.0', terms_accepted_at: '2026-08-13 14:45', registered_at: '2026-08-13 14:45', sms_status: 'Sent', sms_sent_at: '2026-08-13 14:46' },
         { id: 'g_6', guest_id: 'G-006', name: 'Abdul Touray', phone_number: '076444888', email: 'abdul@example.com', gender: 'boy', rsvp: 'Pending', rsvpTime: '', friendName: '', bottlePayment: 'Pending', checkIn: 'Not Checked In', checkInTime: '', approvalStatus: 'Approved', terms_accepted: 'No', terms_version: '', terms_accepted_at: '', registered_at: '', sms_status: 'Pending', sms_sent_at: '' },
         { id: 'g_7', guest_id: 'G-007', name: 'Mohamed Sesay', phone_number: '077222111', email: 'mohamed@example.com', gender: 'boy', rsvp: 'Declined', rsvpTime: '2026-08-13 15:00', friendName: '', bottlePayment: 'Pending', checkIn: 'Not Checked In', checkInTime: '', approvalStatus: 'Approved', terms_accepted: 'No', terms_version: '', terms_accepted_at: '', registered_at: '', sms_status: 'Failed', sms_sent_at: '' },
         { id: 'g_8', guest_id: 'G-008', name: 'Fatima Jalloh', phone_number: '078111999', email: 'fatima@example.com', gender: 'girl', rsvp: 'Accepted', rsvpTime: '2026-08-13 15:10', friendName: 'Sarah Conteh', bottlePayment: 'N/A', checkIn: 'Not Checked In', checkInTime: '', approvalStatus: 'Approved', terms_accepted: 'Yes', terms_version: 'v1.0', terms_accepted_at: '2026-08-13 15:10', registered_at: '2026-08-13 15:10', sms_status: 'Sent', sms_sent_at: '2026-08-13 15:11' },
-        { id: 'g_9', guest_id: 'G-009', name: 'Sarah Conteh', phone_number: '079222888', email: 'sarah.c@example.com', gender: 'girl', rsvp: 'Guest Added', rsvpTime: '2026-08-13 15:10', friendName: '', isFriendOf: 'Fatima Jalloh', bottlePayment: 'N/A', checkIn: 'Not Checked In', checkInTime: '', approvalStatus: 'Approved', terms_accepted: 'Yes', terms_version: 'v1.0', terms_accepted_at: '2026-08-13 15:10', registered_at: '2026-08-13 15:10', sms_status: 'Sent', sms_sent_at: '2026-08-13 15:11' }
+        { id: 'g_9', guest_id: 'G-009', name: 'Sarah Conteh', phone_number: '-', email: '-', gender: 'girl', rsvp: 'Guest Added', rsvpTime: '2026-08-13 15:10', friendName: '', isFriendOf: 'Fatima Jalloh', bottlePayment: 'N/A', checkIn: 'Not Checked In', checkInTime: '', approvalStatus: 'Approved', terms_accepted: 'Yes', terms_version: 'v1.0', terms_accepted_at: '2026-08-13 15:10', registered_at: '2026-08-13 15:10', sms_status: 'N/A', sms_sent_at: '' }
+    ];
+
+    const DEFAULT_INVITATIONS = [
+        { id: 'i_1', guest_id: 'G-001', guest_name: 'Ibrahim Kamara', invitation_type: 'boy', secure_token: 'ibrahim123', status: 'Accepted', created_at: '2026-08-13 14:00', sent_at: '2026-08-13 14:02', opened_at: '2026-08-13 14:28', responded_at: '2026-08-13 14:30', response: 'Accepted', accepted_at: '2026-08-13 14:30' },
+        { id: 'i_2', guest_id: 'G-002', guest_name: 'Alhaji Bah', invitation_type: 'boy', secure_token: 'alhaji123', status: 'Accepted', created_at: '2026-08-13 14:05', sent_at: '2026-08-13 14:06', opened_at: '2026-08-13 14:30', responded_at: '2026-08-13 14:32', response: 'Accepted', accepted_at: '2026-08-13 14:32' },
+        { id: 'i_3', guest_id: 'G-003', guest_name: 'Mariama Kamara', invitation_type: 'girl', secure_token: 'mariama123', status: 'Sent', created_at: '2026-08-13 14:10', sent_at: '2026-08-13 14:12', opened_at: '', responded_at: '', response: 'Pending', accepted_at: '' },
+        { id: 'i_5', guest_id: 'G-005', guest_name: 'Kadiatu Bangura', invitation_type: 'girl', secure_token: 'kadiatu123', status: 'Accepted', created_at: '2026-08-13 14:15', sent_at: '2026-08-13 14:16', opened_at: '2026-08-13 14:42', responded_at: '2026-08-13 14:45', response: 'Accepted', accepted_at: '2026-08-13 14:45' },
+        { id: 'i_6', guest_id: 'G-006', guest_name: 'Abdul Touray', invitation_type: 'boy', secure_token: 'abdul123', status: 'Sent', created_at: '2026-08-13 14:20', sent_at: '2026-08-13 14:21', opened_at: '2026-08-13 18:42', responded_at: '', response: 'Pending', accepted_at: '' },
+        { id: 'i_7', guest_id: 'G-007', guest_name: 'Mohamed Sesay', invitation_type: 'boy', secure_token: 'mohamed123', status: 'Declined', created_at: '2026-08-13 14:22', sent_at: '2026-08-13 14:23', opened_at: '2026-08-13 14:58', responded_at: '2026-08-13 15:00', response: 'Declined', accepted_at: '' },
+        { id: 'i_8', guest_id: 'G-008', guest_name: 'Fatima Jalloh', invitation_type: 'girl', secure_token: 'fatima123', status: 'Accepted', created_at: '2026-08-13 14:25', sent_at: '2026-08-13 14:26', opened_at: '2026-08-13 15:08', responded_at: '2026-08-13 15:10', response: 'Accepted', accepted_at: '2026-08-13 15:10' }
     ];
 
     const DEFAULT_CONFIG = {
@@ -43,15 +52,19 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('wgn_master_guests', JSON.stringify(guests));
     }
 
+    let invitations = JSON.parse(localStorage.getItem('wgn_invitations'));
+    if (!invitations || invitations.length === 0) {
+        invitations = DEFAULT_INVITATIONS;
+        localStorage.setItem('wgn_invitations', JSON.stringify(invitations));
+    }
+
     let config = JSON.parse(localStorage.getItem('wgn_event_config'));
-    // Force venue and date updates requested by the user
     if (!config || config.eventVenue !== 'Signal Hill Old Road, Congo Cross' || config.eventDate !== '2026-08-14') {
         config = DEFAULT_CONFIG;
         localStorage.setItem('wgn_event_config', JSON.stringify(config));
     }
 
     let templates = JSON.parse(localStorage.getItem('wgn_letter_templates'));
-    // Force templates update if they contain old dates
     if (!templates || !templates.boyWa.includes('14 August')) {
         templates = DEFAULT_TEMPLATES;
         localStorage.setItem('wgn_letter_templates', JSON.stringify(templates));
@@ -60,6 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Save State Utility
     const saveState = () => {
         localStorage.setItem('wgn_master_guests', JSON.stringify(guests));
+        localStorage.setItem('wgn_invitations', JSON.stringify(invitations));
         localStorage.setItem('wgn_event_config', JSON.stringify(config));
         localStorage.setItem('wgn_letter_templates', JSON.stringify(templates));
     };
@@ -86,246 +100,134 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
 
-    // --- 2. MOCK BACKEND / DATABASE API LAYER ---
-    const mockBackend = {
-        // POST /api/guests/register
-        registerGuest: (data) => {
-            // Validation
-            if (!data.name) {
-                return { success: false, error: 'Please enter your name to accept the invitation.' };
-            }
-
-            if (!data.termsAccepted) {
-                return { success: false, error: 'You must accept the Rules and Terms & Conditions before registering.' };
-            }
-
-            // Duplicate Prevention (Match by Name)
-            const cleanName = data.name.trim().toLowerCase();
-            const matchedGuest = guests.find(g => g.name.toLowerCase() === cleanName);
-
-            if (matchedGuest) {
-                // If they've already accepted, block duplicate acceptance
-                if (matchedGuest.terms_accepted === 'Yes') {
-                    return { success: false, error: 'This guest has already accepted the invitation.' };
-                }
-                
-                // Update existing record
-                matchedGuest.rsvp = 'Accepted';
-                matchedGuest.terms_accepted = 'Yes';
-                matchedGuest.terms_version = data.termsVersion || 'v1.0';
-                matchedGuest.terms_accepted_at = new Date().toLocaleString();
-                matchedGuest.registered_at = new Date().toLocaleString();
-                matchedGuest.updated_at = new Date().toLocaleString();
-                
-                // Generate sequence ID
-                if (!matchedGuest.guest_id || matchedGuest.guest_id.startsWith('g_')) {
-                    let maxNum = 0;
-                    guests.forEach(g => {
-                        if (g.guest_id && g.guest_id.startsWith('G-')) {
-                            const num = parseInt(g.guest_id.split('-')[1]);
-                            if (!isNaN(num) && num > maxNum) maxNum = num;
-                        }
-                    });
-                    matchedGuest.guest_id = `G-${String(maxNum + 1).padStart(3, '0')}`;
-                }
-
-                // Companion friend mapping
-                if (matchedGuest.gender === 'girl' && data.friendName) {
-                    matchedGuest.friendName = data.friendName;
-                    
-                    const isFriendDuplicate = guests.some(g => g.name.toLowerCase() === data.friendName.toLowerCase());
-                    if (!isFriendDuplicate) {
-                        let maxFriendNum = 0;
-                        guests.forEach(g => {
-                            if (g.guest_id && g.guest_id.startsWith('G-')) {
-                                const num = parseInt(g.guest_id.split('-')[1]);
-                                if (!isNaN(num) && num > maxFriendNum) maxFriendNum = num;
-                            }
-                        });
-                        const friendNextId = `G-${String(maxFriendNum + 1).padStart(3, '0')}`;
-                        guests.push({
-                            id: 'f_' + Math.random().toString(36).substr(2, 9),
-                            guest_id: friendNextId,
-                            first_name: data.friendName.split(' ')[0],
-                            last_name: data.friendName.split(' ').slice(1).join(' ') || '-',
-                            name: data.friendName,
-                            phone_number: '-',
-                            email: '-',
-                            gender: 'girl',
-                            rsvp: 'Guest Added',
-                            rsvpTime: new Date().toLocaleString(),
-                            friendName: '',
-                            isFriendOf: matchedGuest.name,
-                            bottlePayment: 'N/A',
-                            checkIn: 'Not Checked In',
-                            checkInTime: '',
-                            approvalStatus: 'Approved',
-                            terms_accepted: 'Yes',
-                            terms_version: 'v1.0',
-                            terms_accepted_at: new Date().toLocaleString(),
-                            registered_at: new Date().toLocaleString(),
-                            updated_at: new Date().toLocaleString(),
-                            sms_status: 'N/A',
-                            sms_sent_at: ''
-                        });
-                    }
-                }
-
-                saveState();
-                mockBackend.sendSmsNotification(matchedGuest);
-                return { success: true, guest: matchedGuest };
-            } else {
-                // Automatically create a new guest if name is not in pre-seeds
-                let maxNum = 0;
-                guests.forEach(g => {
-                    if (g.guest_id && g.guest_id.startsWith('G-')) {
-                        const num = parseInt(g.guest_id.split('-')[1]);
-                        if (!isNaN(num) && num > maxNum) maxNum = num;
-                    }
-                });
-                const nextId = `G-${String(maxNum + 1).padStart(3, '0')}`;
-                const timestamp = new Date().toLocaleString();
-
-                const newGuest = {
-                    id: 'g_' + Math.random().toString(36).substr(2, 9),
-                    guest_id: nextId,
-                    first_name: data.name.split(' ')[0],
-                    last_name: data.name.split(' ').slice(1).join(' ') || '-',
-                    name: data.name,
-                    phone_number: '-',
-                    email: '-',
-                    gender: data.gender || 'boy',
-                    rsvp: 'Accepted',
-                    friendName: data.gender === 'girl' ? data.friendName : '',
-                    bottlePayment: (data.gender || 'boy') === 'boy' ? 'Pending' : 'N/A',
-                    checkIn: 'Not Checked In',
-                    checkInTime: '',
-                    approvalStatus: 'Approved',
-                    terms_accepted: 'Yes',
-                    terms_version: data.termsVersion || 'v1.0',
-                    terms_accepted_at: timestamp,
-                    registered_at: timestamp,
-                    updated_at: timestamp,
-                    sms_status: 'Pending',
-                    sms_sent_at: ''
-                };
-
-                guests.push(newGuest);
-
-                if (data.gender === 'girl' && data.friendName) {
-                    const isFriendDuplicate = guests.some(g => g.name.toLowerCase() === data.friendName.toLowerCase());
-                    if (!isFriendDuplicate) {
-                        let maxFriendNum = 0;
-                        guests.forEach(g => {
-                            if (g.guest_id && g.guest_id.startsWith('G-')) {
-                                const num = parseInt(g.guest_id.split('-')[1]);
-                                if (!isNaN(num) && num > maxFriendNum) maxFriendNum = num;
-                            }
-                        });
-                        const friendNextId = `G-${String(maxFriendNum + 1).padStart(3, '0')}`;
-                        guests.push({
-                            id: 'f_' + Math.random().toString(36).substr(2, 9),
-                            guest_id: friendNextId,
-                            first_name: data.friendName.split(' ')[0],
-                            last_name: data.friendName.split(' ').slice(1).join(' ') || '-',
-                            name: data.friendName,
-                            phone_number: '-',
-                            email: '-',
-                            gender: 'girl',
-                            rsvp: 'Guest Added',
-                            rsvpTime: timestamp,
-                            friendName: '',
-                            isFriendOf: data.name,
-                            bottlePayment: 'N/A',
-                            checkIn: 'Not Checked In',
-                            checkInTime: '',
-                            approvalStatus: 'Approved',
-                            terms_accepted: 'Yes',
-                            terms_version: 'v1.0',
-                            terms_accepted_at: timestamp,
-                            registered_at: timestamp,
-                            updated_at: timestamp,
-                            sms_status: 'N/A',
-                            sms_sent_at: ''
-                        });
-                    }
-                }
-
-                saveState();
-                mockBackend.sendSmsNotification(newGuest);
-                return { success: true, guest: newGuest };
-            }
-        },
-
-        // SMS dispatch outbox logger
-        sendSmsNotification: (guest) => {
-            const smsConfig = {
-                apiKey: (typeof process !== 'undefined' && process.env && process.env.SMS_API_KEY) || 'MOCK_SMS_API_KEY_XYZ',
-                senderId: (typeof process !== 'undefined' && process.env && process.env.SMS_SENDER_ID) || 'WGN_ALERTS'
-            };
-
-            const smsText = `Registration Confirmed. Hello ${guest.name}, your acceptance has been successfully recorded and you have been added to the Master Guest List. Your Guest ID is ${guest.guest_id}.`;
-            console.log(`[SMS Gateway] Outbox dispatch: To: ${guest.phone_number} | Body: "${smsText}" (Sender ID: ${smsConfig.senderId})`);
-
-            const isSuccess = Math.random() < 0.9;
-
-            setTimeout(() => {
-                const matched = guests.find(g => g.id === guest.id);
-                if (matched) {
-                    matched.sms_status = isSuccess ? 'Sent' : 'Failed';
-                    matched.sms_sent_at = new Date().toLocaleString();
-                    saveState();
-                    logActivity(`SMS alert ${isSuccess ? 'DELIVERED' : 'FAILED'} to ${guest.phone_number} (${guest.guest_id})`);
-                }
-            }, 1000);
-        }
+    // --- 2. UNIQUE INVITATION SYSTEM LOGIC ---
+    const generateSecureToken = () => {
+        return Math.random().toString(36).substr(2, 6) + Math.random().toString(36).substr(2, 6);
     };
 
-
-    // --- 3. GUEST VIEW & INPUT POPULATION ---
+    // Retrieve invite parameter from URL (e.g. ?invite=abdul123)
     const urlParams = new URLSearchParams(window.location.search);
-    const isAdminUrl = urlParams.get('admin') === 'true' || urlParams.get('host') === 'true';
+    const isAdminUrl = urlParams.get('admin') === 'true';
     const isGateUrl = urlParams.get('gate') === 'true';
-    
     const isAuthorized = () => sessionStorage.getItem('wgn_admin_logged') === 'true';
+    const inviteToken = urlParams.get('invite') || urlParams.get('token');
+    let loadedInvitation = null;
+    let loadedGuest = null;
 
-    const getGuestName = () => {
-        let name = urlParams.get('name') || urlParams.get('guest');
-        if (!name || !name.trim()) return '';
-        return name.trim().replace(/\b\w/g, l => l.toUpperCase());
-    };
+    if (inviteToken) {
+        loadedInvitation = invitations.find(i => i.secure_token === inviteToken);
+        if (loadedInvitation) {
+            loadedGuest = guests.find(g => g.guest_id === loadedInvitation.guest_id);
+            // Track when the guest opens the invitation link
+            if (loadedInvitation.status === 'Draft' || loadedInvitation.status === 'Generated' || loadedInvitation.status === 'Sent') {
+                loadedInvitation.status = 'Opened';
+                loadedInvitation.opened_at = new Date().toLocaleString();
+                saveState();
+                logActivity(`Invitation opened by ${loadedInvitation.guest_name} (${loadedInvitation.guest_id})`);
+            }
+        }
+    }
 
-    const getGuestGender = () => urlParams.get('gender') || 'boy';
 
-    const guestName = getGuestName();
-    const guestGender = getGuestGender();
-
-    // Elements
+    // --- 3. GUEST VIEW LETTER DISPLAY ---
     const guestNameDisplay = document.getElementById('guestNameDisplay');
     const passGuestName = document.getElementById('passGuestName');
     const dynamicLetterContent = document.getElementById('dynamicLetterContent');
     const genderSpecNote = document.getElementById('genderSpecNote');
-    const friendRegistrationBlock = document.getElementById('friendRegistrationBlock');
-
     const invalidLinkCard = document.getElementById('invalidLinkCard');
 
-    if (guestNameDisplay) guestNameDisplay.textContent = guestName || 'Guest';
-    if (passGuestName) passGuestName.textContent = guestName || 'Guest';
+    const hasValidInvite = loadedInvitation && loadedGuest;
 
-    // Toggle letter dynamics
-    if (dynamicLetterContent) {
-        let letterTpl = guestGender === 'girl' ? templates.girlLetter : templates.boyLetter;
-        dynamicLetterContent.innerHTML = letterTpl.split('\n\n').map(p => `<p class="body-paragraph">${p.replace(/\n/g, '<br>')}</p>`).join('');
+    if (!inviteToken && !isAdminUrl && !isGateUrl) {
+        // Block RSVP if accessing direct blank URL
+        if (invalidLinkCard) invalidLinkCard.classList.remove('hidden-box');
+        if (rulesCheckbox) rulesCheckbox.disabled = true;
+        if (acceptBtn) {
+            acceptBtn.disabled = true;
+            if (acceptBtnText) acceptBtnText.textContent = 'Access Denied 🔒';
+        }
+    } else if (inviteToken && !hasValidInvite) {
+        // Token is invalid/expired
+        if (invalidLinkCard) {
+            invalidLinkCard.classList.remove('hidden-box');
+            invalidLinkCard.querySelector('p').textContent = 'The invitation link you opened is invalid or has expired. Please check with organizers.';
+        }
+        if (rulesCheckbox) rulesCheckbox.disabled = true;
+        if (acceptBtn) {
+            acceptBtn.disabled = true;
+            if (acceptBtnText) acceptBtnText.textContent = 'Access Denied 🔒';
+        }
     }
 
-    if (genderSpecNote) {
-        if (guestGender === 'girl') {
-            genderSpecNote.classList.add('note-girl');
-            genderSpecNote.innerHTML = `✨ <strong>Ladies Guest Policy:</strong> You are welcome to register one female friend in advance. Her name will be added to the gate checklist.`;
-            if (friendRegistrationBlock) friendRegistrationBlock.classList.remove('hidden-note');
-        } else {
-            genderSpecNote.classList.add('note-boy');
-            genderSpecNote.innerHTML = `⚠️ <strong>Bottle Purchase Policy:</strong> All accepted male guests are required to purchase one bottle from the organizers at the gate for Le 150 upon arrival.`;
+    if (hasValidInvite) {
+        const guestName = loadedGuest.name;
+        const guestGender = loadedGuest.gender;
+
+        if (guestNameDisplay) guestNameDisplay.textContent = guestName;
+        if (passGuestName) passGuestName.textContent = guestName;
+
+        // Render letter body text
+        if (dynamicLetterContent) {
+            let letterTpl = guestGender === 'girl' ? templates.girlLetter : templates.boyLetter;
+            dynamicLetterContent.innerHTML = letterTpl.split('\n\n').map(p => `<p class="body-paragraph">${p.replace(/\n/g, '<br>')}</p>`).join('');
+        }
+
+        // Render rules alerts
+        if (genderSpecNote) {
+            if (guestGender === 'girl') {
+                genderSpecNote.classList.add('note-girl');
+                genderSpecNote.innerHTML = `✨ <strong>Ladies Guest Policy:</strong> You are welcome to register one female friend after accepting your invitation. Her name will be added to the gate checklist.`;
+            } else {
+                genderSpecNote.classList.add('note-boy');
+                genderSpecNote.innerHTML = `⚠️ <strong>Bottle Purchase Policy:</strong> All accepted male guests are required to purchase one bottle from the organizers at the gate for Le 150 upon arrival.`;
+            }
+        }
+
+        // Check if guest already responded
+        if (loadedInvitation.response === 'Accepted') {
+            disableAcceptanceView('Accepted', guestName, guestGender);
+        } else if (loadedInvitation.response === 'Declined') {
+            disableAcceptanceView('Declined', guestName, guestGender);
+        }
+    }
+
+    function disableAcceptanceView(response, name, gender) {
+        if (acceptBtn) {
+            acceptBtn.disabled = true;
+            if (acceptBtnText) acceptBtnText.textContent = response === 'Accepted' ? '✓ Accepted' : 'Declined';
+        }
+        const declineBtn = document.getElementById('declineBtn');
+        if (declineBtn) declineBtn.style.display = 'none';
+        if (rulesCheckbox) rulesCheckbox.disabled = true;
+
+        if (response === 'Accepted') {
+            const confGuestId = document.getElementById('confGuestId');
+            const confAcceptTime = document.getElementById('confAcceptTime');
+            if (confGuestId) confGuestId.textContent = loadedGuest.guest_id;
+            if (confAcceptTime) confAcceptTime.textContent = loadedInvitation.accepted_at || loadedInvitation.responded_at || '-';
+            
+            if (confirmationBox) {
+                confirmationBox.classList.remove('hidden-confirmation');
+                if (confStatusMsg) confStatusMsg.textContent = 'Invitation accepted! Details registered in Master Guest list.';
+            }
+
+            if (gender === 'girl') {
+                const friendBlock = document.getElementById('friendRegistrationBlock');
+                if (friendBlock) friendBlock.classList.remove('hidden-note');
+                
+                // Show registered friend if present
+                if (loadedGuest.friendName) {
+                    const statusText = document.getElementById('friendRegisterStatus');
+                    if (statusText) {
+                        statusText.innerHTML = `🟢 Friend <strong>${loadedGuest.friendName}</strong> is registered for check-in.`;
+                        statusText.style.display = 'block';
+                    }
+                    const nameField = document.getElementById('friendNameInput');
+                    if (nameField) nameField.disabled = true;
+                    const regBtn = document.getElementById('btnRegisterFriend');
+                    if (regBtn) regBtn.disabled = true;
+                }
+            }
         }
     }
 
@@ -341,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (evtVenueDisplay) evtVenueDisplay.textContent = config.eventVenue;
 
 
-    // --- 4. AUDIO ENGINE (Text-To-Speech procedural sound) ---
+    // --- 4. AUDIO ENGINE (Text-To-Speech & ambient synthesis) ---
     class MagicAudioEngine {
         constructor() {
             this.ctx = null;
@@ -671,10 +573,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                     createSparkleBurst(window.innerWidth / 2, 200, 50);
 
-                    if (guestGender === 'girl') {
-                        audioSystem.speak(`Congratulations ${guestName || 'Guest'}! We are so excited to invite you to Games Night! Get ready for a wonderful evening.`);
-                    } else {
-                        audioSystem.speak(`Congratulations ${guestName || 'Guest'}! You have been selected for Games Night. Remember, bring your bottle! No bottle, no entry.`);
+                    if (hasValidInvite) {
+                        const guestName = loadedGuest.name;
+                        const guestGender = loadedGuest.gender;
+                        if (guestGender === 'girl') {
+                            audioSystem.speak(`Congratulations ${guestName}! We are so excited to invite you to Games Night! Get ready for a wonderful evening.`);
+                        } else {
+                            audioSystem.speak(`Congratulations ${guestName}! You have been selected for Games Night. Remember, bring your bottle! No bottle, no entry.`);
+                        }
                     }
                 }, 800);
             }, 1200);
@@ -779,68 +685,160 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
 
-    // --- 10. GUEST RSVP SELF-REGISTRATION ACTIONS ---
+    // --- 10. GUEST RSVP ACCEPT / DECLINE ACTIONS ---
     const acceptBtn = document.getElementById('acceptBtn');
     const acceptBtnText = document.getElementById('acceptBtnText');
+    const declineBtn = document.getElementById('declineBtn');
     const parchmentLetter = document.getElementById('parchmentLetter');
     const confirmationBox = document.getElementById('confirmationBox');
     const rulesCheckbox = document.getElementById('rulesCheckbox');
     const agreementWarning = document.getElementById('agreementWarning');
     const agreementWrapper = document.getElementById('agreementWrapper');
+    const confMessageText = document.getElementById('confMessageText');
     const confStatusMsg = document.getElementById('confStatusMsg');
+    
+    const friendRegistrationBlock = document.getElementById('friendRegistrationBlock');
     const friendNameInput = document.getElementById('friendNameInput');
+    const btnRegisterFriend = document.getElementById('btnRegisterFriend');
+    const friendRegisterStatus = document.getElementById('friendRegisterStatus');
     const waButtonsContainer = document.getElementById('waButtonsContainer');
 
-    const getCompiledRsvpMessage = (name, gender, friendName = '') => {
-        let tpl = gender === 'girl' ? templates.girlWa : templates.boyWa;
-        let msg = tpl.replace(/\[Name\]/gi, name);
-        if (friendName) {
-            msg = msg.replace(/\[Friend\]/gi, friendName);
-        } else {
-            msg = msg.replace(/\[Friend\]/gi, 'Not yet registered');
+    const getCompiledRsvpMessage = (name, gender, friend) => {
+        let msg = gender === 'girl' ? templates.girlWa : templates.boyWa;
+        msg = msg.replace('[Name]', name);
+        if (gender === 'girl') {
+            msg = msg.replace('[Friend]', friend || 'None');
         }
         return msg;
     };
 
-    const populateWaButtons = (name, gender, friendName = '') => {
+    const populateWaButtons = (name, gender, friend) => {
         if (!waButtonsContainer) return;
-        const msg = encodeURIComponent(getCompiledRsvpMessage(name, gender, friendName));
+        const msg = getCompiledRsvpMessage(name, gender, friend);
+        const encodedMsg = encodeURIComponent(msg);
+        
         waButtonsContainer.innerHTML = `
-            <a class="wa-btn" href="https://wa.me/${config.phoneFaisal}?text=${msg}" target="_blank">
-                💬 Send Confirmation to Faisal (${config.phoneFaisal})
+            <a href="https://wa.me/${config.phoneFaisal}?text=${encodedMsg}" target="_blank" class="wa-btn wa-faisal" style="padding: 10px 15px; background: #25d366; color: white; border-radius: 5px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; font-weight: bold; margin-right: 10px;">
+                <span class="wa-icon">💬</span> Notify Faisal
             </a>
-            <a class="wa-btn secondary-wa" href="https://wa.me/${config.phoneDija}?text=${msg}" target="_blank">
-                💬 Send Confirmation to Dija (${config.phoneDija})
+            <a href="https://wa.me/${config.phoneDija}?text=${encodedMsg}" target="_blank" class="wa-btn wa-dija" style="padding: 10px 15px; background: #25d366; color: white; border-radius: 5px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; font-weight: bold;">
+                <span class="wa-icon">💬</span> Notify Dija
             </a>
         `;
     };
 
-    // Block RSVP if no personalized name is in the URL parameters
-    const hasValidName = guestName && guestName !== 'Guest';
-    if (!hasValidName) {
-        if (invalidLinkCard) invalidLinkCard.classList.remove('hidden-box');
-        if (rulesCheckbox) rulesCheckbox.disabled = true;
-        if (acceptBtn) {
-            acceptBtn.disabled = true;
-            if (acceptBtnText) acceptBtnText.textContent = 'Access Denied 🔒';
-        }
-    }
+    const executeGuestRSVP = (responseType) => {
+        if (!hasValidInvite) return;
 
-    if (friendNameInput) {
-        friendNameInput.addEventListener('input', () => {
-            const name = guestName || 'Guest';
-            const friend = friendNameInput.value.trim();
-            populateWaButtons(name, guestGender, friend);
-        });
-    }
+        const timestamp = new Date().toLocaleString();
+        
+        // 1. Update Invitation record
+        loadedInvitation.status = responseType === 'Accepted' ? 'Accepted' : 'Declined';
+        loadedInvitation.response = responseType;
+        loadedInvitation.responded_at = timestamp;
+        if (responseType === 'Accepted') {
+            loadedInvitation.accepted_at = timestamp;
+        }
+        
+        // 2. Update matching Guest record
+        loadedGuest.rsvp = responseType;
+        if (responseType === 'Accepted') {
+            loadedGuest.terms_accepted = 'Yes';
+            loadedGuest.terms_version = 'v1.0';
+            loadedGuest.terms_accepted_at = timestamp;
+            loadedGuest.registered_at = timestamp;
+        } else {
+            loadedGuest.terms_accepted = 'No';
+        }
+        loadedGuest.updated_at = timestamp;
+
+        saveState();
+
+        // 3. Success display updates
+        if (agreementWarning) agreementWarning.classList.add('hidden-warning');
+
+        if (responseType === 'Accepted') {
+            audioSystem.playAcceptHarps();
+            if (loadedGuest.gender === 'girl') {
+                audioSystem.speak(`Invitation accepted, ${firstNameOf(loadedGuest.name)}! Welcome to Games Night.`);
+            } else {
+                audioSystem.speak(`Invitation accepted, ${firstNameOf(loadedGuest.name)}! See you at Signal Hill Old Road.`);
+            }
+
+            if (parchmentLetter) parchmentLetter.classList.add('glowing-accept');
+            const rect = acceptBtn.getBoundingClientRect();
+            createSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 60);
+
+            if (acceptBtnText) acceptBtnText.textContent = '✓ Accepted!';
+            if (acceptBtn) acceptBtn.disabled = true;
+            if (declineBtn) declineBtn.style.display = 'none';
+
+            // Show details card
+            const confGuestId = document.getElementById('confGuestId');
+            const confAcceptTime = document.getElementById('confAcceptTime');
+            if (confGuestId) confGuestId.textContent = loadedGuest.guest_id;
+            if (confAcceptTime) confAcceptTime.textContent = loadedInvitation.accepted_at;
+
+            if (confMessageText) confMessageText.textContent = 'Registration Successful!';
+            if (confStatusMsg) confStatusMsg.textContent = `Thank you, ${loadedGuest.name}. Your acceptance has been recorded successfully. We look forward to seeing you at Games Night.`;
+
+            // Reveal companion block for girls
+            if (loadedGuest.gender === 'girl' && friendRegistrationBlock) {
+                friendRegistrationBlock.classList.remove('hidden-note');
+            }
+
+            // Populate WhatsApp confirm buttons
+            populateWaButtons(loadedGuest.name, loadedGuest.gender, '');
+
+            // Dispatch instant alerts
+            sendInstantNotification(
+                `🎉 NEW ACCEPTANCE: ${loadedGuest.name} (${loadedGuest.guest_id})`,
+                loadedGuest.name,
+                loadedGuest.gender,
+                `Accepted unique invitation link. Venue: Signal Hill Old Road.`,
+                ''
+            );
+
+            // Auto WhatsApp trigger
+            setTimeout(() => {
+                const msg = encodeURIComponent(getCompiledRsvpMessage(loadedGuest.name, loadedGuest.gender, ''));
+                window.open(`https://wa.me/${config.phoneFaisal}?text=${msg}`, '_blank');
+            }, 2000);
+
+        } else {
+            // Declined logic
+            audioSystem.speak('Response recorded.');
+            if (acceptBtn) acceptBtn.style.display = 'none';
+            if (declineBtn) {
+                declineBtn.disabled = true;
+                declineBtn.textContent = 'Declined';
+            }
+
+            if (confMessageText) confMessageText.textContent = 'Invitation Declined';
+            if (confStatusMsg) confStatusMsg.textContent = 'Your response has been recorded. Thank you for letting us know.';
+            const regSuccessCard = document.getElementById('regSuccessCard');
+            if (regSuccessCard) regSuccessCard.style.display = 'none';
+            if (waButtonsContainer) waButtonsContainer.style.display = 'none';
+
+            sendInstantNotification(
+                `❌ GUEST DECLINED: ${loadedGuest.name}`,
+                loadedGuest.name,
+                loadedGuest.gender,
+                `Declined the invitation.`,
+                ''
+            );
+        }
+
+        if (confirmationBox) {
+            confirmationBox.classList.remove('hidden-confirmation');
+            confirmationBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    };
 
     if (acceptBtn) {
-        // Initial button population
-        populateWaButtons(guestName || 'Guest', guestGender, '');
-
         acceptBtn.addEventListener('click', () => {
-            if (!hasValidName) return;
-
+            if (!hasValidInvite) return;
+            
             // Check T&C Checkbox
             if (rulesCheckbox && !rulesCheckbox.checked) {
                 if (agreementWarning) {
@@ -855,81 +853,92 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            const nameVal = guestName;
-            const genderVal = guestGender || 'boy';
-            const friendVal = friendNameInput ? friendNameInput.value.trim() : '';
+            executeGuestRSVP('Accepted');
+        });
+    }
 
-            // Register Guest via matching logic
-            const response = mockBackend.registerGuest({
-                name: nameVal,
-                gender: genderVal,
-                friendName: friendVal,
-                termsAccepted: rulesCheckbox.checked,
-                termsVersion: 'v1.0'
-            });
+    if (declineBtn) {
+        declineBtn.addEventListener('click', () => {
+            if (confirm('Are you sure you want to decline this invitation?')) {
+                executeGuestRSVP('Declined');
+            }
+        });
+    }
 
-            if (!response.success) {
-                if (agreementWarning) {
-                    agreementWarning.innerHTML = `❌ ${response.error}`;
-                    agreementWarning.classList.remove('hidden-warning');
-                }
-                if (agreementWrapper) {
-                    agreementWrapper.classList.remove('shakeWarning');
-                    void agreementWrapper.offsetWidth;
-                    agreementWrapper.classList.add('shakeWarning');
+    // Companion friend registration trigger inside confirmation box
+    if (btnRegisterFriend) {
+        btnRegisterFriend.addEventListener('click', () => {
+            const friendNameVal = friendNameInput.value.trim();
+            if (!friendNameVal) {
+                alert('Please enter your friend\'s full name.');
+                return;
+            }
+
+            const cleanFriend = friendNameVal.toLowerCase();
+            // Duplicate friend check
+            const isDuplicate = guests.some(g => g.name.toLowerCase() === cleanFriend);
+            if (isDuplicate) {
+                if (friendRegisterStatus) {
+                    friendRegisterStatus.textContent = '❌ This companion is already registered on the guest list.';
+                    friendRegisterStatus.style.color = '#e53e3e';
+                    friendRegisterStatus.style.display = 'block';
                 }
                 return;
             }
 
-            // SUCCESS FLOW
-            const registeredGuest = response.guest;
+            // Create companion record
+            let maxNum = 0;
+            guests.forEach(g => {
+                if (g.guest_id && g.guest_id.startsWith('G-')) {
+                    const num = parseInt(g.guest_id.split('-')[1]);
+                    if (!isNaN(num) && num > maxNum) maxNum = num;
+                }
+            });
+            const nextId = `G-${String(maxNum + 1).padStart(3, '0')}`;
+            const timestamp = new Date().toLocaleString();
 
-            if (agreementWarning) agreementWarning.classList.add('hidden-warning');
+            const companion = {
+                id: 'f_' + Math.random().toString(36).substr(2, 9),
+                guest_id: nextId,
+                first_name: friendNameVal.split(' ')[0],
+                last_name: friendNameVal.split(' ').slice(1).join(' ') || '-',
+                name: friendNameVal,
+                phone_number: '-',
+                email: '-',
+                gender: 'girl',
+                rsvp: 'Guest Added',
+                rsvpTime: timestamp,
+                friendName: '',
+                isFriendOf: loadedGuest.name,
+                bottlePayment: 'N/A',
+                checkIn: 'Not Checked In',
+                checkInTime: '',
+                approvalStatus: 'Approved',
+                terms_accepted: 'Yes',
+                terms_version: 'v1.0',
+                terms_accepted_at: timestamp,
+                registered_at: timestamp,
+                updated_at: timestamp,
+                sms_status: 'N/A',
+                sms_sent_at: ''
+            };
 
-            audioSystem.playAcceptHarps();
-            if (genderVal === 'girl') {
-                audioSystem.speak(`Invitation accepted, ${firstNameOf(nameVal)}! Welcome to Games Night.`);
-            } else {
-                audioSystem.speak(`Invitation accepted, ${firstNameOf(nameVal)}! See you at Signal Inn.`);
+            guests.push(companion);
+            loadedGuest.friendName = friendNameVal;
+            saveState();
+
+            if (friendRegisterStatus) {
+                friendRegisterStatus.innerHTML = `🟢 Friend <strong>${friendNameVal}</strong> successfully registered! She is approved at the gate checklist.`;
+                friendRegisterStatus.style.color = '#48bb78';
+                friendRegisterStatus.style.display = 'block';
             }
 
-            if (parchmentLetter) parchmentLetter.classList.add('glowing-accept');
-            const rect = acceptBtn.getBoundingClientRect();
-            createSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 60);
+            if (friendNameInput) friendNameInput.disabled = true;
+            if (btnRegisterFriend) btnRegisterFriend.disabled = true;
 
-            acceptBtn.classList.add('accepted');
-            acceptBtn.disabled = true;
-            if (acceptBtnText) acceptBtnText.textContent = '✓ Accepted!';
-
-            // Set up success toast elements
-            const confGuestId = document.getElementById('confGuestId');
-            const confAcceptTime = document.getElementById('confAcceptTime');
-            
-            if (confGuestId) confGuestId.textContent = registeredGuest.guest_id;
-            if (confAcceptTime) confAcceptTime.textContent = registeredGuest.terms_accepted_at;
-
-            populateWaButtons(nameVal, genderVal, friendVal);
-
-            // Send notification alerts
-            sendInstantNotification(
-                `🎉 GUEST ACCEPTED: ${nameVal} (${registeredGuest.guest_id})`,
-                nameVal,
-                genderVal,
-                `Accepted Rules & T&C version v1.0. SMS dispatch logs: Pending.`,
-                friendVal
-            );
-
-            if (confirmationBox) {
-                confirmationBox.classList.remove('hidden-confirmation');
-                if (confStatusMsg) confStatusMsg.textContent = 'Invitation accepted! Details registered in Master Guest list.';
-                confirmationBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }
-
-            // Send confirmation auto WhatsApp trigger
-            setTimeout(() => {
-                const msg = encodeURIComponent(getCompiledRsvpMessage(nameVal, genderVal, friendVal));
-                window.open(`https://wa.me/${config.phoneFaisal}?text=${msg}`, '_blank');
-            }, 2000);
+            // Re-render WhatsApp share confirmations to include companion
+            populateWaButtons(loadedGuest.name, loadedGuest.gender, friendNameVal);
+            logActivity(`${loadedGuest.name} registered companion friend: ${friendNameVal}`);
         });
     }
 
@@ -1026,6 +1035,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (adminScene) adminScene.classList.remove('hidden-scene');
         
         updateDashboardStats();
+        renderInvitationsTable();
         renderMasterGuestList();
         renderActivityLogs();
         loadTemplatesToTextareas();
@@ -1046,14 +1056,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // --- 12. ADMIN DASHBOARD METRICS CALCULATION (Dynamic stats) ---
+    // --- 12. ADMIN DASHBOARD METRICS CALCULATION ---
     function updateDashboardStats() {
         const totalGuests = guests.length;
         const accepted = guests.filter(g => g.rsvp === 'Accepted' || g.rsvp === 'Registered').length;
         const pending = guests.filter(g => g.rsvp === 'Pending').length;
         const declined = guests.filter(g => g.rsvp === 'Declined').length;
 
-        // Calculate Today's Registrations
+        // Calculate Today's Acceptances
         const todayStr = new Date().toLocaleDateString();
         const todaysRegs = guests.filter(g => {
             if (!g.registered_at) return false;
@@ -1114,24 +1124,311 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
+            if (targetTab === 'invitations') renderInvitationsTable();
             if (targetTab === 'guestlist') renderMasterGuestList();
             if (targetTab === 'dashboard') updateDashboardStats();
         });
     });
 
 
-    // --- 14. MASTER GUEST LIST CRUD OPERATIONS ---
-    const guestSearchInput = document.getElementById('guestSearchInput');
-    const guestFilterGender = document.getElementById('guestFilterGender');
-    const guestFilterStatus = document.getElementById('guestFilterStatus');
-    const masterGuestTableBody = document.getElementById('masterGuestTableBody');
+    // --- 14. INVITATION CREATION & MANAGER TABS (✉️ Invitation Manager) ---
+    const createInviteType = document.getElementById('createInviteType');
+    const createInviteName = document.getElementById('createInviteName');
+    const btnGenerateInvite = document.getElementById('btnGenerateInvite');
 
+    const inviteShareArea = document.getElementById('inviteShareArea');
+    const shareGuestName = document.getElementById('shareGuestName');
+    const shareGuestStatus = document.getElementById('shareGuestStatus');
+    const btnShareInvite = document.getElementById('btnShareInvite');
+    const btnCopyInviteUrl = document.getElementById('btnCopyInviteUrl');
+    const btnOpenInviteUrl = document.getElementById('btnOpenInviteUrl');
+
+    const inviteSearchInput = document.getElementById('inviteSearchInput');
+    const inviteFilterGender = document.getElementById('inviteFilterGender');
+    const inviteFilterStatus = document.getElementById('inviteFilterStatus');
+    const invitationsTableBody = document.getElementById('invitationsTableBody');
+
+    let latestGeneratedToken = null;
+
+    const getInvitationUrl = (token) => {
+        return `${window.location.origin}${window.location.pathname}?invite=${token}`;
+    };
+
+    if (btnGenerateInvite) {
+        btnGenerateInvite.addEventListener('click', () => {
+            const nameVal = createInviteName.value.trim();
+            const genderVal = createInviteType.value;
+
+            if (!nameVal) {
+                alert('Please enter the guest\'s full name.');
+                return;
+            }
+
+            // Create guest record
+            let maxNum = 0;
+            guests.forEach(g => {
+                if (g.guest_id && g.guest_id.startsWith('G-')) {
+                    const num = parseInt(g.guest_id.split('-')[1]);
+                    if (!isNaN(num) && num > maxNum) maxNum = num;
+                }
+            });
+            const nextGuestId = `G-${String(maxNum + 1).padStart(3, '0')}`;
+            const newGuestId = 'g_' + Math.random().toString(36).substr(2, 9);
+            const timestamp = new Date().toLocaleString();
+
+            const newGuest = {
+                id: newGuestId,
+                guest_id: nextGuestId,
+                name: nameVal,
+                phone_number: '-',
+                email: '-',
+                gender: genderVal,
+                rsvp: 'Pending',
+                friendName: '',
+                bottlePayment: genderVal === 'boy' ? 'Pending' : 'N/A',
+                checkIn: 'Not Checked In',
+                checkInTime: '',
+                approvalStatus: 'Approved',
+                terms_accepted: 'No',
+                terms_version: '',
+                terms_accepted_at: '',
+                registered_at: '',
+                updated_at: timestamp,
+                sms_status: 'Pending',
+                sms_sent_at: ''
+            };
+
+            // Generate random token
+            const token = generateSecureToken();
+
+            const newInvite = {
+                id: 'i_' + Math.random().toString(36).substr(2, 9),
+                guest_id: nextGuestId,
+                guest_name: nameVal,
+                invitation_type: genderVal,
+                secure_token: token,
+                status: 'Generated',
+                created_at: timestamp,
+                sent_at: '',
+                opened_at: '',
+                responded_at: '',
+                response: 'Pending',
+                accepted_at: ''
+            };
+
+            guests.push(newGuest);
+            invitations.push(newInvite);
+            saveState();
+
+            // Populate share block
+            latestGeneratedToken = token;
+            if (shareGuestName) shareGuestName.textContent = nameVal;
+            if (shareGuestStatus) {
+                shareGuestStatus.textContent = 'Generated';
+                shareGuestStatus.style.color = '#ecc94b';
+            }
+            if (inviteShareArea) inviteShareArea.classList.remove('hidden-box');
+
+            createInviteName.value = '';
+            renderInvitationsTable();
+            updateDashboardStats();
+            logActivity(`Created unique invite for ${nameVal} (Token: ${token})`);
+        });
+    }
+
+    // Share Invite function
+    const shareInvitationByToken = (token) => {
+        const invite = invitations.find(i => i.secure_token === token);
+        if (!invite) return;
+
+        const url = getInvitationUrl(token);
+        const textMsg = `Hey ${invite.guest_name}! 🎉 Your Games Night letter of approval has arrived!\n\nOpen your letter here: ${url}`;
+
+        if (navigator.share) {
+            navigator.share({
+                title: 'Games Night Invitation',
+                text: textMsg,
+                url: url
+            }).then(() => {
+                markInviteAsSent(invite);
+            }).catch(err => {
+                console.log('Native sharing error, redirecting to WhatsApp fallback:', err);
+                fallbackWhatsAppShare(textMsg, invite);
+            });
+        } else {
+            fallbackWhatsAppShare(textMsg, invite);
+        }
+    };
+
+    const fallbackWhatsAppShare = (textMsg, invite) => {
+        const waUrl = `https://wa.me/?text=${encodeURIComponent(textMsg)}`;
+        window.open(waUrl, '_blank');
+        markInviteAsSent(invite);
+    };
+
+    const markInviteAsSent = (invite) => {
+        if (invite.status === 'Generated' || invite.status === 'Draft') {
+            invite.status = 'Sent';
+            invite.sent_at = new Date().toLocaleString();
+            saveState();
+            renderInvitationsTable();
+            logActivity(`Shared unique invite link for ${invite.guest_name}`);
+        }
+    };
+
+    if (btnShareInvite) {
+        btnShareInvite.addEventListener('click', () => {
+            if (latestGeneratedToken) shareInvitationByToken(latestGeneratedToken);
+        });
+    }
+
+    if (btnCopyInviteUrl) {
+        btnCopyInviteUrl.addEventListener('click', () => {
+            if (latestGeneratedToken) {
+                const url = getInvitationUrl(latestGeneratedToken);
+                navigator.clipboard.writeText(url).then(() => {
+                    btnCopyInviteUrl.textContent = '✓ Copied!';
+                    const inv = invitations.find(i => i.secure_token === latestGeneratedToken);
+                    if (inv) markInviteAsSent(inv);
+                    setTimeout(() => { btnCopyInviteUrl.textContent = '📋 COPY LINK'; }, 2000);
+                });
+            }
+        });
+    }
+
+    if (btnOpenInviteUrl) {
+        btnOpenInviteUrl.addEventListener('click', () => {
+            if (latestGeneratedToken) {
+                window.open(getInvitationUrl(latestGeneratedToken), '_blank');
+            }
+        });
+    }
+
+    // Render Invitations List Table Rows
+    function renderInvitationsTable() {
+        if (!invitationsTableBody) return;
+
+        const q = inviteSearchInput ? inviteSearchInput.value.toLowerCase().trim() : '';
+        const filterGender = inviteFilterGender ? inviteFilterGender.value : 'all';
+        const filterStatus = inviteFilterStatus ? inviteFilterStatus.value : 'all';
+
+        const filtered = invitations.filter(i => {
+            const matchesSearch = i.guest_name.toLowerCase().includes(q);
+            const matchesGender = filterGender === 'all' || i.invitation_type === filterGender;
+            const matchesStatus = filterStatus === 'all' || i.status === filterStatus;
+            return matchesSearch && matchesGender && matchesStatus;
+        });
+
+        if (filtered.length === 0) {
+            invitationsTableBody.innerHTML = `<tr><td colspan="9" class="empty-log" style="text-align:center;">No invitations found.</td></tr>`;
+            return;
+        }
+
+        invitationsTableBody.innerHTML = filtered.map(i => {
+            const openTimestamp = i.opened_at ? `<span style="font-size:0.75rem; color:#cbd5e0;">🟢 Yes (${i.opened_at.split(', ')[1] || i.opened_at})</span>` : '❌ No';
+            const acceptTimestamp = i.accepted_at ? i.accepted_at.split(' ')[0] : '-';
+            
+            let statusStyle = 'color:#a0aec0;';
+            if (i.status === 'Sent') statusStyle = 'color:#4299e1;';
+            if (i.status === 'Opened') statusStyle = 'color:#ecc94b;';
+            if (i.status === 'Accepted') statusStyle = 'color:#48bb78; font-weight:bold;';
+            if (i.status === 'Declined') statusStyle = 'color:#e53e3e;';
+
+            return `
+                <tr>
+                    <td><strong>${i.guest_name}</strong></td>
+                    <td>${i.invitation_type === 'boy' ? 'Boy' : 'Girl'}</td>
+                    <td>${i.invitation_type === 'boy' ? 'Boys Acceptance' : 'Girls Acceptance'}</td>
+                    <td><span style="${statusStyle}">${i.status}</span></td>
+                    <td>${openTimestamp}</td>
+                    <td><span class="status-badge ${i.response}">${i.response}</span></td>
+                    <td>${i.created_at.split(' ')[0]}</td>
+                    <td>${acceptTimestamp}</td>
+                    <td>
+                        <button class="action-icon-btn action-share" data-token="${i.secure_token}" title="Share Invite">💬</button>
+                        <button class="action-icon-btn action-copy" data-token="${i.secure_token}" title="Copy Link">📋</button>
+                        <button class="action-icon-btn action-open" data-token="${i.secure_token}" title="Open Invite Link">🔗</button>
+                        <button class="action-icon-btn action-edit" data-id="${i.id}" title="Edit Guest Name">✏️</button>
+                        <button class="action-icon-btn action-view-guest" data-guestid="${i.guest_id}" title="View in Guest List">👤</button>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+
+        // Bind table action events
+        document.querySelectorAll('.action-share').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const token = btn.getAttribute('data-token');
+                shareInvitationByToken(token);
+            });
+        });
+
+        document.querySelectorAll('.action-copy').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const token = btn.getAttribute('data-token');
+                navigator.clipboard.writeText(getInvitationUrl(token)).then(() => {
+                    alert('Unique link copied to clipboard!');
+                    const inv = invitations.find(i => i.secure_token === token);
+                    if (inv) markInviteAsSent(inv);
+                });
+            });
+        });
+
+        document.querySelectorAll('.action-open').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const token = btn.getAttribute('data-token');
+                window.open(getInvitationUrl(token), '_blank');
+            });
+        });
+
+        document.querySelectorAll('.action-edit').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = btn.getAttribute('data-id');
+                const invite = invitations.find(i => i.id === id);
+                if (invite) {
+                    const newName = prompt('Edit guest full name:', invite.guest_name);
+                    if (newName && newName.trim() && newName.trim() !== invite.guest_name) {
+                        const cleanNew = newName.trim();
+                        // Update invite record name
+                        invite.guest_name = cleanNew;
+                        // Update matching guest record name
+                        const guest = guests.find(g => g.guest_id === invite.guest_id);
+                        if (guest) guest.name = cleanNew;
+                        saveState();
+                        renderInvitationsTable();
+                        logActivity(`Admin renamed invitation: ${invite.guest_id} to "${cleanNew}"`);
+                    }
+                }
+            });
+        });
+
+        document.querySelectorAll('.action-view-guest').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const guestId = btn.getAttribute('data-guestid');
+                // Switch tab to guest list
+                const listTabBtn = document.querySelector('[data-tab="guestlist"]');
+                if (listTabBtn) listTabBtn.click();
+                // Filter search box
+                if (guestSearchInput) {
+                    guestSearchInput.value = guestId;
+                    renderMasterGuestList();
+                }
+            });
+        });
+    }
+
+    if (inviteSearchInput) inviteSearchInput.addEventListener('input', renderInvitationsTable);
+    if (inviteFilterGender) inviteFilterGender.addEventListener('change', renderInvitationsTable);
+    if (inviteFilterStatus) inviteFilterStatus.addEventListener('change', renderInvitationsTable);
+
+
+    // --- 15. MASTER GUEST LIST OPERATIONS (📋 Live Guest List) ---
     const addGuestBtn = document.getElementById('addGuestBtn');
     const guestEditModal = document.getElementById('guestEditModal');
     const closeGuestModal = document.getElementById('closeGuestModal');
     const saveGuestDetailsBtn = document.getElementById('saveGuestDetailsBtn');
 
-    // Input fields edit modal
+    // Modal Edit inputs
     const editGuestName = document.getElementById('editGuestName');
     const editGuestPhone = document.getElementById('editGuestPhone');
     const editGuestEmail = document.getElementById('editGuestEmail');
@@ -1142,12 +1439,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const editFriendNameGroup = document.getElementById('editFriendNameGroup');
     const editBottlePaymentGroup = document.getElementById('editBottlePaymentGroup');
     
-    // Links modal
     const modalLinkBox = document.getElementById('modalLinkBox');
-    const modalGeneratedUrl = document.getElementById('modalGeneratedUrl');
-    const modalCopyLinkBtn = document.getElementById('modalCopyLinkBtn');
-    const modalShareWaBtn = document.getElementById('modalShareWaBtn');
-
     let currentEditingGuestId = null;
 
     const toggleModalFieldGroups = (gender) => {
@@ -1175,7 +1467,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementsByName('editGuestGender').forEach(radio => {
         radio.addEventListener('change', () => {
             toggleModalFieldGroups(radio.value);
-            updateModalGeneratedLink();
         });
     });
 
@@ -1209,9 +1500,19 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('auditSmsStatus').textContent = guest.sms_status || '-';
             document.getElementById('auditSmsTime').textContent = guest.sms_sent_at || '-';
 
-            updateModalGeneratedLink();
+            // Retrieve matching invite URL if present
+            const matchingInvite = invitations.find(i => i.guest_id === guest.guest_id);
+            if (matchingInvite) {
+                const url = getInvitationUrl(matchingInvite.secure_token);
+                const shareText = encodeURIComponent(`Hey ${guest.name}! 🎉 Your Games Night letter of approval has arrived!\n\nOpen your letter here: ${url}`);
+                document.getElementById('modalGeneratedUrl').value = url;
+                document.getElementById('modalShareWaBtn').href = `https://wa.me/?text=${shareText}`;
+                if (modalLinkBox) modalLinkBox.classList.remove('hidden-box');
+            } else {
+                if (modalLinkBox) modalLinkBox.classList.add('hidden-box');
+            }
         } else {
-            document.getElementById('guestModalTitle').textContent = 'Add New Guest';
+            document.getElementById('guestModalTitle').textContent = 'Add Guest Record';
             currentEditingGuestId = null;
             
             if (editGuestName) editGuestName.value = '';
@@ -1241,40 +1542,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    const updateModalGeneratedLink = () => {
-        if (!editGuestName) return;
-        const nameVal = editGuestName.value.trim();
-        if (!nameVal) {
-            if (modalLinkBox) modalLinkBox.classList.add('hidden-box');
-            return;
-        }
-        const gender = getSelectedGenderFromRadio('editGuestGender');
-        const baseUrl = window.location.origin + window.location.pathname;
-        let tpl = gender === 'girl' ? templates.girlWa : templates.boyWa;
-
-        let fullUrl = `${baseUrl}?name=${encodeURIComponent(nameVal)}&gender=${gender}`;
-        fullUrl += `&rsvp=${encodeURIComponent(tpl)}`;
-
-        if (modalGeneratedUrl) modalGeneratedUrl.value = fullUrl;
-        if (modalLinkBox) modalLinkBox.classList.remove('hidden-box');
-
-        if (modalShareWaBtn) {
-            const waText = encodeURIComponent(`Hey ${nameVal}! 🎉 Your Games Night letter of approval has arrived!\n\nOpen your letter here: ${fullUrl}`);
-            modalShareWaBtn.href = `https://wa.me/?text=${waText}`;
-        }
-    };
-
-    if (editGuestName) editGuestName.addEventListener('input', updateModalGeneratedLink);
-
-    if (modalCopyLinkBtn && modalGeneratedUrl) {
-        modalCopyLinkBtn.addEventListener('click', () => {
-            navigator.clipboard.writeText(modalGeneratedUrl.value).then(() => {
-                modalCopyLinkBtn.textContent = '✓ Copied!';
-                setTimeout(() => { modalCopyLinkBtn.textContent = '📋 Copy Link'; }, 2000);
-            });
-        });
-    }
-
     if (addGuestBtn) addGuestBtn.addEventListener('click', () => openGuestModal());
     if (closeGuestModal) {
         closeGuestModal.addEventListener('click', () => {
@@ -1302,7 +1569,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (currentEditingGuestId) {
                 const guest = guests.find(g => g.id === currentEditingGuestId);
                 if (guest) {
-                    const prevName = guest.name;
                     guest.name = nameVal;
                     guest.phone_number = phoneVal;
                     guest.email = emailVal;
@@ -1319,11 +1585,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     // Sync companion friend
                     if (gender === 'girl' && friendName) {
-                        let comp = guests.find(g => g.isFriendOf === prevName);
-                        if (comp) {
-                            comp.name = friendName;
-                            comp.isFriendOf = nameVal;
-                        } else {
+                        let comp = guests.find(g => g.isFriendOf === nameVal);
+                        if (!comp) {
                             let maxFriendNum = 0;
                             guests.forEach(g => {
                                 if (g.guest_id && g.guest_id.startsWith('G-')) {
@@ -1357,12 +1620,14 @@ document.addEventListener('DOMContentLoaded', () => {
                                 sms_status: 'N/A',
                                 sms_sent_at: ''
                             });
+                        } else {
+                            comp.name = friendName;
                         }
                     }
-                    logActivity(`Admin updated guest: ${nameVal}`);
+                    logActivity(`Admin updated guest record: ${nameVal}`);
                 }
             } else {
-                // Add Mode sequence-based ID generation
+                // Add mode
                 let maxNum = 0;
                 guests.forEach(g => {
                     if (g.guest_id && g.guest_id.startsWith('G-')) {
@@ -1375,8 +1640,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const newGuest = {
                     id: 'g_' + Math.random().toString(36).substr(2, 9),
                     guest_id: nextId,
-                    first_name: nameVal.split(' ')[0],
-                    last_name: nameVal.split(' ').slice(1).join(' ') || '-',
                     name: nameVal,
                     phone_number: phoneVal,
                     email: emailVal,
@@ -1398,41 +1661,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 };
                 guests.push(newGuest);
 
-                if (gender === 'girl' && friendName) {
-                    let maxFriendNum = 0;
-                    guests.forEach(g => {
-                        if (g.guest_id && g.guest_id.startsWith('G-')) {
-                            const num = parseInt(g.guest_id.split('-')[1]);
-                            if (!isNaN(num) && num > maxFriendNum) maxFriendNum = num;
-                        }
-                    });
-                    const friendNextId = `G-${String(maxFriendNum + 1).padStart(3, '0')}`;
-                    guests.push({
-                        id: 'f_' + Math.random().toString(36).substr(2, 9),
-                        guest_id: friendNextId,
-                        first_name: friendName.split(' ')[0],
-                        last_name: friendName.split(' ').slice(1).join(' ') || '-',
-                        name: friendName,
-                        phone_number: '-',
-                        email: '-',
-                        gender: 'girl',
-                        rsvp: 'Guest Added',
-                        rsvpTime: timestamp,
-                        friendName: '',
-                        isFriendOf: nameVal,
-                        bottlePayment: 'N/A',
-                        checkIn: 'Not Checked In',
-                        checkInTime: '',
-                        approvalStatus: 'Approved',
-                        terms_accepted: 'Yes',
-                        terms_version: 'v1.0',
-                        terms_accepted_at: timestamp,
-                        registered_at: timestamp,
-                        updated_at: timestamp,
-                        sms_status: 'N/A',
-                        sms_sent_at: ''
-                    });
-                }
                 logActivity(`Admin manually added guest: ${nameVal}`);
             }
 
@@ -1443,7 +1671,56 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Render Master list table rows
+    const modalCopyLinkBtn = document.getElementById('modalCopyLinkBtn');
+    if (modalCopyLinkBtn) {
+        modalCopyLinkBtn.addEventListener('click', () => {
+            const urlVal = document.getElementById('modalGeneratedUrl').value;
+            if (urlVal) {
+                navigator.clipboard.writeText(urlVal).then(() => {
+                    modalCopyLinkBtn.textContent = '✓ Copied!';
+                    setTimeout(() => { modalCopyLinkBtn.textContent = '📋 Copy Link'; }, 2000);
+                    
+                    try {
+                        const urlObj = new URL(urlVal);
+                        const token = urlObj.searchParams.get('invite');
+                        const inv = invitations.find(i => i.secure_token === token);
+                        if (inv && (inv.status === 'Generated' || inv.status === 'Draft')) {
+                            inv.status = 'Sent';
+                            inv.sent_at = new Date().toLocaleString();
+                            saveState();
+                            renderInvitationsTable();
+                            renderMasterGuestList();
+                            logActivity(`Shared unique invite link for ${inv.guest_name} from guest edit modal`);
+                        }
+                    } catch(e) { console.log(e); }
+                });
+            }
+        });
+    }
+
+    const modalShareWaBtn = document.getElementById('modalShareWaBtn');
+    if (modalShareWaBtn) {
+        modalShareWaBtn.addEventListener('click', () => {
+            const urlVal = document.getElementById('modalGeneratedUrl').value;
+            if (urlVal) {
+                try {
+                    const urlObj = new URL(urlVal);
+                    const token = urlObj.searchParams.get('invite');
+                    const inv = invitations.find(i => i.secure_token === token);
+                    if (inv && (inv.status === 'Generated' || inv.status === 'Draft')) {
+                        inv.status = 'Sent';
+                        inv.sent_at = new Date().toLocaleString();
+                        saveState();
+                        renderInvitationsTable();
+                        renderMasterGuestList();
+                        logActivity(`Shared unique invite link for ${inv.guest_name} via WhatsApp from guest edit modal`);
+                    }
+                } catch(e) { console.log(e); }
+            }
+        });
+    }
+
+    // Render Master live list table rows
     function renderMasterGuestList() {
         if (!masterGuestTableBody) return;
 
@@ -1452,47 +1729,31 @@ document.addEventListener('DOMContentLoaded', () => {
         const filterStatus = guestFilterStatus ? guestFilterStatus.value : 'all';
 
         const filtered = guests.filter(g => {
-            const matchesSearch = 
-                g.name.toLowerCase().includes(q) || 
-                (g.guest_id && g.guest_id.toLowerCase().includes(q)) || 
-                (g.phone_number && g.phone_number.includes(q)) || 
-                (g.email && g.email.toLowerCase().includes(q)) ||
-                (g.friendName && g.friendName.toLowerCase().includes(q));
-            
+            const matchesSearch = g.name.toLowerCase().includes(q) || (g.guest_id && g.guest_id.toLowerCase().includes(q));
             const matchesGender = filterGender === 'all' || g.gender === filterGender;
-            
-            let matchesStatus = true;
-            if (filterStatus !== 'all') {
-                if (filterStatus === 'Guest Added') {
-                    matchesStatus = g.rsvp === 'Guest Added';
-                } else if (filterStatus === 'Checked In') {
-                    matchesStatus = g.checkIn === 'Checked In';
-                } else if (filterStatus === 'Not Checked In') {
-                    matchesStatus = g.checkIn === 'Not Checked In';
-                } else {
-                    matchesStatus = g.rsvp === filterStatus;
-                }
-            }
+            const matchesStatus = filterStatus === 'all' || g.rsvp === filterStatus;
             return matchesSearch && matchesGender && matchesStatus;
         });
 
         if (filtered.length === 0) {
-            masterGuestTableBody.innerHTML = `<tr><td colspan="9" class="empty-log" style="text-align:center;">No guests match your criteria.</td></tr>`;
+            masterGuestTableBody.innerHTML = `<tr><td colspan="7" class="empty-log" style="text-align:center;">No guests found.</td></tr>`;
             return;
         }
 
         masterGuestTableBody.innerHTML = filtered.map(g => {
-            const dateStr = g.terms_accepted_at ? g.terms_accepted_at.split(' ')[0] : '-';
             const checkinTime = g.checkInTime ? ` (${g.checkInTime})` : '';
+            
+            // Check matching invitation status
+            const matchingInvite = invitations.find(i => i.guest_id === g.guest_id);
+            const inviteStatus = matchingInvite ? matchingInvite.status : (g.rsvp === 'Guest Added' ? 'Guest Friend' : 'Draft');
+
             return `
                 <tr>
                     <td><strong>${g.guest_id || '-'}</strong></td>
                     <td><strong>${g.name}</strong> ${g.isFriendOf ? `<span style="font-size:0.75rem; color:#888;">(Friend of ${g.isFriendOf})</span>` : ''}</td>
-                    <td>${g.phone_number || '-'}</td>
-                    <td>${g.email || '-'}</td>
+                    <td>${g.gender === 'boy' ? 'Boy 🍾' : 'Girl 💃'}</td>
+                    <td>${inviteStatus}</td>
                     <td><span class="status-badge ${g.rsvp}">${g.rsvp}</span></td>
-                    <td>${g.terms_accepted === 'Yes' ? 'Yes ✅' : 'No ❌'}</td>
-                    <td>${dateStr}</td>
                     <td><span class="gate-badge ${g.checkIn === 'Checked In' ? 'checked-in' : (g.checkIn === 'Rejected at Gate' ? 'rejected' : 'pending')}">${g.checkIn}${checkinTime}</span></td>
                     <td>
                         <button class="action-icon-btn edit-guest" data-id="${g.id}" title="Edit Guest Details">✏️</button>
@@ -1503,7 +1764,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         }).join('');
 
-        // Re-bind actions
+        // Bind events
         document.querySelectorAll('.edit-guest').forEach(btn => {
             btn.addEventListener('click', () => {
                 const id = btn.getAttribute('data-id');
@@ -1516,15 +1777,12 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.addEventListener('click', () => {
                 const id = btn.getAttribute('data-id');
                 const guest = guests.find(g => g.id === id);
-                if (guest && confirm(`Are you sure you want to delete ${guest.name}?`)) {
-                    if (guest.gender === 'girl' && guest.friendName) {
-                        guests = guests.filter(g => g.isFriendOf !== guest.name);
-                    }
-                    guests = guests.filter(g => g.id !== id);
+                if (guest && confirm(`Delete ${guest.name}? This will remove companion records as well.`)) {
+                    guests = guests.filter(g => g.id !== id && g.isFriendOf !== guest.name);
+                    invitations = invitations.filter(i => i.guest_id !== guest.guest_id);
                     saveState();
                     renderMasterGuestList();
                     updateDashboardStats();
-                    logActivity(`Deleted guest: ${guest.name}`);
                 }
             });
         });
@@ -1534,14 +1792,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 const id = btn.getAttribute('data-id');
                 const guest = guests.find(g => g.id === id);
                 if (guest) {
-                    const baseUrl = window.location.origin + window.location.pathname;
-                    let tpl = guest.gender === 'girl' ? templates.girlWa : templates.boyWa;
-                    let fullUrl = `${baseUrl}?name=${encodeURIComponent(guest.name)}&gender=${guest.gender}`;
-                    fullUrl += `&rsvp=${encodeURIComponent(tpl)}`;
-                    
-                    navigator.clipboard.writeText(fullUrl).then(() => {
-                        alert(`Invitation link copied for ${guest.name}!`);
-                    });
+                    const matchingInvite = invitations.find(i => i.guest_id === guest.guest_id);
+                    if (matchingInvite) {
+                        navigator.clipboard.writeText(getInvitationUrl(matchingInvite.secure_token)).then(() => {
+                            alert(`Invitation link copied for ${guest.name}!`);
+                        });
+                    } else {
+                        alert('No invitation generated yet for this guest. Create one via Invitation Manager.');
+                    }
                 }
             });
         });
@@ -1552,7 +1810,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (guestFilterStatus) guestFilterStatus.addEventListener('change', renderMasterGuestList);
 
 
-    // --- 15. GATE CHECK-IN SCREEN LOGIC ---
+    // --- 16. GATE CHECK-IN SCREEN LOGIC ---
     const gateSearchBox = document.getElementById('gateSearchBox');
     const gateResultsContainer = document.getElementById('gateResultsContainer');
 
@@ -1577,7 +1835,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <span style="font-size:2.5rem;">🚨</span>
                     <h3 style="color:#f56565; margin:10px 0;">NOT APPROVED</h3>
                     <p>This name is not on the approved Games Night guest list.</p>
-                    <p style="font-size:0.85rem; color:#a0aec0; margin-top:10px;">Entry is forbidden. Contact an administrator to manually authorize access.</p>
+                    <p style="font-size:0.85rem; color:#a0aec0; margin-top:10px;">Entry is forbidden. Contact organizers to authorize entry.</p>
                 </div>
             `;
             return;
@@ -1606,7 +1864,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <p><strong>T&C Accepted:</strong> ${g.terms_accepted === 'Yes' ? 'Yes ✅' : 'No ❌'}</p>
                         ${g.gender === 'girl' ? `<p><strong>Registered Companion Friend:</strong> ${g.friendName || 'None'}</p>` : ''}
                         ${g.isFriendOf ? `<p><strong>Invited As Guest Of:</strong> ${g.isFriendOf}</p>` : ''}
-                        ${g.gender === 'boy' ? `<p><strong>Bottle Requirement:</strong> Le 150 bottle purchased at gate</p>` : ''}
+                        ${g.gender === 'boy' ? `<p><strong>Bottle Requirement:</strong> Purchase one bottle from the organizers at the gate for Le 150</p>` : ''}
                         ${g.gender === 'boy' ? `<p><strong>Bottle Payment Status:</strong> <span style="font-weight:bold; color:${g.bottlePayment === 'Paid' ? '#48bb78' : '#ecc94b'}">${g.bottlePayment.toUpperCase()}</span></p>` : ''}
                         <p><strong>Check-in status:</strong> ${g.checkIn} ${g.checkInTime ? `at ${g.checkInTime}` : ''}</p>
                     </div>
@@ -1692,7 +1950,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (gateSearchBox) gateSearchBox.addEventListener('input', renderGateCheckin);
 
 
-    // --- 16. LETTER TEMPLATES DESIGNER ---
+    // --- 17. LETTER TEMPLATES DESIGNER ---
     const tplBoyLetter = document.getElementById('tplBoyLetter');
     const tplBoyWa = document.getElementById('tplBoyWa');
     const tplGirlLetter = document.getElementById('tplGirlLetter');
@@ -1719,7 +1977,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // --- 17. SETTINGS AND ENVIRONMENT CONFIGS ---
+    // --- 18. SETTINGS AND ENVIRONMENT CONFIGS ---
     const cfgPhoneFaisal = document.getElementById('cfgPhoneFaisal');
     const cfgPhoneDija = document.getElementById('cfgPhoneDija');
     const cfgHostEmail = document.getElementById('cfgHostEmail');
@@ -1766,6 +2024,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btnSeedDemoData.addEventListener('click', () => {
             if (confirm('Reset database to the pre-seeded guests?')) {
                 guests = DEFAULT_GUESTS;
+                invitations = DEFAULT_INVITATIONS;
                 config = DEFAULT_CONFIG;
                 templates = DEFAULT_TEMPLATES;
                 localStorage.setItem('wgn_activity_logs', '[]');
@@ -1782,6 +2041,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btnClearDatabase.addEventListener('click', () => {
             if (confirm('🚨 Erase ENTIRE guest registry? This is destructive!')) {
                 guests = [];
+                invitations = [];
                 localStorage.setItem('wgn_activity_logs', '[]');
                 saveState();
                 logActivity('Cleared guest records.');
@@ -1792,7 +2052,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // --- 18. REMINDERS DISPATCHER ---
+    // --- 19. REMINDERS DISPATCHER ---
     const reminderMsgTpl = document.getElementById('reminderMsgTpl');
     document.querySelectorAll('.send-rem-btn').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -1822,7 +2082,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    // --- 19. MODALS CONTROL (Location, Calendar, Pass) ---
+    // --- 20. MODALS CONTROL (Location, Calendar, Pass) ---
     const locationBtn = document.getElementById('locationBtn');
     const locationModal = document.getElementById('locationModal');
     const closeLocModal = document.getElementById('closeLocModal');

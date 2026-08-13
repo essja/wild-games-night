@@ -239,12 +239,7 @@
                     <!-- Dynamic Gender-Specific Note -->
                     <div id="genderSpecNote" class="gender-spec-note"></div>
 
-                    <!-- Girls Female Friend Registration Block -->
-                    <div id="friendRegistrationBlock" class="friend-reg-block hidden-note">
-                        <label for="friendNameInput" class="friend-label">👩 Register Your Female Friend:</label>
-                        <input type="text" id="friendNameInput" class="friend-input-field" placeholder="Enter friend's full name...">
-                        <p class="friend-hint">⚠️ IMPORTANT: Your friend's name must be registered here beforehand. Unregistered friends will be rejected at the gate.</p>
-                    </div>
+                    <!-- Removed from here, moved to confirmation box -->
 
                     <!-- Rules Agreement Checkbox -->
                     <div class="agreement-wrapper" id="agreementWrapper">
@@ -257,12 +252,18 @@
                     </div>
 
                     <!-- Action Buttons -->
-                    <footer class="letter-actions">
-                        <button id="acceptBtn" class="magic-btn primary-accept-btn">
-                            <span class="btn-sparkle">✨</span>
-                            <span class="btn-text" id="acceptBtnText">I Accept My Invitation</span>
-                            <span class="btn-glow"></span>
-                        </button>
+                    <!-- Action Buttons -->
+                    <footer class="letter-actions" style="display:flex; flex-direction:column; gap:12px; align-items:center;">
+                        <div style="display:flex; gap:15px; width:100%; max-width:400px; justify-content:center;">
+                            <button id="acceptBtn" class="magic-btn primary-accept-btn" style="flex:1; margin:0;">
+                                <span class="btn-sparkle">✨</span>
+                                <span class="btn-text" id="acceptBtnText">✅ ACCEPT INVITATION</span>
+                                <span class="btn-glow"></span>
+                            </button>
+                            <button id="declineBtn" class="magic-btn secondary-btn" style="flex:1; margin:0; border-color:#e53e3e; background:rgba(229, 62, 62, 0.1); color:#fc8181;">
+                                <span class="btn-text">❌ DECLINE INVITATION</span>
+                            </button>
+                        </div>
                         
                         <div class="secondary-actions">
                             <button id="locationBtn" class="magic-btn secondary-btn"><span class="btn-icon">📍</span> View Location</button>
@@ -273,14 +274,25 @@
                     <!-- Confirmation Toast / WhatsApp Confirms -->
                     <div id="confirmationBox" class="confirmation-box hidden-confirmation">
                         <div class="conf-sparkles">✨ ✦ ✨</div>
-                        <p class="conf-message">Registration Successful!</p>
-                        <p class="conf-submessage" id="confStatusMsg">Your acceptance has been successfully recorded. You have been added to the Master Guest List.</p>
+                        <p class="conf-message" id="confMessageText">Registration Successful!</p>
+                        <p class="conf-submessage" id="confStatusMsg">Your acceptance has been successfully recorded.</p>
                         
                         <div id="regSuccessCard" class="reg-success-card">
                             <p><strong>Guest ID:</strong> <span id="confGuestId">G-001</span></p>
                             <p><strong>Status:</strong> Registered & Added to Master List</p>
                             <p><strong>Terms Accepted:</strong> Version v1.0 (Yes)</p>
                             <p><strong>Timestamp:</strong> <span id="confAcceptTime">-</span></p>
+                        </div>
+
+                        <!-- Companion Friend Registration Card (Shown only for girls after acceptance) -->
+                        <div id="friendRegistrationBlock" class="friend-reg-block hidden-note" style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; margin-top: 15px; border: 1.5px dashed var(--gold-secondary);">
+                            <label for="friendNameInput" class="friend-label" style="display:block; font-weight:bold; margin-bottom:8px; color:var(--gold-secondary);">👩 Register Your Female Friend:</label>
+                            <div style="display:flex; gap:8px;">
+                                <input type="text" id="friendNameInput" class="reg-field" placeholder="Enter friend's full name..." style="background:#fff; color:#000;">
+                                <button id="btnRegisterFriend" class="magic-btn" style="padding:0 15px; font-size:0.85rem; height:40px; margin:0;">Register Friend</button>
+                            </div>
+                            <p id="friendRegisterStatus" style="font-size:0.85rem; color:#ecc94b; margin-top:8px; display:none; text-align:left;"></p>
+                            <p class="friend-hint" style="font-size:0.75rem; color:#a0aec0; margin-top:8px; text-align:left; margin-bottom:0;">⚠️ IMPORTANT: Your friend's name must be registered here beforehand. Unregistered friends will be rejected at the gate.</p>
                         </div>
                         
                         <div class="whatsapp-rsvp-area">
@@ -316,7 +328,8 @@
 
             <nav class="admin-tab-nav">
                 <button class="tab-nav-btn active-tab" data-tab="dashboard">📊 Dashboard</button>
-                <button class="tab-nav-btn" data-tab="guestlist">📋 Master Guest List</button>
+                <button class="tab-nav-btn" data-tab="invitations">✉️ Invitation Manager</button>
+                <button class="tab-nav-btn" data-tab="guestlist">📋 Live Guest List</button>
                 <button class="tab-nav-btn" data-tab="gatecheck">🚪 Gate Check-In</button>
                 <button class="tab-nav-btn" data-tab="templates">✍️ Template Editor</button>
                 <button class="tab-nav-btn" data-tab="settings">⚙️ Settings</button>
@@ -391,27 +404,97 @@
                     </div>
                 </div>
 
-                <!-- TAB 2: MASTER GUEST LIST -->
-                <div id="tab-guestlist" class="tab-pane">
+                <!-- TAB 2: INVITATION MANAGER -->
+                <div id="tab-invitations" class="tab-pane">
+                    <div class="invitations-generator-card admin-card" style="margin-bottom: 20px; padding: 20px;">
+                        <h3 style="color:var(--gold-primary); margin-bottom:15px; font-family:var(--font-serif);">✉️ Create Guest Invitation Link</h3>
+                        <div style="display:flex; flex-wrap:wrap; gap:15px; align-items:flex-end;">
+                            <div style="display:flex; flex-direction:column; gap:5px; flex:1; min-width:200px;">
+                                <label for="createInviteType" style="font-size:0.85rem; color:#a0aec0; font-weight:bold;">Invitation Type:</label>
+                                <select id="createInviteType" class="admin-input">
+                                    <option value="boy">Boys Acceptance Letter 🍾</option>
+                                    <option value="girl">Girls Acceptance Letter 💃</option>
+                                </select>
+                            </div>
+                            <div style="display:flex; flex-direction:column; gap:5px; flex:1; min-width:250px;">
+                                <label for="createInviteName" style="font-size:0.85rem; color:#a0aec0; font-weight:bold;">Guest Full Name:</label>
+                                <input type="text" id="createInviteName" class="admin-input" placeholder="Enter guest's full name...">
+                            </div>
+                            <button id="btnGenerateInvite" class="magic-btn" style="height:42px; padding:0 20px; margin:0;">GENERATE INVITATION ✧</button>
+                        </div>
+                        
+                        <!-- Instant Share Area after generation -->
+                        <div id="inviteShareArea" class="generated-link-box hidden-box" style="margin-top:20px; background:rgba(255,255,255,0.02); border:1px dashed var(--gold-secondary);">
+                            <h4 style="color:#ffd700; margin-bottom:8px;">Invitation Created!</h4>
+                            <p style="font-size:0.9rem; color:#cbd5e0; margin-bottom:12px;"><strong>Guest:</strong> <span id="shareGuestName">-</span> | <strong>Status:</strong> <span id="shareGuestStatus" style="color:var(--gold-secondary)">Not Sent</span></p>
+                            <div class="gen-actions" style="display:flex; flex-wrap:wrap; gap:10px;">
+                                <button id="btnShareInvite" class="magic-btn mini-btn">💬 SHARE INVITATION</button>
+                                <button id="btnCopyInviteUrl" class="magic-btn mini-btn secondary-btn">📋 COPY LINK</button>
+                                <button id="btnOpenInviteUrl" class="magic-btn mini-btn secondary-btn">🔗 OPEN INVITATION</button>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="guestlist-controls">
                         <div class="search-filter-row">
-                            <input type="text" id="guestSearchInput" class="admin-input search-box" placeholder="Search by name, friend name...">
-                            <select id="guestFilterGender" class="admin-input filter-dropdown">
+                            <input type="text" id="inviteSearchInput" class="admin-input search-box" placeholder="Search invitations by guest name...">
+                            <select id="inviteFilterGender" class="admin-input filter-dropdown">
                                 <option value="all">All Genders</option>
                                 <option value="boy">Boys</option>
                                 <option value="girl">Girls</option>
                             </select>
-                            <select id="guestFilterStatus" class="admin-input filter-dropdown">
+                            <select id="inviteFilterStatus" class="admin-input filter-dropdown">
                                 <option value="all">All Statuses</option>
+                                <option value="Generated">Generated</option>
+                                <option value="Sent">Sent</option>
+                                <option value="Opened">Opened</option>
+                                <option value="Accepted">Accepted</option>
+                                <option value="Declined">Declined</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="table-scroll-container">
+                        <table class="master-guest-table">
+                            <thead>
+                                <tr>
+                                    <th>Guest Name</th>
+                                    <th>Gender</th>
+                                    <th>Invitation Type</th>
+                                    <th>Sent Status</th>
+                                    <th>Opened Status</th>
+                                    <th>Response</th>
+                                    <th>Date Created</th>
+                                    <th>Date Accepted</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="invitationsTableBody">
+                                <!-- Filled Dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB 3: LIVE GUEST LIST -->
+                <div id="tab-guestlist" class="tab-pane">
+                    <div class="guestlist-controls">
+                        <div class="search-filter-row">
+                            <input type="text" id="guestSearchInput" class="admin-input search-box" placeholder="Search guest name...">
+                            <select id="guestFilterGender" class="admin-input filter-dropdown">
+                                <option value="all">All Types</option>
+                                <option value="boy">Boys</option>
+                                <option value="girl">Girls</option>
+                            </select>
+                            <select id="guestFilterStatus" class="admin-input filter-dropdown">
+                                <option value="all">All Responses</option>
                                 <option value="Accepted">Accepted</option>
                                 <option value="Pending">Pending</option>
                                 <option value="Declined">Declined</option>
                                 <option value="Guest Added">Friend Guest</option>
-                                <option value="Checked In">Checked In</option>
-                                <option value="Rejected at Gate">Rejected</option>
                             </select>
                         </div>
-                        <button id="addGuestBtn" class="magic-btn add-btn">➕ Add New Guest</button>
+                        <button id="addGuestBtn" class="magic-btn add-btn">➕ Add New Record</button>
                     </div>
 
                     <div class="table-scroll-container">
@@ -420,11 +503,9 @@
                                 <tr>
                                     <th>Guest ID</th>
                                     <th>Name</th>
-                                    <th>Phone</th>
-                                    <th>Email</th>
-                                    <th>Status</th>
-                                    <th>T&C Accepted</th>
-                                    <th>Registration Date</th>
+                                    <th>Type</th>
+                                    <th>Invitation</th>
+                                    <th>Response</th>
                                     <th>Check-in Status</th>
                                     <th>Actions</th>
                                 </tr>
