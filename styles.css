@@ -1665,14 +1665,123 @@ html, body {
     }
     .admin-scene {
         margin: 10px auto;
-        width: 98%;
+        width: 100%;
+        padding: 10px;
     }
+    
+    /* Sliding Tab Bar on Mobile */
     .admin-tab-nav {
         justify-content: flex-start;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
+        gap: 8px;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #222d4f;
     }
-    .master-guest-table th, .master-guest-table td {
-        padding: 8px 10px;
-        font-size: 0.8rem;
+    .tab-nav-btn {
+        flex: 0 0 auto;
+        padding: 8px 12px;
+        font-size: 0.85rem;
+    }
+    
+    /* Hide scrollbars for the tab bar but keep scroll functionality */
+    .admin-tab-nav::-webkit-scrollbar {
+        height: 3px;
+    }
+    .admin-tab-nav::-webkit-scrollbar-thumb {
+        background-color: var(--gold-secondary);
+        border-radius: 2px;
+    }
+
+    /* Convert tables into highly polished card lists on mobile */
+    .master-guest-table, 
+    .master-guest-table thead, 
+    .master-guest-table tbody, 
+    .master-guest-table th, 
+    .master-guest-table td, 
+    .master-guest-table tr { 
+        display: block; 
+    }
+    
+    .master-guest-table thead tr { 
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+    
+    .master-guest-table tr {
+        background: rgba(20, 27, 54, 0.4);
+        border: 1.5px solid #222d4f;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        padding: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+    
+    .master-guest-table td { 
+        border: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
+        position: relative;
+        padding: 8px 0;
+        padding-left: 45% !important; 
+        text-align: right !important;
+        font-size: 0.88rem;
+        min-height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+    
+    .master-guest-table td:last-child {
+        border-bottom: 0;
+        padding-top: 12px;
+        justify-content: flex-end;
+    }
+    
+    .master-guest-table td:before { 
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 6px;
+        width: 40%; 
+        white-space: nowrap;
+        text-align: left;
+        font-weight: bold;
+        color: var(--gold-secondary);
+        font-size: 0.82rem;
+    }
+    
+    /* Dynamically map column labels for Invitation Manager */
+    #invitationsTableBody td:nth-of-type(1):before { content: "Guest Name"; }
+    #invitationsTableBody td:nth-of-type(2):before { content: "Gender"; }
+    #invitationsTableBody td:nth-of-type(3):before { content: "Type"; }
+    #invitationsTableBody td:nth-of-type(4):before { content: "Sent Status"; }
+    #invitationsTableBody td:nth-of-type(5):before { content: "Opened"; }
+    #invitationsTableBody td:nth-of-type(6):before { content: "Response"; }
+    #invitationsTableBody td:nth-of-type(7):before { content: "Created"; }
+    #invitationsTableBody td:nth-of-type(8):before { content: "Accepted"; }
+    #invitationsTableBody td:nth-of-type(9):before { content: "Actions"; }
+    
+    /* Dynamically map column labels for Guest List */
+    #masterGuestTableBody td:nth-of-type(1):before { content: "Guest ID"; }
+    #masterGuestTableBody td:nth-of-type(2):before { content: "Name"; }
+    #masterGuestTableBody td:nth-of-type(3):before { content: "Type"; }
+    #masterGuestTableBody td:nth-of-type(4):before { content: "Invitation"; }
+    #masterGuestTableBody td:nth-of-type(5):before { content: "Response"; }
+    #masterGuestTableBody td:nth-of-type(6):before { content: "Check-in"; }
+    #masterGuestTableBody td:nth-of-type(7):before { content: "Actions"; }
+
+    .master-guest-table td .action-icon-btn {
+        margin: 0 4px;
+        font-size: 1.2rem;
+        padding: 6px;
+    }
+
+    /* Modal padding fixes */
+    .modal-card {
+        padding: 20px 15px;
     }
 }
 
