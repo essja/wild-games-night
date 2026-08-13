@@ -204,6 +204,36 @@ document.addEventListener('DOMContentLoaded', () => {
                 logActivity(`Invitation opened by ${loadedInvitation.guest_name} (${loadedInvitation.guest_id})`);
             }
         }
+
+        // ---- FALLBACK: read name & gender directly from the URL (?n=Name&g=boy) ----
+        // This allows the letter to work on ANY device even if localStorage is empty
+        if (!loadedGuest) {
+            const urlName = urlParams.get('n');
+            const urlGender = urlParams.get('g') || 'boy';
+            if (urlName) {
+                // Build a lightweight synthetic guest so the letter renders correctly
+                loadedGuest = {
+                    id: 'url_guest',
+                    guest_id: 'G-URL',
+                    name: decodeURIComponent(urlName),
+                    gender: decodeURIComponent(urlGender),
+                    rsvp: 'Pending',
+                    terms_accepted: 'No',
+                };
+                loadedInvitation = {
+                    id: 'url_invite',
+                    guest_id: 'G-URL',
+                    guest_name: decodeURIComponent(urlName),
+                    secure_token: inviteToken,
+                    status: 'Opened',
+                    response: 'Pending',
+                    responded_at: '',
+                    accepted_at: '',
+                };
+                // Notify admin via WhatsApp when this link is opened (so they know someone viewed it)
+                logActivity(`URL-invite opened: ${decodeURIComponent(urlName)} (token: ${inviteToken})`);
+            }
+        }
     }
 
 
@@ -1243,7 +1273,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let latestGeneratedToken = null;
 
     const getInvitationUrl = (token) => {
-        return `${window.location.origin}${window.location.pathname}?invite=${token}`;
+        const base = `${window.location.origin}${window.location.pathname}?invite=${token}`;
+        // Embed name + gender so guest's phone doesn't need any local database
+        const inv = invitations.find(i => i.secure_token === token);
+        const guest = inv ? guests.find(g => g.guest_id === inv.guest_id) : null;
+        if (guest) {
+            return base + `&n=${encodeURIComponent(guest.name)}&g=${encodeURIComponent(guest.gender || 'boy')}`;
+        }
+        return base;
     };
 
     if (btnGenerateInvite) {
