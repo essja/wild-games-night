@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Wild Games Night - Magical Approval Letter</title>
-    <meta name="description" content="Your Games Night letter of approval has arrived. Open your magical acceptance letter to discover your destiny.">
+    <title>Wild Games Night - Dynamic Event Console & Guest Invitation</title>
+    <meta name="description" content="Games Night Acceptance, Guest Registration, Notification, and Gate Management System.">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@500;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Pinyon+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@500;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Pinyon+Script&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -24,8 +24,8 @@
         <div class="neon-backlight neon-cyan-glow"></div>
     </div>
 
-    <!-- Floating 3D Game Props & Badges -->
-    <div class="game-icons-container">
+    <!-- Floating 3D Game Props & Badges (Visible on Guest screen only) -->
+    <div class="game-icons-container" id="gameIconsContainer">
         <div class="floating-prop prop-card-1">
             <div class="card-inner ace-spades">
                 <span class="card-corner top-left">A♠</span>
@@ -40,65 +40,45 @@
                 <span class="card-corner bottom-right">A♥</span>
             </div>
         </div>
-
         <div class="floating-prop prop-dice-1">
             <div class="dice-3d">🎲</div>
         </div>
         <div class="floating-prop prop-dice-2">
             <div class="dice-3d gold-dice">🎲</div>
         </div>
-
         <div class="floating-prop prop-cup">
             <div class="party-cup">🥤</div>
         </div>
 
-        <div class="game-badge neon-badge-pink badge-pos-1">
-            <span class="badge-icon">😈</span>
-            <span class="badge-text">Dare or Dare</span>
-        </div>
-        <div class="game-badge neon-badge-gold badge-pos-2">
-            <span class="badge-icon">🖐️</span>
-            <span class="badge-text">Never Have I Ever</span>
-        </div>
-        <div class="game-badge neon-badge-cyan badge-pos-3">
-            <span class="badge-icon">❓</span>
-            <span class="badge-text">Would You Rather</span>
-        </div>
-        <div class="game-badge neon-badge-pink badge-pos-4">
-            <span class="badge-icon">🎭</span>
-            <span class="badge-text">Charades</span>
-        </div>
-        <div class="game-badge neon-badge-purple badge-pos-5">
-            <span class="badge-icon">🙈</span>
-            <span class="badge-text">Blindfold Challenge</span>
-        </div>
-        <div class="game-badge neon-badge-gold badge-pos-6">
-            <span class="badge-icon">🔞</span>
-            <span class="badge-text">18+ VIP</span>
-        </div>
+        <div class="game-badge neon-badge-pink badge-pos-1"><span class="badge-icon">😈</span><span class="badge-text">Dare or Dare</span></div>
+        <div class="game-badge neon-badge-gold badge-pos-2"><span class="badge-icon">🖐️</span><span class="badge-text">Never Have I Ever</span></div>
+        <div class="game-badge neon-badge-cyan badge-pos-3"><span class="badge-icon">❓</span><span class="badge-text">Would You Rather</span></div>
+        <div class="game-badge neon-badge-pink badge-pos-4"><span class="badge-icon">🎭</span><span class="badge-text">Charades</span></div>
+        <div class="game-badge neon-badge-purple badge-pos-5"><span class="badge-icon">🙈</span><span class="badge-text">Blind Challenge</span></div>
+        <div class="game-badge neon-badge-gold badge-pos-6"><span class="badge-icon">🔞</span><span class="badge-text">18+ VIP</span></div>
     </div>
 
     <!-- Top Action Bar (Audio & Host Secret Admin Panel) -->
-    <div class="top-nav-bar">
+    <div class="top-nav-bar" id="topNavBar">
         <button id="audioToggleBtn" class="audio-btn" aria-label="Toggle Sound">
             <span class="audio-icon" id="audioIcon">🔊</span>
             <span class="audio-label" id="audioLabel">Sound On</span>
         </button>
 
-        <!-- Hidden by default for guests; only visible if URL contains ?admin=true -->
+        <!-- Hidden by default for guests; triple-tap crest or append ?admin=true reveals it -->
         <button id="organizerBtn" class="organizer-btn hidden-admin-btn" title="Organizer Admin Panel">
-            <span>👑 Host Panel</span>
+            <span>👑 Admin Console</span>
         </button>
     </div>
 
     <!-- Main Mobile-First Experience Wrapper -->
     <main class="experience-wrapper" id="experienceWrapper">
         
-        <!-- SCENE 1: THE ARRIVAL -->
+        <!-- SCENE 1: THE ENVELOPE -->
         <section id="scene1" class="scene active-scene">
             <div class="arrival-content">
                 <div class="mysterious-header">
-                    <h2 class="sub-headline neon-headline">Your Games night letter of approval has arrived</h2>
+                    <h2 class="sub-headline neon-headline">Your Games Night letter of approval has arrived</h2>
                     <p class="instruction-text">Tap the envelope to discover your destiny.</p>
                 </div>
 
@@ -112,7 +92,6 @@
                         <div class="letter-peek" id="letterPeek">
                             <div class="peek-header">WGN</div>
                         </div>
-
                         <div class="env-flap-left"></div>
                         <div class="env-flap-right"></div>
                         <div class="env-flap-bottom"></div>
@@ -140,11 +119,10 @@
             </div>
         </section>
 
-        <!-- SCENE 2 & 3: THE ACCEPTANCE LETTER -->
+        <!-- SCENE 2: THE PARCHMENT LETTER (Guest Invite Acceptance) -->
         <section id="scene3" class="scene hidden-scene">
             <div class="letter-viewport" id="letterViewport">
                 
-                <!-- Parchment Paper Document -->
                 <article class="parchment-letter" id="parchmentLetter">
                     <div class="parchment-border"></div>
                     <div class="corner-ornament corner-top-left"></div>
@@ -170,21 +148,18 @@
                     <div class="letter-body">
                         <p class="salutation">Dear <span id="guestNameDisplay" class="guest-name">Guest</span>,</p>
                         
-                        <p class="opening-paragraph">
-                            It is with great pleasure that we welcome you as one of the selected guests for <strong>Wild Games Night</strong>.
-                        </p>
-                        
-                        <p class="body-paragraph">
-                            Your application has been reviewed, and we are delighted to inform you that you have officially earned your place at this exclusive gathering.
-                        </p>
-                        
-                        <p class="body-paragraph">
-                            Prepare yourself for an evening filled with exciting games, unforgettable moments, laughter, music, and new friendships.
-                        </p>
-                        
-                        <p class="closing-paragraph">
-                            Your presence will make this night even more memorable.
-                        </p>
+                        <!-- Customizable dynamic template container -->
+                        <div id="dynamicLetterContent">
+                            <p class="opening-paragraph">
+                                It is with great pleasure that we welcome you as one of the selected guests for <strong>Games Night</strong>.
+                            </p>
+                            <p class="body-paragraph">
+                                Your application has been reviewed, and we are delighted to inform you that you have officially earned your place at this exclusive gathering.
+                            </p>
+                            <p class="body-paragraph">
+                                Prepare yourself for an evening filled with exciting games, unforgettable moments, laughter, music, and new friendships.
+                            </p>
+                        </div>
                     </div>
 
                     <!-- Event Details Section -->
@@ -196,7 +171,7 @@
                                 <span class="detail-icon">📅</span>
                                 <div class="detail-text">
                                     <span class="detail-label">Date</span>
-                                    <span class="detail-val">Friday, 31 July 2026</span>
+                                    <span class="detail-val" id="evtDateDisplay">Friday, 31 July 2026</span>
                                 </div>
                             </div>
                             
@@ -204,7 +179,7 @@
                                 <span class="detail-icon">🕖</span>
                                 <div class="detail-text">
                                     <span class="detail-label">Time</span>
-                                    <span class="detail-val">9:00 PM</span>
+                                    <span class="detail-val" id="evtTimeDisplay">8:00 PM (Gate Closes 9:30 PM)</span>
                                 </div>
                             </div>
                             
@@ -212,7 +187,7 @@
                                 <span class="detail-icon">📍</span>
                                 <div class="detail-text">
                                     <span class="detail-label">Venue</span>
-                                    <span class="detail-val">Number 9 Manga Drive, Lumley</span>
+                                    <span class="detail-val" id="evtVenueDisplay">Signal Inn, Old God Congo Cross</span>
                                 </div>
                             </div>
                             
@@ -230,72 +205,46 @@
                     <section class="countdown-section">
                         <h3 class="countdown-title">The Magic Begins In</h3>
                         <div class="countdown-timer" id="countdownTimer">
-                            <div class="time-block">
-                                <span class="time-num" id="cdDays">00</span>
-                                <span class="time-unit">Days</span>
-                            </div>
+                            <div class="time-block"><span class="time-num" id="cdDays">00</span><span class="time-unit">Days</span></div>
                             <span class="time-colon">:</span>
-                            <div class="time-block">
-                                <span class="time-num" id="cdHours">00</span>
-                                <span class="time-unit">Hours</span>
-                            </div>
+                            <div class="time-block"><span class="time-num" id="cdHours">00</span><span class="time-unit">Hours</span></div>
                             <span class="time-colon">:</span>
-                            <div class="time-block">
-                                <span class="time-num" id="cdMinutes">00</span>
-                                <span class="time-unit">Minutes</span>
-                            </div>
+                            <div class="time-block"><span class="time-num" id="cdMinutes">00</span><span class="time-unit">Minutes</span></div>
                             <span class="time-colon">:</span>
-                            <div class="time-block">
-                                <span class="time-num" id="cdSeconds">00</span>
-                                <span class="time-unit">Seconds</span>
-                            </div>
+                            <div class="time-block"><span class="time-num" id="cdSeconds">00</span><span class="time-unit">Seconds</span></div>
                         </div>
                     </section>
 
                     <!-- Game Night Rules -->
                     <section class="house-rules-card">
-                        <h2 class="section-heading">🎉 GAME NIGHT RULES 🎉</h2>
+                        <h2 class="section-heading">🎉 GAMES NIGHT RULES 🎉</h2>
                         <ul class="rules-list">
-                            <li>
-                                <span class="rule-num">1.</span>
-                                <div><strong>Privacy First:</strong> What happens here stays here. Respect everyone’s privacy and do not share personal information or videos from the event without permission.</div>
-                            </li>
-                            <li>
-                                <span class="rule-num">2.</span>
-                                <div><strong>Open Mindset:</strong> Be open-minded and ready to participate. Come prepared to enjoy the games and take part in the activities.</div>
-                            </li>
-                            <li>
-                                <span class="rule-num">3.</span>
-                                <div><strong>Fair Play:</strong> Respect the rules of every game. Everyone must follow the rules and play fairly.</div>
-                            </li>
-                            <li>
-                                <span class="rule-num">4.</span>
-                                <div><strong>Active Participation:</strong> Participation is encouraged. If you are not comfortable with the activities planned for the event, please consider whether this is the right event for you.</div>
-                            </li>
-                            <li>
-                                <span class="rule-num">5.</span>
-                                <div><strong>BYOB Policy:</strong> Bring your own bottle. Every guy attending is expected to bring his own bottle. No bottle, no entrance.</div>
-                            </li>
-                            <li>
-                                <span class="rule-num">6.</span>
-                                <div><strong>Zero Tolerance:</strong> Respect everyone. No bullying, harassment, pressure, or disrespectful behavior will be tolerated.</div>
-                            </li>
-                            <li>
-                                <span class="rule-num">7.</span>
-                                <div><strong>Have Fun:</strong> Most importantly, have fun and keep the night enjoyable for everyone! 🎊</div>
-                            </li>
+                            <li><span class="rule-num">1.</span><div><strong>Privacy First:</strong> What happens here stays here. Respect everyone’s privacy. No unauthorized filming.</div></li>
+                            <li><span class="rule-num">2.</span><div><strong>Open Mindset:</strong> Be open-minded and ready to participate in the games.</div></li>
+                            <li><span class="rule-num">3.</span><div><strong>Strict Deadline:</strong> Everyone must arrive by 9:30 PM. The gate closes at 9:30 PM sharp. No entry afterwards.</div></li>
+                            <li><span class="rule-num">4.</span><div><strong>Active Play:</strong> Come prepared to get active. If you don't like games, this isn't the night for you!</div></li>
+                            <li><span class="rule-num">5.</span><div><strong>Boys Purchase:</strong> Accepted male guests must purchase one bottle from the organizers at the gate for Le 150.</div></li>
+                            <li><span class="rule-num">6.</span><div><strong>Girls Guest Policy:</strong> Female guests may bring a female friend, but her name must be registered in advance.</div></li>
+                            <li><span class="rule-num">7.</span><div><strong>Zero Tolerance:</strong> Respect everyone. No bullying or harassment will be tolerated.</div></li>
                         </ul>
                     </section>
 
                     <!-- Dynamic Gender-Specific Note -->
-                    <div id="genderSpecNote" class="gender-spec-note hidden-note"></div>
+                    <div id="genderSpecNote" class="gender-spec-note"></div>
+
+                    <!-- Girls Female Friend Registration Block -->
+                    <div id="friendRegistrationBlock" class="friend-reg-block hidden-note">
+                        <label for="friendNameInput" class="friend-label">👩 Register Your Female Friend:</label>
+                        <input type="text" id="friendNameInput" class="friend-input-field" placeholder="Enter friend's full name...">
+                        <p class="friend-hint">⚠️ IMPORTANT: Your friend's name must be registered here beforehand. Unregistered friends will be rejected at the gate.</p>
+                    </div>
 
                     <!-- Rules Agreement Checkbox -->
                     <div class="agreement-wrapper" id="agreementWrapper">
                         <label class="checkbox-container">
                             <input type="checkbox" id="rulesCheckbox">
                             <span class="custom-checkmark"></span>
-                            <span class="checkbox-label-text">I have read and agree to all 7 Game Night Rules</span>
+                            <span class="checkbox-label-text">I have read and agree to all Games Night rules</span>
                         </label>
                         <p class="agreement-warning hidden-warning" id="agreementWarning">⚠️ Please check the agreement box to accept your invitation.</p>
                     </div>
@@ -309,43 +258,362 @@
                         </button>
                         
                         <div class="secondary-actions">
-                            <button id="locationBtn" class="magic-btn secondary-btn">
-                                <span class="btn-icon">📍</span> View Location
-                            </button>
-                            <button id="calendarBtn" class="magic-btn secondary-btn">
-                                <span class="btn-icon">📅</span> Add to Calendar
-                            </button>
+                            <button id="locationBtn" class="magic-btn secondary-btn"><span class="btn-icon">📍</span> View Location</button>
+                            <button id="calendarBtn" class="magic-btn secondary-btn"><span class="btn-icon">📅</span> Add to Calendar</button>
                         </div>
                     </footer>
 
-                    <!-- Confirmation Toast / Message -->
+                    <!-- Confirmation Toast / WhatsApp Confirms -->
                     <div id="confirmationBox" class="confirmation-box hidden-confirmation">
                         <div class="conf-sparkles">✨ ✦ ✨</div>
                         <p class="conf-message">Your attendance has been confirmed!</p>
-                        <p class="conf-submessage" id="confStatusMsg">⚡ Notification dispatches instantly to the hosts.</p>
+                        <p class="conf-submessage" id="confStatusMsg">⚡ Dispatching notification to organizers...</p>
                         
-                        <!-- Send WhatsApp Confirmation to Organizer -->
                         <div class="whatsapp-rsvp-area">
-                            <p class="whatsapp-prompt">Tap below to notify Faisal & Dija directly on WhatsApp:</p>
-                            <div class="wa-buttons">
-                                <a id="waConfirmBtn1" class="wa-btn" href="#" target="_blank">
-                                    💬 Send Instant Confirmation to Faisal (088098340)
-                                </a>
-                                <a id="waConfirmBtn2" class="wa-btn secondary-wa" href="#" target="_blank">
-                                    💬 Send Instant Confirmation to Dija (075119627)
-                                </a>
+                            <p class="whatsapp-prompt">Tap below to notify organizers directly on WhatsApp:</p>
+                            <div class="wa-buttons" id="waButtonsContainer">
+                                <!-- Generated Dynamically -->
                             </div>
                         </div>
-
                         <button id="sharePassBtn" class="magic-btn mini-btn" style="margin-top: 15px;">📜 View Invitation Pass</button>
                     </div>
 
                 </article>
+            </div>
+        </section>
 
+        <!-- SCENE 3: ADMIN & GATE CONTROL CONSOLE (Strictly Secured) -->
+        <section id="adminScene" class="scene hidden-scene admin-console-layout">
+            <header class="admin-header">
+                <div class="admin-logo">
+                    <span class="crest-mini">WGN</span>
+                    <div>
+                        <h2>Games Night</h2>
+                        <p>Event Management System</p>
+                    </div>
+                </div>
+                <div class="gate-status-monitor">
+                    <span class="gate-monitor-label">Gate Status:</span>
+                    <span id="gateStatusBadge" class="gate-status-badge open">OPEN 🟢</span>
+                    <span id="gateClock" class="gate-clock">00:00:00</span>
+                </div>
+                <button id="adminLogoutBtn" class="admin-logout-btn">Logout 🚪</button>
+            </header>
+
+            <nav class="admin-tab-nav">
+                <button class="tab-nav-btn active-tab" data-tab="dashboard">📊 Dashboard</button>
+                <button class="tab-nav-btn" data-tab="guestlist">📋 Master Guest List</button>
+                <button class="tab-nav-btn" data-tab="gatecheck">🚪 Gate Check-In</button>
+                <button class="tab-nav-btn" data-tab="templates">✍️ Template Editor</button>
+                <button class="tab-nav-btn" data-tab="settings">⚙️ Settings</button>
+            </nav>
+
+            <div class="admin-tab-content-container">
+                <!-- TAB 1: DASHBOARD STATS -->
+                <div id="tab-dashboard" class="tab-pane active-pane">
+                    <div class="dashboard-stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">✉️</div>
+                            <div class="stat-value" id="stat-total-invites">0</div>
+                            <div class="stat-label">Total Invitations</div>
+                        </div>
+                        <div class="stat-card highlight-card">
+                            <div class="stat-icon">✅</div>
+                            <div class="stat-value" id="stat-total-accepted">0</div>
+                            <div class="stat-label">Total Accepted</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">👦</div>
+                            <div class="stat-value" id="stat-boys-accepted">0</div>
+                            <div class="stat-label">Boys Accepted</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">👧</div>
+                            <div class="stat-value" id="stat-girls-accepted">0</div>
+                            <div class="stat-label">Girls Accepted</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">👩‍❤️‍👩</div>
+                            <div class="stat-value" id="stat-guests-added">0</div>
+                            <div class="stat-label">Registered Friends</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🕒</div>
+                            <div class="stat-value" id="stat-pending">0</div>
+                            <div class="stat-label">Pending Responses</div>
+                        </div>
+                        <div class="stat-card checkin-card">
+                            <div class="stat-icon">🚪</div>
+                            <div class="stat-value" id="stat-checked-in">0</div>
+                            <div class="stat-label">Checked In</div>
+                        </div>
+                        <div class="stat-card declined-card">
+                            <div class="stat-icon">❌</div>
+                            <div class="stat-value" id="stat-declined">0</div>
+                            <div class="stat-label">Declined / Rejected</div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-split-layout">
+                        <!-- Quick Stats Summary -->
+                        <div class="dashboard-log-panel">
+                            <h3>⚡ Real-Time Gate Logs</h3>
+                            <ul class="activity-log-list" id="activityLogList">
+                                <li class="log-empty">No activity logs recorded yet.</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Event Overview Status -->
+                        <div class="dashboard-info-panel">
+                            <h3>📌 Event Details Control</h3>
+                            <div class="info-details-card">
+                                <p><strong>Event Venue:</strong> <span id="dash-venue">Signal Inn</span></p>
+                                <p><strong>Date:</strong> <span id="dash-date">Friday, 31 July 2026</span></p>
+                                <p><strong>Gates Open:</strong> 8:00 PM</p>
+                                <p><strong>Lockdown Time:</strong> 9:30 PM Sharp</p>
+                                <p><strong>Deadline Status:</strong> <span id="dash-gate-status" class="status-open">OPEN</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: MASTER GUEST LIST -->
+                <div id="tab-guestlist" class="tab-pane">
+                    <div class="guestlist-controls">
+                        <div class="search-filter-row">
+                            <input type="text" id="guestSearchInput" class="admin-input search-box" placeholder="Search by name, friend name...">
+                            <select id="guestFilterGender" class="admin-input filter-dropdown">
+                                <option value="all">All Genders</option>
+                                <option value="boy">Boys</option>
+                                <option value="girl">Girls</option>
+                            </select>
+                            <select id="guestFilterStatus" class="admin-input filter-dropdown">
+                                <option value="all">All Statuses</option>
+                                <option value="Accepted">Accepted</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Declined">Declined</option>
+                                <option value="Guest Added">Friend Guest</option>
+                                <option value="Checked In">Checked In</option>
+                                <option value="Rejected at Gate">Rejected</option>
+                            </select>
+                        </div>
+                        <button id="addGuestBtn" class="magic-btn add-btn">➕ Add New Guest</button>
+                    </div>
+
+                    <div class="table-scroll-container">
+                        <table class="master-guest-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Gender</th>
+                                    <th>RSVP Status</th>
+                                    <th>Friend Registered</th>
+                                    <th>Bottle Payment</th>
+                                    <th>Check-in Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="masterGuestTableBody">
+                                <!-- Filled Dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB 3: GATE CHECK-IN SCREEN -->
+                <div id="tab-gatecheck" class="tab-pane">
+                    <div class="gate-search-container">
+                        <h3>🔍 Gate Guest Verification</h3>
+                        <p class="gate-subtitle">Search by name to check-in arriving guests and verify bottle payments.</p>
+                        <input type="text" id="gateSearchBox" class="admin-input gate-search-input" placeholder="Type guest or friend name...">
+                    </div>
+
+                    <div class="gate-results-container" id="gateResultsContainer">
+                        <div class="gate-no-results">Enter guest name above to verify entry approval.</div>
+                    </div>
+                </div>
+
+                <!-- TAB 4: TEMPLATE EDITOR -->
+                <div id="tab-templates" class="tab-pane">
+                    <div class="template-editor-grid">
+                        <div class="editor-section">
+                            <h3>Boys Acceptance Content</h3>
+                            <textarea id="tplBoyLetter" class="admin-input tpl-textarea" rows="8"></textarea>
+                            <p class="admin-hint">This text appears on the parchment invitation for Boys.</p>
+
+                            <h3>Boys WhatsApp RSVP</h3>
+                            <textarea id="tplBoyWa" class="admin-input tpl-textarea" rows="4"></textarea>
+                            <p class="admin-hint">Pre-filled WhatsApp RSVP message for Boys. Use [Name] as placeholder.</p>
+                        </div>
+
+                        <div class="editor-section">
+                            <h3>Girls Acceptance Content</h3>
+                            <textarea id="tplGirlLetter" class="admin-input tpl-textarea" rows="8"></textarea>
+                            <p class="admin-hint">This text appears on the parchment invitation for Girls.</p>
+
+                            <h3>Girls WhatsApp RSVP</h3>
+                            <textarea id="tplGirlWa" class="admin-input tpl-textarea" rows="4"></textarea>
+                            <p class="admin-hint">Pre-filled WhatsApp RSVP message for Girls. Use [Name] as placeholder.</p>
+                        </div>
+                    </div>
+                    <div class="template-actions">
+                        <button id="saveTemplatesBtn" class="magic-btn primary-accept-btn">💾 Save Templates</button>
+                    </div>
+                </div>
+
+                <!-- TAB 5: SETTINGS & REMINDERS -->
+                <div id="tab-settings" class="tab-pane">
+                    <div class="settings-grid">
+                        <div class="settings-card">
+                            <h3>📞 Organizer Phone Numbers</h3>
+                            <div class="settings-group">
+                                <label>Faisal's WhatsApp Link Number:</label>
+                                <input type="text" id="cfgPhoneFaisal" class="admin-input" placeholder="e.g. 23288098340">
+                                <label>Dija's WhatsApp Link Number:</label>
+                                <input type="text" id="cfgPhoneDija" class="admin-input" placeholder="e.g. 23275119627">
+                            </div>
+
+                            <h3>📧 Host Email Alert Config</h3>
+                            <div class="settings-group">
+                                <label>Notification Target Email:</label>
+                                <input type="email" id="cfgHostEmail" class="admin-input" placeholder="host-email@example.com">
+                            </div>
+                        </div>
+
+                        <div class="settings-card">
+                            <h3>⏰ Event Scheduling & Closing</h3>
+                            <div class="settings-group">
+                                <label>Event Date (YYYY-MM-DD):</label>
+                                <input type="date" id="cfgEvtDate" class="admin-input">
+                                <label>Start Time (HH:MM):</label>
+                                <input type="time" id="cfgEvtTime" class="admin-input">
+                                <label>Gate Lockdown Time (HH:MM):</label>
+                                <input type="time" id="cfgEvtDeadline" class="admin-input">
+                                
+                                <div class="manual-lockdown-toggle">
+                                    <label class="checkbox-container">
+                                        <input type="checkbox" id="cfgManualLockdown">
+                                        <span class="custom-checkmark"></span>
+                                        <strong>Force Gate Lockdown (Override Clock)</strong>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-card">
+                            <h3>📢 Send Invitations & Reminders</h3>
+                            <div class="settings-group">
+                                <label>Reminder Message Template:</label>
+                                <textarea id="reminderMsgTpl" class="admin-input" rows="4">Reminder: Games Night starts at 8:00 PM at Signal Inn, Old God Congo Cross. Please arrive before 9:30 PM. The gate will close at 9:30 PM sharp and no entry will be allowed afterward.</textarea>
+                                
+                                <div class="reminder-buttons">
+                                    <button class="magic-btn mini-btn send-rem-btn" data-recipient="all">📢 Remind All</button>
+                                    <button class="magic-btn mini-btn send-rem-btn" data-recipient="boys">👦 Boys Only</button>
+                                    <button class="magic-btn mini-btn send-rem-btn" data-recipient="girls">👧 Girls Only</button>
+                                    <button class="magic-btn mini-btn send-rem-btn" data-recipient="not-checked-in">🚪 Unchecked Guests</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dangerous-actions-zone">
+                        <h3>⚠️ Dangerous Actions</h3>
+                        <div class="danger-row">
+                            <button id="btnSeedDemoData" class="magic-btn secondary-btn" style="border-color: #ffd700; color: #ffd700;">🔄 Reset & Seed Demo Guest Data</button>
+                            <button id="btnClearDatabase" class="magic-btn secondary-btn" style="border-color: #ff0055; color: #ff0055;">🚨 Clear Entire Database</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
     </main>
+
+    <!-- ADMIN LOGIN PIN OVERLAY -->
+    <div id="adminLoginOverlay" class="admin-login-overlay hidden-login">
+        <div class="login-card">
+            <div class="login-crest">WGN</div>
+            <h3>Organizer Security Verification</h3>
+            <p>Access restricted to authorized administrators.</p>
+            <input type="password" id="adminPasswordInput" class="admin-input login-input" placeholder="Enter PIN (Default: 2026)">
+            <p id="loginErrorMsg" class="login-error hidden-msg">❌ Invalid PIN. Please try again.</p>
+            <div class="login-buttons">
+                <button id="submitPasswordBtn" class="magic-btn">Verify & Unlock 🔑</button>
+                <button id="cancelPasswordBtn" class="magic-btn secondary-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- GUEST ADD / EDIT MODAL (Host Panel) -->
+    <div id="guestEditModal" class="modal-backdrop hidden-modal">
+        <div class="modal-card admin-card">
+            <button class="modal-close" id="closeGuestModal">&times;</button>
+            <h3 class="modal-title" id="guestModalTitle">Add New Guest</h3>
+            
+            <div class="admin-input-group">
+                <label for="editGuestName" class="admin-label">Guest Full Name:</label>
+                <input type="text" id="editGuestName" class="admin-input" placeholder="Enter name...">
+            </div>
+
+            <div class="admin-input-group">
+                <label class="admin-label">Category (Gender):</label>
+                <div class="admin-radio-group">
+                    <label class="admin-radio-label">
+                        <input type="radio" name="editGuestGender" value="boy" checked> Boy (Male)
+                    </label>
+                    <label class="admin-radio-label">
+                        <input type="radio" name="editGuestGender" value="girl"> Girl (Female)
+                    </label>
+                </div>
+            </div>
+
+            <div class="admin-input-group">
+                <label for="editGuestRsvp" class="admin-label">RSVP Status:</label>
+                <select id="editGuestRsvp" class="admin-input">
+                    <option value="Pending">Pending Response</option>
+                    <option value="Accepted">Accepted Invitation</option>
+                    <option value="Declined">Declined Invitation</option>
+                    <option value="Guest Added">Friend Guest</option>
+                </select>
+            </div>
+
+            <div class="admin-input-group" id="editFriendNameGroup">
+                <label for="editGuestFriend" class="admin-label">Invited Friend Name (Girls Only):</label>
+                <input type="text" id="editGuestFriend" class="admin-input" placeholder="Friend's full name...">
+            </div>
+
+            <div class="admin-input-group" id="editBottlePaymentGroup">
+                <label for="editGuestBottle" class="admin-label">Bottle Payment Status (Boys Only):</label>
+                <select id="editGuestBottle" class="admin-input">
+                    <option value="Pending">Pending Payment (Le 150)</option>
+                    <option value="Paid">Completed Paid</option>
+                    <option value="N/A">Not Applicable</option>
+                </select>
+            </div>
+
+            <div class="admin-input-group">
+                <label for="editGuestCheckin" class="admin-label">Gate Check-in Status:</label>
+                <select id="editGuestCheckin" class="admin-input">
+                    <option value="Not Checked In">Not Arrived</option>
+                    <option value="Checked In">Checked In</option>
+                    <option value="Rejected at Gate">Rejected Entry</option>
+                </select>
+            </div>
+
+            <div class="generated-link-box hidden-box" id="modalLinkBox">
+                <p class="gen-label">Generated Guest Invitation Link:</p>
+                <input type="text" id="modalGeneratedUrl" class="admin-input readonly-url" readonly>
+                <div class="gen-actions">
+                    <button id="modalCopyLinkBtn" class="modal-btn mini-btn">📋 Copy Link</button>
+                    <a id="modalShareWaBtn" class="modal-btn mini-btn wa-share" href="#" target="_blank">💬 Send Invite Link</a>
+                </div>
+            </div>
+
+            <div class="login-buttons" style="margin-top: 20px;">
+                <button id="saveGuestDetailsBtn" class="magic-btn">Save Guest Record 💾</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Location Modal -->
     <div id="locationModal" class="modal-backdrop hidden-modal">
@@ -353,17 +621,17 @@
             <button class="modal-close" id="closeLocModal">&times;</button>
             <div class="modal-icon">📍</div>
             <h3 class="modal-title">Venue Location</h3>
-            <p class="modal-subtitle">Number 9 Manga Drive, Lumley, Freetown</p>
+            <p class="modal-subtitle" id="locModalVenue">Signal Inn, Old God Congo Cross</p>
             <div class="map-placeholder">
                 <div class="map-grid"></div>
                 <div class="map-pin">
                     <div class="pin-pulse"></div>
                     📍
                 </div>
-                <div class="map-label">Number 9 Manga Drive</div>
+                <div class="map-label">Signal Inn</div>
             </div>
-            <p class="modal-desc">Wild Games Night Sanctuary. Entrances: Girls bring 1 bottle or female friend(s). Guys bring 1 bottle (BYOB strictly enforced!).</p>
-            <a href="https://maps.google.com/?q=Number+9+Manga+Drive,Lumley,Freetown,Sierra+Leone" target="_blank" rel="noopener noreferrer" class="modal-btn">
+            <p class="modal-desc">Wild Games Night. Gates close at 9:30 PM sharp! Boys must purchase a bottle for Le 150 from the organizers at the gate. Girls may bring a registered friend.</p>
+            <a href="https://maps.google.com/?q=Signal+Inn,Congo+Cross,Freetown,Sierra+Leone" target="_blank" rel="noopener noreferrer" class="modal-btn">
                 🗺️ Open in Google Maps
             </a>
         </div>
@@ -375,14 +643,10 @@
             <button class="modal-close" id="closeCalModal">&times;</button>
             <div class="modal-icon">📅</div>
             <h3 class="modal-title">Add to Your Calendar</h3>
-            <p class="modal-subtitle">Friday, 31 July 2026 • 9:00 PM</p>
+            <p class="modal-subtitle" id="calModalDateTime">Friday, 31 July 2026 • 8:00 PM</p>
             <div class="calendar-options">
-                <button id="googleCalBtn" class="cal-option-btn">
-                    <span class="cal-icon">🌐</span> Google Calendar
-                </button>
-                <button id="icsCalBtn" class="cal-option-btn">
-                    <span class="cal-icon">📥</span> Download .ICS File (Apple / Outlook)
-                </button>
+                <button id="googleCalBtn" class="cal-option-btn"><span class="cal-icon">🌐</span> Google Calendar</button>
+                <button id="icsCalBtn" class="cal-option-btn"><span class="cal-icon">📥</span> Download .ICS File</button>
             </div>
         </div>
     </div>
@@ -391,85 +655,20 @@
     <div id="passModal" class="modal-backdrop hidden-modal">
         <div class="modal-card pass-card">
             <button class="modal-close" id="closePassModal">&times;</button>
-            <div class="ticket-stamp">CONFIRMED GUEST</div>
+            <div class="ticket-stamp" id="ticketStamp">CONFIRMED GUEST</div>
             <h3 class="ticket-title">WILD GAMES NIGHT</h3>
             <p class="ticket-subtitle">OFFICIAL ADMISSION PASS</p>
             <div class="ticket-divider"></div>
             <div class="ticket-info">
                 <p><strong>GUEST:</strong> <span id="passGuestName">Guest</span></p>
-                <p><strong>DATE:</strong> FRI, 31 JULY 2026 | 9:00 PM</p>
-                <p><strong>LOCATION:</strong> NO. 9 MANGA DRIVE, LUMLEY</p>
-                <p><strong>DRESS CODE:</strong> CHOOSE WHAT YOU WANT</p>
-                <p><strong>REQUIREMENT:</strong> BYOB / AGREEMENT ACCEPTED</p>
+                <p><strong>DATE:</strong> <span id="passEvtDate">Friday, 31 July 2026</span> | 8:00 PM</p>
+                <p><strong>LOCATION:</strong> SIGNAL INN, CONGO CROSS</p>
+                <p><strong>REQUIREMENT:</strong> <span id="passEvtReq">BYOB / Agreement</span></p>
             </div>
             <div class="ticket-barcode">
                 <span>||| | |||| || ||||| ||| |||| | |||</span>
             </div>
             <button id="copyLinkBtn" class="modal-btn">🔗 Copy Invitation Link</button>
-        </div>
-    </div>
-
-    <!-- ORGANIZER ADMIN & INVITATION GENERATOR MODAL (Host Only) -->
-    <div id="organizerModal" class="modal-backdrop hidden-modal">
-        <div class="modal-card admin-card">
-            <button class="modal-close" id="closeOrgModal">&times;</button>
-            <div class="modal-icon">👑</div>
-            <h3 class="modal-title">Organizer Control Panel</h3>
-            <p class="modal-subtitle">Create Personalized Guest Invitations</p>
-
-            <div class="admin-input-group">
-                <label for="notificationEmailInput" class="admin-label">📧 Host Email for Instant Acceptance Alerts:</label>
-                <input type="email" id="notificationEmailInput" class="admin-input" placeholder="e.g. your-email@gmail.com" value="">
-                <p class="admin-hint">Receive an instant email alert whenever a guest accepts!</p>
-            </div>
-
-            <div class="admin-input-group">
-                <label for="invitationGuestName" class="admin-label">Guest Name to Invite:</label>
-                <input type="text" id="invitationGuestName" class="admin-input" placeholder="e.g. Salieu, Fatima, Abdul...">
-            </div>
-
-            <div class="admin-input-group">
-                <label class="admin-label">Guest Gender:</label>
-                <div class="admin-radio-group">
-                    <label class="admin-radio-label">
-                        <input type="radio" name="guestGender" value="boy" checked> Boy 🍾
-                    </label>
-                    <label class="admin-radio-label">
-                        <input type="radio" name="guestGender" value="girl"> Girl 💃
-                    </label>
-                </div>
-            </div>
-
-            <div class="admin-input-group">
-                <label for="boyTemplateInput" class="admin-label">Boy RSVP WhatsApp Template:</label>
-                <textarea id="boyTemplateInput" class="admin-input admin-textarea" rows="3">🎉 INVITATION ACCEPTED! 🎉
-
-Hi! I, [Name], officially ACCEPT the invitation for Wild Games Night on Friday, 31 July at 9 PM and agree to all 7 Game Night Rules! (I'll bring my bottle! 🍾)</textarea>
-            </div>
-
-            <div class="admin-input-group">
-                <label for="girlTemplateInput" class="admin-label">Girl RSVP WhatsApp Template:</label>
-                <textarea id="girlTemplateInput" class="admin-input admin-textarea" rows="3">🎉 INVITATION ACCEPTED! 🎉
-
-Hi! I, [Name], officially ACCEPT the invitation for Wild Games Night on Friday, 31 July at 9 PM and agree to all 7 Game Night Rules! (Excited for the night! 💃)</textarea>
-            </div>
-
-            <div class="generated-link-box hidden-box" id="generatedLinkBox">
-                <p class="gen-label">Generated Invitation URL:</p>
-                <input type="text" id="generatedUrlInput" class="admin-input readonly-url" readonly>
-                
-                <div class="gen-actions">
-                    <button id="copyGenLinkBtn" class="modal-btn mini-btn">📋 Copy Link</button>
-                    <a id="shareWaLinkBtn" class="modal-btn mini-btn wa-share" href="#" target="_blank">💬 Send via WhatsApp</a>
-                </div>
-            </div>
-
-            <div class="rsvp-log-section">
-                <h4 class="log-title">📋 Accepted Guests Log:</h4>
-                <ul id="acceptedGuestsList" class="accepted-list">
-                    <li class="empty-log">No local acceptances logged yet on this device.</li>
-                </ul>
-            </div>
         </div>
     </div>
 
