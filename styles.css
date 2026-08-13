@@ -1670,3 +1670,82 @@ html, body {
     }
 }
 
+/* Guest Self-Registration Form styling */
+.registration-form-card {
+    background: rgba(0, 0, 0, 0.03);
+    border: 1px dashed rgba(139, 90, 43, 0.2);
+    border-radius: 8px;
+    padding: 18px;
+    margin-bottom: 20px;
+}
+
+.reg-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.reg-input-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.reg-label {
+    font-family: var(--font-serif);
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #4a3319;
+    margin-bottom: 4px;
+}
+
+.reg-field {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid #c3b091;
+    border-radius: 6px;
+    background: #fbf8f3;
+    color: #3e2723;
+    font-family: var(--font-serif);
+    font-size: 0.95rem;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.reg-field:focus {
+    border-color: #8b5a2b;
+    box-shadow: 0 0 5px rgba(139, 90, 43, 0.1);
+}
+
+/* Success Card details */
+.reg-success-card {
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    padding: 15px;
+    margin: 15px 0;
+    text-align: left;
+    border-left: 4px solid var(--gold-primary);
+}
+
+.reg-success-card p {
+    margin: 6px 0;
+    font-size: 0.9rem;
+    color: #e2d7c5;
+}
+
+.reg-success-card strong {
+    color: var(--gold-secondary);
+}
+
+.audit-section-card {
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 6px;
+    padding: 12px;
+}
+
+@media (max-width: 500px) {
+    .reg-form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+

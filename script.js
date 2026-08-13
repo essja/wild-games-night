@@ -6,15 +6,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 1. STATE MANAGEMENT & LOCAL STORAGE SEEDING ---
     const DEFAULT_GUESTS = [
-        { id: 'g_1', name: 'Ibrahim Kamara', gender: 'boy', rsvp: 'Accepted', rsvpTime: '2026-08-13 14:30', friendName: '', bottlePayment: 'Pending', checkIn: 'Not Checked In', checkInTime: '', approvalStatus: 'Approved' },
-        { id: 'g_2', name: 'Alhaji Bah', gender: 'boy', rsvp: 'Accepted', rsvpTime: '2026-08-13 14:32', friendName: '', bottlePayment: 'Paid', checkIn: 'Checked In', checkInTime: '2026-08-13 20:12', approvalStatus: 'Approved' },
-        { id: 'g_3', name: 'Mariama Kamara', gender: 'girl', rsvp: 'Accepted', rsvpTime: '2026-08-13 14:40', friendName: 'Fatmata Conteh', bottlePayment: 'N/A', checkIn: 'Not Checked In', checkInTime: '', approvalStatus: 'Approved' },
-        { id: 'g_4', name: 'Fatmata Conteh', gender: 'girl', rsvp: 'Guest Added', rsvpTime: '2026-08-13 14:42', friendName: '', isFriendOf: 'Mariama Kamara', bottlePayment: 'N/A', checkIn: 'Not Checked In', checkInTime: '', approvalStatus: 'Approved' },
-        { id: 'g_5', name: 'Kadiatu Bangura', gender: 'girl', rsvp: 'Accepted', rsvpTime: '2026-08-13 14:45', friendName: '', bottlePayment: 'N/A', checkIn: 'Checked In', checkInTime: '2026-08-13 20:15', approvalStatus: 'Approved' },
-        { id: 'g_6', name: 'Abdul Touray', gender: 'boy', rsvp: 'Pending', rsvpTime: '', friendName: '', bottlePayment: 'Pending', checkIn: 'Not Checked In', checkInTime: '', approvalStatus: 'Approved' },
-        { id: 'g_7', name: 'Mohamed Sesay', gender: 'boy', rsvp: 'Declined', rsvpTime: '2026-08-13 15:00', friendName: '', bottlePayment: 'Pending', checkIn: 'Not Checked In', checkInTime: '', approvalStatus: 'Approved' },
-        { id: 'g_8', name: 'Fatima Jalloh', gender: 'girl', rsvp: 'Accepted', rsvpTime: '2026-08-13 15:10', friendName: 'Sarah Conteh', bottlePayment: 'N/A', checkIn: 'Not Checked In', checkInTime: '', approvalStatus: 'Approved' },
-        { id: 'g_9', name: 'Sarah Conteh', gender: 'girl', rsvp: 'Guest Added', rsvpTime: '2026-08-13 15:10', friendName: '', isFriendOf: 'Fatima Jalloh', bottlePayment: 'N/A', checkIn: 'Not Checked In', checkInTime: '', approvalStatus: 'Approved' }
+        { id: 'g_1', guest_id: 'G-001', name: 'Ibrahim Kamara', phone_number: '076123456', email: 'ibrahim@example.com', gender: 'boy', rsvp: 'Accepted', rsvpTime: '2026-08-13 14:30', friendName: '', bottlePayment: 'Pending', checkIn: 'Not Checked In', checkInTime: '', approvalStatus: 'Approved', terms_accepted: 'Yes', terms_version: 'v1.0', terms_accepted_at: '2026-08-13 14:30', registered_at: '2026-08-13 14:30', sms_status: 'Sent', sms_sent_at: '2026-08-13 14:31' },
+        { id: 'g_2', guest_id: 'G-002', name: 'Alhaji Bah', phone_number: '077987654', email: 'alhaj@example.com', gender: 'boy', rsvp: 'Accepted', rsvpTime: '2026-08-13 14:32', friendName: '', bottlePayment: 'Paid', checkIn: 'Checked In', checkInTime: '2026-08-13 20:12', approvalStatus: 'Approved', terms_accepted: 'Yes', terms_version: 'v1.0', terms_accepted_at: '2026-08-13 14:32', registered_at: '2026-08-13 14:32', sms_status: 'Sent', sms_sent_at: '2026-08-13 14:33' },
+        { id: 'g_3', guest_id: 'G-003', name: 'Mariama Kamara', phone_number: '078555444', email: 'mariama@example.com', gender: 'girl', rsvp: 'Accepted', rsvpTime: '2026-08-13 14:40', friendName: 'Fatmata Conteh', bottlePayment: 'N/A', checkIn: 'Not Checked In', checkInTime: '', approvalStatus: 'Approved', terms_accepted: 'Yes', terms_version: 'v1.0', terms_accepted_at: '2026-08-13 14:40', registered_at: '2026-08-13 14:40', sms_status: 'Sent', sms_sent_at: '2026-08-13 14:41' },
+        { id: 'g_4', guest_id: 'G-004', name: 'Fatmata Conteh', phone_number: '079666777', email: 'fatmata@example.com', gender: 'girl', rsvp: 'Guest Added', rsvpTime: '2026-08-13 14:42', friendName: '', isFriendOf: 'Mariama Kamara', bottlePayment: 'N/A', checkIn: 'Not Checked In', checkInTime: '', approvalStatus: 'Approved', terms_accepted: 'Yes', terms_version: 'v1.0', terms_accepted_at: '2026-08-13 14:42', registered_at: '2026-08-13 14:42', sms_status: 'Sent', sms_sent_at: '2026-08-13 14:43' },
+        { id: 'g_5', guest_id: 'G-005', name: 'Kadiatu Bangura', phone_number: '075333222', email: 'kadiatu@example.com', gender: 'girl', rsvp: 'Accepted', rsvpTime: '2026-08-13 14:45', friendName: '', bottlePayment: 'N/A', checkIn: 'Checked In', checkInTime: '2026-08-13 20:15', approvalStatus: 'Approved', terms_accepted: 'Yes', terms_version: 'v1.0', terms_accepted_at: '2026-08-13 14:45', registered_at: '2026-08-13 14:45', sms_status: 'Sent', sms_sent_at: '2026-08-13 14:46' },
+        { id: 'g_6', guest_id: 'G-006', name: 'Abdul Touray', phone_number: '076444888', email: 'abdul@example.com', gender: 'boy', rsvp: 'Pending', rsvpTime: '', friendName: '', bottlePayment: 'Pending', checkIn: 'Not Checked In', checkInTime: '', approvalStatus: 'Approved', terms_accepted: 'No', terms_version: '', terms_accepted_at: '', registered_at: '', sms_status: 'Pending', sms_sent_at: '' },
+        { id: 'g_7', guest_id: 'G-007', name: 'Mohamed Sesay', phone_number: '077222111', email: 'mohamed@example.com', gender: 'boy', rsvp: 'Declined', rsvpTime: '2026-08-13 15:00', friendName: '', bottlePayment: 'Pending', checkIn: 'Not Checked In', checkInTime: '', approvalStatus: 'Approved', terms_accepted: 'No', terms_version: '', terms_accepted_at: '', registered_at: '', sms_status: 'Failed', sms_sent_at: '' },
+        { id: 'g_8', guest_id: 'G-008', name: 'Fatima Jalloh', phone_number: '078111999', email: 'fatima@example.com', gender: 'girl', rsvp: 'Accepted', rsvpTime: '2026-08-13 15:10', friendName: 'Sarah Conteh', bottlePayment: 'N/A', checkIn: 'Not Checked In', checkInTime: '', approvalStatus: 'Approved', terms_accepted: 'Yes', terms_version: 'v1.0', terms_accepted_at: '2026-08-13 15:10', registered_at: '2026-08-13 15:10', sms_status: 'Sent', sms_sent_at: '2026-08-13 15:11' },
+        { id: 'g_9', guest_id: 'G-009', name: 'Sarah Conteh', phone_number: '079222888', email: 'sarah.c@example.com', gender: 'girl', rsvp: 'Guest Added', rsvpTime: '2026-08-13 15:10', friendName: '', isFriendOf: 'Fatima Jalloh', bottlePayment: 'N/A', checkIn: 'Not Checked In', checkInTime: '', approvalStatus: 'Approved', terms_accepted: 'Yes', terms_version: 'v1.0', terms_accepted_at: '2026-08-13 15:10', registered_at: '2026-08-13 15:10', sms_status: 'Sent', sms_sent_at: '2026-08-13 15:11' }
     ];
 
     const DEFAULT_CONFIG = {
@@ -84,50 +84,210 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
 
-    // --- 2. GUEST LETTER VIEW PARSING ---
+    // --- 2. MOCK BACKEND / DATABASE API LAYER (With duplicate checks & SMS routing) ---
+    const mockBackend = {
+        // POST /api/guests/register
+        registerGuest: (data) => {
+            // Validation
+            if (!data.name || !data.phone || !data.email) {
+                return { success: false, error: 'Please complete all required fields.' };
+            }
+            
+            // Validating phone format (must be numeric and between 8 to 15 digits)
+            const phoneClean = data.phone.replace(/[^0-9]/g, '');
+            if (phoneClean.length < 8) {
+                return { success: false, error: 'Please provide a valid phone number (at least 8 digits).' };
+            }
+            
+            // Validating email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(data.email)) {
+                return { success: false, error: 'Please enter a valid email address.' };
+            }
+
+            if (!data.termsAccepted) {
+                return { success: false, error: 'You must accept the Rules and Terms & Conditions before registering.' };
+            }
+
+            // Duplicate Prevention (Backend check on Phone & Email)
+            const isDuplicate = guests.some(g => 
+                (g.phone_number && g.phone_number.replace(/[^0-9]/g, '') === phoneClean) || 
+                (g.email && g.email.toLowerCase() === data.email.toLowerCase())
+            );
+            if (isDuplicate) {
+                return { success: false, error: 'This guest is already registered.' };
+            }
+
+            // Generate Unique Guest ID (Sequence padded, G-010)
+            let maxNum = 0;
+            guests.forEach(g => {
+                if (g.guest_id && g.guest_id.startsWith('G-')) {
+                    const num = parseInt(g.guest_id.split('-')[1]);
+                    if (!isNaN(num) && num > maxNum) maxNum = num;
+                }
+            });
+            const nextId = `G-${String(maxNum + 1).padStart(3, '0')}`;
+
+            const nameParts = data.name.trim().split(' ');
+            const firstName = nameParts[0];
+            const lastName = nameParts.slice(1).join(' ') || '-';
+            const timestamp = new Date().toLocaleString();
+
+            const newGuest = {
+                id: 'g_' + Math.random().toString(36).substr(2, 9),
+                guest_id: nextId,
+                first_name: firstName,
+                last_name: lastName,
+                name: data.name,
+                phone_number: data.phone,
+                email: data.email,
+                gender: data.gender,
+                rsvp: 'Accepted',
+                friendName: data.gender === 'girl' ? data.friendName : '',
+                bottlePayment: data.gender === 'boy' ? 'Pending' : 'N/A',
+                checkIn: 'Not Checked In',
+                checkInTime: '',
+                approvalStatus: 'Approved',
+                terms_accepted: 'Yes',
+                terms_version: 'v1.0',
+                terms_accepted_at: timestamp,
+                registered_at: timestamp,
+                updated_at: timestamp,
+                sms_status: 'Pending',
+                sms_sent_at: ''
+            };
+
+            // Insert Guest record into database
+            guests.push(newGuest);
+
+            // Create dynamic companion friend record if a girl registered one
+            if (data.gender === 'girl' && data.friendName) {
+                const isFriendDuplicate = guests.some(g => g.name.toLowerCase() === data.friendName.toLowerCase());
+                if (!isFriendDuplicate) {
+                    let maxFriendNum = 0;
+                    guests.forEach(g => {
+                        if (g.guest_id && g.guest_id.startsWith('G-')) {
+                            const num = parseInt(g.guest_id.split('-')[1]);
+                            if (!isNaN(num) && num > maxFriendNum) maxFriendNum = num;
+                        }
+                    });
+                    const friendNextId = `G-${String(maxFriendNum + 1).padStart(3, '0')}`;
+                    const friendNameParts = data.friendName.trim().split(' ');
+                    const friendFirst = friendNameParts[0];
+                    const friendLast = friendNameParts.slice(1).join(' ') || '-';
+
+                    guests.push({
+                        id: 'f_' + Math.random().toString(36).substr(2, 9),
+                        guest_id: friendNextId,
+                        first_name: friendFirst,
+                        last_name: friendLast,
+                        name: data.friendName,
+                        phone_number: '-',
+                        email: '-',
+                        gender: 'girl',
+                        rsvp: 'Guest Added',
+                        rsvpTime: timestamp,
+                        friendName: '',
+                        isFriendOf: data.name,
+                        bottlePayment: 'N/A',
+                        checkIn: 'Not Checked In',
+                        checkInTime: '',
+                        approvalStatus: 'Approved',
+                        terms_accepted: 'Yes',
+                        terms_version: 'v1.0',
+                        terms_accepted_at: timestamp,
+                        registered_at: timestamp,
+                        updated_at: timestamp,
+                        sms_status: 'N/A',
+                        sms_sent_at: ''
+                    });
+                }
+            }
+
+            saveState();
+
+            // Trigger SMS Confirmation dispatch
+            mockBackend.sendSmsNotification(newGuest);
+
+            return { success: true, guest: newGuest };
+        },
+
+        // SMS notification dispatcher
+        sendSmsNotification: (guest) => {
+            // Retrieve config values (simulating environment variables secure matching)
+            const smsConfig = {
+                apiKey: (typeof process !== 'undefined' && process.env && process.env.SMS_API_KEY) || 'MOCK_SMS_API_KEY_XYZ',
+                senderId: (typeof process !== 'undefined' && process.env && process.env.SMS_SENDER_ID) || 'WGN_ALERTS'
+            };
+
+            const smsText = `Registration Confirmed. Hello ${guest.name}, your acceptance has been successfully recorded and you have been added to the Master Guest List. Your Guest ID is ${guest.guest_id}.`;
+            console.log(`[SMS Gateway] Outbox dispatch: To: ${guest.phone_number} | Body: "${smsText}" (Sender ID: ${smsConfig.senderId})`);
+
+            // 90% Simulated dispatch success
+            const isSuccess = Math.random() < 0.9;
+
+            setTimeout(() => {
+                const matched = guests.find(g => g.id === guest.id);
+                if (matched) {
+                    matched.sms_status = isSuccess ? 'Sent' : 'Failed';
+                    matched.sms_sent_at = new Date().toLocaleString();
+                    saveState();
+                    logActivity(`SMS alert ${isSuccess ? 'DELIVERED' : 'FAILED'} to ${guest.phone_number} (${guest.guest_id})`);
+                }
+            }, 1000);
+        }
+    };
+
+
+    // --- 3. GUEST VIEW & INPUT POPULATION ---
     const urlParams = new URLSearchParams(window.location.search);
-    
-    // Check url mode transitions
     const isAdminUrl = urlParams.get('admin') === 'true' || urlParams.get('host') === 'true';
     const isGateUrl = urlParams.get('gate') === 'true';
     
-    // Check Session Auth
-    const isAuthorized = () => {
-        return sessionStorage.getItem('wgn_admin_logged') === 'true';
-    };
+    const isAuthorized = () => sessionStorage.getItem('wgn_admin_logged') === 'true';
 
     const getGuestName = () => {
         let name = urlParams.get('name') || urlParams.get('guest');
-        if (!name || !name.trim()) return 'Guest';
+        if (!name || !name.trim()) return '';
         return name.trim().replace(/\b\w/g, l => l.toUpperCase());
     };
 
-    const getGuestGender = () => {
-        return urlParams.get('gender') || 'boy';
-    };
+    const getGuestGender = () => urlParams.get('gender') || 'boy';
 
     const guestName = getGuestName();
     const guestGender = getGuestGender();
 
-    // Populate Dynamic Guest Details on Parchment
+    // Elements
     const guestNameDisplay = document.getElementById('guestNameDisplay');
     const passGuestName = document.getElementById('passGuestName');
     const dynamicLetterContent = document.getElementById('dynamicLetterContent');
     const genderSpecNote = document.getElementById('genderSpecNote');
     const friendRegistrationBlock = document.getElementById('friendRegistrationBlock');
 
-    if (guestNameDisplay) guestNameDisplay.textContent = guestName;
-    if (passGuestName) passGuestName.textContent = guestName;
+    const regNameInput = document.getElementById('regGuestName');
+    const regPhoneInput = document.getElementById('regGuestPhone');
+    const regEmailInput = document.getElementById('regGuestEmail');
+    const regGenderSelect = document.getElementById('regGuestGender');
 
-    // Load custom letters based on gender
-    if (dynamicLetterContent) {
-        let letterTpl = guestGender === 'girl' ? templates.girlLetter : templates.boyLetter;
-        // Replace paragraphs with markup
-        const paragraphs = letterTpl.split('\n\n').map(p => `<p class="body-paragraph">${p.replace(/\n/g, '<br>')}</p>`).join('');
-        dynamicLetterContent.innerHTML = paragraphs;
+    // Populate registration form values on load
+    if (regNameInput && guestName) {
+        regNameInput.value = guestName;
+        regNameInput.setAttribute('readonly', 'true');
+    }
+    if (regGenderSelect && guestGender) {
+        regGenderSelect.value = guestGender;
+        regGenderSelect.setAttribute('disabled', 'true');
     }
 
-    // Set Dynamic Warning/Notice labels on Parchment
+    if (guestNameDisplay) guestNameDisplay.textContent = guestName || 'Guest';
+    if (passGuestName) passGuestName.textContent = guestName || 'Guest';
+
+    // Toggle dynamics
+    if (dynamicLetterContent) {
+        let letterTpl = guestGender === 'girl' ? templates.girlLetter : templates.boyLetter;
+        dynamicLetterContent.innerHTML = letterTpl.split('\n\n').map(p => `<p class="body-paragraph">${p.replace(/\n/g, '<br>')}</p>`).join('');
+    }
+
     if (genderSpecNote) {
         if (guestGender === 'girl') {
             genderSpecNote.classList.add('note-girl');
@@ -139,7 +299,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Load Event Details from Config
     const evtDateDisplay = document.getElementById('evtDateDisplay');
     const evtTimeDisplay = document.getElementById('evtTimeDisplay');
     const evtVenueDisplay = document.getElementById('evtVenueDisplay');
@@ -147,14 +306,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (evtDateDisplay) evtDateDisplay.textContent = new Date(config.eventDate + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     if (evtTimeDisplay) {
         const [hr, min] = config.eventTime.split(':');
-        const ampm = hr >= 12 ? 'PM' : 'AM';
-        const hr12 = hr % 12 || 12;
-        evtTimeDisplay.textContent = `${hr12}:${min} ${ampm} (Arrival Deadline ${config.eventDeadline} sharp)`;
+        evtTimeDisplay.textContent = `${hr % 12 || 12}:${min} ${hr >= 12 ? 'PM' : 'AM'} (Arrival Deadline ${config.eventDeadline} sharp)`;
     }
     if (evtVenueDisplay) evtVenueDisplay.textContent = config.eventVenue;
 
 
-    // --- 3. ENCHANTED VOICE & WEB AUDIO SYNTHESIZER ---
+    // --- 4. AUDIO ENGINE (Text-To-Speech procedural sound) ---
     class MagicAudioEngine {
         constructor() {
             this.ctx = null;
@@ -163,7 +320,6 @@ document.addEventListener('DOMContentLoaded', () => {
             this.ambientOscillators = [];
             this.masterGain = null;
             this.synthVoice = null;
-
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.onvoiceschanged = () => { this.loadVoice(); };
                 this.loadVoice();
@@ -184,10 +340,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (this.synthVoice) utterance.voice = this.synthVoice;
                 utterance.pitch = 1.05;
                 utterance.rate = 0.92;
-                utterance.volume = 1.0;
                 window.speechSynthesis.speak(utterance);
             } catch (e) {
-                console.log('Voice synthesis error:', e);
+                console.log(e);
             }
         }
 
@@ -201,19 +356,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     this.masterGain.connect(this.ctx.destination);
                 }
             }
-            if (this.ctx && this.ctx.state === 'suspended') {
-                this.ctx.resume();
-            }
+            if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume();
         }
 
         toggleMute() {
             this.isMuted = !this.isMuted;
-            if (this.isMuted && 'speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-            }
-            if (this.masterGain) {
-                this.masterGain.gain.setValueAtTime(this.isMuted ? 0 : 0.4, this.ctx ? this.ctx.currentTime : 0);
-            }
+            if (this.isMuted && 'speechSynthesis' in window) window.speechSynthesis.cancel();
+            if (this.masterGain) this.masterGain.gain.setValueAtTime(this.isMuted ? 0 : 0.4, this.ctx ? this.ctx.currentTime : 0);
             return this.isMuted;
         }
 
@@ -323,7 +472,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('touchstart', initAudioOnUserInteraction);
 
 
-    // --- 4. CANVAS PARTICLE & CONFETTI ENGINE ---
+    // --- 5. CANVAS PARTICLE & CONFETTI ENGINE ---
     const canvas = document.getElementById('magicCanvas');
     const ctx = canvas.getContext('2d');
     let width = canvas.width = window.innerWidth;
@@ -384,7 +533,6 @@ document.addEventListener('DOMContentLoaded', () => {
         update() {
             this.x += this.vx;
             this.y += this.vy;
-
             if (this.type === 'confetti') {
                 this.rotation += this.rotationSpeed;
                 this.life--;
@@ -452,16 +600,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const p = particles[i];
             p.update();
             p.draw();
-            if (p.type === 'burst' && p.life <= 0) {
-                particles.splice(i, 1);
-            }
+            if (p.type === 'burst' && p.life <= 0) particles.splice(i, 1);
         }
         requestAnimationFrame(renderCanvas);
     }
     renderCanvas();
 
 
-    // --- 5. SCENE TRANSITION & ENVELOPE OPENING ---
+    // --- 6. SCENE TRANSITION & ENVELOPE OPENING ---
     const scene1 = document.getElementById('scene1');
     const scene3 = document.getElementById('scene3');
     const envelopeContainer = document.getElementById('envelopeContainer');
@@ -495,11 +641,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                     createSparkleBurst(window.innerWidth / 2, 200, 50);
 
-                    // Dynamic greeting announcement based on gender
                     if (guestGender === 'girl') {
-                        audioSystem.speak(`Congratulations ${guestName}! We are so excited to invite you to Games Night! Get ready for a wonderful evening.`);
+                        audioSystem.speak(`Congratulations ${guestName || 'Guest'}! We are so excited to invite you to Games Night! Get ready for a wonderful evening.`);
                     } else {
-                        audioSystem.speak(`Congratulations ${guestName}! You have been selected for Games Night. Remember, bring your bottle! No bottle, no entry.`);
+                        audioSystem.speak(`Congratulations ${guestName || 'Guest'}! You have been selected for Games Night. Remember, bring your bottle! No bottle, no entry.`);
                     }
                 }, 800);
             }, 1200);
@@ -507,7 +652,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // --- 6. EVENT COUNTDOWN CLOCK ---
+    // --- 7. EVENT COUNTDOWN CLOCK ---
     function updateCountdown() {
         const targetDate = new Date(`${config.eventDate}T${config.eventTime}:00`).getTime();
         const now = new Date().getTime();
@@ -539,28 +684,23 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(updateCountdown, 1000);
 
 
-    // --- 7. AUTOMATIC GATE LOCKDOWN TRIGGER ---
+    // --- 8. AUTOMATIC GATE LOCKDOWN TRIGGER ---
     const checkGateLockdown = () => {
         const now = new Date();
         const hours = now.getHours();
         const mins = now.getMinutes();
-        const currentTimeString = `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}`;
         
-        // Split deadline
         const [deadHr, deadMin] = config.eventDeadline.split(':');
         const deadlineTime = parseInt(deadHr) * 60 + parseInt(deadMin);
         const currentTime = hours * 60 + mins;
 
-        // Is gate closed? (Clock exceeds 9:30 PM OR forced manually)
         const isClosed = (currentTime >= deadlineTime) || config.manualLockdown;
 
         const gateBadge = document.getElementById('gateStatusBadge');
         const dashStatus = document.getElementById('dash-gate-status');
         const clockLabel = document.getElementById('gateClock');
 
-        if (clockLabel) {
-            clockLabel.textContent = now.toTimeString().split(' ')[0];
-        }
+        if (clockLabel) clockLabel.textContent = now.toTimeString().split(' ')[0];
 
         if (isClosed) {
             if (gateBadge) {
@@ -586,7 +726,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(checkGateLockdown, 1000);
 
 
-    // --- 8. INSTANT EMAIL NOTIFICATION ALERTS (FormSubmit.co) ---
+    // --- 9. INSTANT EMAIL NOTIFICATION ALERTS (FormSubmit.co) ---
     const sendInstantNotification = async (subject, guestName, gender, details, extra = '') => {
         if (!config.hostEmail) return;
         try {
@@ -597,7 +737,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     _subject: subject,
                     Guest_Name: guestName,
                     Category: gender === 'girl' ? 'Girls' : 'Boys',
-                    RSVP_Status: 'Accepted & Confirmed',
+                    RSVP_Status: 'Accepted & Registered',
                     Details: details,
                     Companion_Friend: extra || 'None',
                     Time_Confirmed: new Date().toLocaleString()
@@ -609,7 +749,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
 
-    // --- 9. GUEST RSVP ACCEPTANCE ACTIONS (Parchment View) ---
+    // --- 10. GUEST RSVP SELF-REGISTRATION ACTIONS (Parchment Form) ---
     const acceptBtn = document.getElementById('acceptBtn');
     const acceptBtnText = document.getElementById('acceptBtnText');
     const parchmentLetter = document.getElementById('parchmentLetter');
@@ -621,9 +761,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const friendNameInput = document.getElementById('friendNameInput');
     const waButtonsContainer = document.getElementById('waButtonsContainer');
 
-    const getCompiledRsvpMessage = (friendName = '') => {
-        let tpl = guestGender === 'girl' ? templates.girlWa : templates.boyWa;
-        let msg = tpl.replace(/\[Name\]/gi, guestName);
+    const getCompiledRsvpMessage = (name, gender, friendName = '') => {
+        let tpl = gender === 'girl' ? templates.girlWa : templates.boyWa;
+        let msg = tpl.replace(/\[Name\]/gi, name);
         if (friendName) {
             msg = msg.replace(/\[Friend\]/gi, friendName);
         } else {
@@ -632,10 +772,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return msg;
     };
 
-    const populateWaButtons = (friendName = '') => {
+    const populateWaButtons = (name, gender, friendName = '') => {
         if (!waButtonsContainer) return;
-        const msg = encodeURIComponent(getCompiledRsvpMessage(friendName));
-        
+        const msg = encodeURIComponent(getCompiledRsvpMessage(name, gender, friendName));
         waButtonsContainer.innerHTML = `
             <a class="wa-btn" href="https://wa.me/${config.phoneFaisal}?text=${msg}" target="_blank">
                 💬 Send Confirmation to Faisal (${config.phoneFaisal})
@@ -646,19 +785,57 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     };
 
-    if (friendNameInput) {
-        friendNameInput.addEventListener('input', () => {
-            populateWaButtons(friendNameInput.value.trim());
+    // Update buttons dynamically as they type values
+    const setupFormLiveTriggers = () => {
+        const phoneField = document.getElementById('regGuestPhone');
+        const emailField = document.getElementById('regGuestEmail');
+
+        [regNameInput, phoneField, emailField, regGenderSelect, friendNameInput].forEach(el => {
+            if (el) {
+                el.addEventListener('input', () => {
+                    const name = regNameInput ? regNameInput.value.trim() : 'Guest';
+                    const gender = regGenderSelect ? regGenderSelect.value : 'boy';
+                    const friend = friendNameInput ? friendNameInput.value.trim() : '';
+                    populateWaButtons(name, gender, friend);
+                });
+            }
         });
-    }
+        
+        if (regGenderSelect) {
+            regGenderSelect.addEventListener('change', () => {
+                const gen = regGenderSelect.value;
+                if (gen === 'girl') {
+                    if (friendRegistrationBlock) friendRegistrationBlock.classList.remove('hidden-note');
+                    if (genderSpecNote) {
+                        genderSpecNote.classList.remove('note-boy');
+                        genderSpecNote.classList.add('note-girl');
+                        genderSpecNote.innerHTML = `✨ <strong>Ladies Guest Policy:</strong> You are welcome to register one female friend in advance. Her name will be added to the gate checklist.`;
+                    }
+                } else {
+                    if (friendRegistrationBlock) friendRegistrationBlock.classList.add('hidden-note');
+                    if (genderSpecNote) {
+                        genderSpecNote.classList.remove('note-girl');
+                        genderSpecNote.classList.add('note-boy');
+                        genderSpecNote.innerHTML = `⚠️ <strong>Bottle Purchase Policy:</strong> All accepted male guests are required to purchase one bottle from the organizers at the gate for Le 150 upon arrival.`;
+                    }
+                }
+            });
+        }
+    };
+
+    setupFormLiveTriggers();
 
     if (acceptBtn) {
-        // Init WA buttons on load
-        populateWaButtons();
+        // Render initial buttons
+        populateWaButtons(guestName || 'Guest', guestGender, '');
 
         acceptBtn.addEventListener('click', () => {
+            // Check T&C Checkbox
             if (rulesCheckbox && !rulesCheckbox.checked) {
-                if (agreementWarning) agreementWarning.classList.remove('hidden-warning');
+                if (agreementWarning) {
+                    agreementWarning.textContent = 'You must accept the Rules and Terms & Conditions before registering.';
+                    agreementWarning.classList.remove('hidden-warning');
+                }
                 if (agreementWrapper) {
                     agreementWrapper.classList.remove('shakeWarning');
                     void agreementWrapper.offsetWidth;
@@ -667,13 +844,48 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
+            const nameVal = regNameInput ? regNameInput.value.trim() : '';
+            const phoneVal = regPhoneInput ? regPhoneInput.value.trim() : '';
+            const emailVal = regEmailInput ? regEmailInput.value.trim() : '';
+            const genderVal = regGenderSelect ? regGenderSelect.value : 'boy';
+            const friendVal = friendNameInput ? friendNameInput.value.trim() : '';
+
+            // Execute Backend Registration Request (Validation & Duplicate prevention)
+            const response = mockBackend.registerGuest({
+                name: nameVal,
+                phone: phoneVal,
+                email: emailVal,
+                gender: genderVal,
+                friendName: friendVal,
+                termsAccepted: rulesCheckbox.checked,
+                termsVersion: 'v1.0'
+            });
+
+            if (!response.success) {
+                // Display Backend Error Message
+                if (agreementWarning) {
+                    agreementWarning.innerHTML = `❌ ${response.error}`;
+                    agreementWarning.classList.remove('hidden-warning');
+                }
+                if (agreementWrapper) {
+                    agreementWrapper.classList.remove('shakeWarning');
+                    void agreementWrapper.offsetWidth;
+                    agreementWrapper.classList.add('shakeWarning');
+                }
+                return;
+            }
+
+            // SUCCESS FLOW
+            const registeredGuest = response.guest;
+
+            // Clear errors
+            if (agreementWarning) agreementWarning.classList.add('hidden-warning');
+
             audioSystem.playAcceptHarps();
-            
-            // Speak voice confirmation
-            if (guestGender === 'girl') {
-                audioSystem.speak(`Attendance confirmed! We eagerly await your arrival, ${guestName}. Get ready to have a blast!`);
+            if (genderVal === 'girl') {
+                audioSystem.speak(`Registration confirmed, ${firstNameOf(nameVal)}! Welcome to Games Night.`);
             } else {
-                audioSystem.speak(`Attendance confirmed! We'll see you there, ${guestName}. Bring your bottle!`);
+                audioSystem.speak(`Registration confirmed, ${firstNameOf(nameVal)}! See you at Signal Inn. Bring Le 150 for your bottle!`);
             }
 
             if (parchmentLetter) parchmentLetter.classList.add('glowing-accept');
@@ -681,100 +893,46 @@ document.addEventListener('DOMContentLoaded', () => {
             createSparkleBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 60);
 
             acceptBtn.classList.add('accepted');
-            if (acceptBtnText) acceptBtnText.textContent = '✓ Invitation Accepted!';
+            acceptBtn.disabled = true;
+            if (acceptBtnText) acceptBtnText.textContent = '✓ Registered!';
 
-            // Process RSVP update in database
-            let existingGuest = guests.find(g => g.name.toLowerCase() === guestName.toLowerCase());
-            let friendVal = friendNameInput ? friendNameInput.value.trim() : '';
+            // Fill details card in Success Toast
+            const confGuestId = document.getElementById('confGuestId');
+            const confAcceptTime = document.getElementById('confAcceptTime');
             
-            if (existingGuest) {
-                existingGuest.rsvp = 'Accepted';
-                existingGuest.rsvpTime = new Date().toLocaleString();
-                if (guestGender === 'girl' && friendVal) {
-                    existingGuest.friendName = friendVal;
-                }
-            } else {
-                // If not pre-created by host, add to list dynamically
-                existingGuest = {
-                    id: 'g_' + Math.random().toString(36).substr(2, 9),
-                    name: guestName,
-                    gender: guestGender,
-                    rsvp: 'Accepted',
-                    rsvpTime: new Date().toLocaleString(),
-                    friendName: friendVal,
-                    bottlePayment: guestGender === 'boy' ? 'Pending' : 'N/A',
-                    checkIn: 'Not Checked In',
-                    checkInTime: '',
-                    approvalStatus: 'Approved'
-                };
-                guests.push(existingGuest);
-            }
+            if (confGuestId) confGuestId.textContent = registeredGuest.guest_id;
+            if (confAcceptTime) confAcceptTime.textContent = registeredGuest.terms_accepted_at;
 
-            // If a girl has registered a friend, create a companion entry for that friend
-            if (guestGender === 'girl' && friendVal) {
-                // Check if companion already exists
-                let friendGuest = guests.find(g => g.isFriendOf === existingGuest.name);
-                if (friendGuest) {
-                    friendGuest.name = friendVal;
-                } else {
-                    guests.push({
-                        id: 'f_' + Math.random().toString(36).substr(2, 9),
-                        name: friendVal,
-                        gender: 'girl',
-                        rsvp: 'Guest Added',
-                        rsvpTime: new Date().toLocaleString(),
-                        friendName: '',
-                        isFriendOf: existingGuest.name,
-                        bottlePayment: 'N/A',
-                        checkIn: 'Not Checked In',
-                        checkInTime: '',
-                        approvalStatus: 'Approved'
-                    });
-                }
-                logActivity(`Girl friend registered: ${friendVal} (invited by ${guestName})`);
-                sendInstantNotification(
-                    `🎉 NEW GUEST ADDED: ${friendVal}`,
-                    existingGuest.name,
-                    'girl',
-                    `Friend registered: ${friendVal}`,
-                    friendVal
-                );
-            } else {
-                logActivity(`Guest RSVP Accepted: ${guestName} (${guestGender === 'boy' ? 'Boy' : 'Girl'})`);
-                sendInstantNotification(
-                    `🎉 Games Night RSVP: ${guestName} Accepted`,
-                    guestName,
-                    guestGender,
-                    guestGender === 'boy' ? 'Le 150 bottle payment required at gate' : 'Girl invite accepted'
-                );
-            }
+            // Update WhatsApp pre-filled links
+            populateWaButtons(nameVal, genderVal, friendVal);
 
-            saveState();
+            // Send background dispatches
+            sendInstantNotification(
+                `🎉 AUTOMATIC REGISTRATION: ${nameVal} (${registeredGuest.guest_id})`,
+                nameVal,
+                genderVal,
+                `Added to Master list. Phone: ${phoneVal} | Email: ${emailVal}. SMS confirmation: Pending.`,
+                friendVal
+            );
 
             if (confirmationBox) {
                 confirmationBox.classList.remove('hidden-confirmation');
-                if (confStatusMsg) confStatusMsg.textContent = '✅ RSVP notification sent successfully!';
+                if (confStatusMsg) confStatusMsg.textContent = 'Registration Successful! Confirmation logs submitted.';
                 confirmationBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
 
-            // Auto-redirect to WhatsApp after 2 seconds
+            // Open WhatsApp confirmation auto-trigger
             setTimeout(() => {
-                const msg = encodeURIComponent(getCompiledRsvpMessage(friendVal));
+                const msg = encodeURIComponent(getCompiledRsvpMessage(nameVal, genderVal, friendVal));
                 window.open(`https://wa.me/${config.phoneFaisal}?text=${msg}`, '_blank');
             }, 2000);
         });
     }
 
-    if (rulesCheckbox) {
-        rulesCheckbox.addEventListener('change', () => {
-            if (rulesCheckbox.checked && agreementWarning) {
-                agreementWarning.classList.add('hidden-warning');
-            }
-        });
-    }
+    const firstNameOf = (fullName) => fullName.trim().split(' ')[0];
 
 
-    // --- 10. ADMIN AUTHENTICATION AND OVERLAY PIN CONTROL ---
+    // --- 11. ADMIN AUTHENTICATION SECURITY ---
     const adminLoginOverlay = document.getElementById('adminLoginOverlay');
     const adminPasswordInput = document.getElementById('adminPasswordInput');
     const submitPasswordBtn = document.getElementById('submitPasswordBtn');
@@ -784,7 +942,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const adminScene = document.getElementById('adminScene');
     const gameIconsContainer = document.getElementById('gameIconsContainer');
 
-    // Display Admin Console Button if admin=true
     if (isAdminUrl || isGateUrl) {
         if (organizerBtn) organizerBtn.classList.remove('hidden-admin-btn');
     }
@@ -812,7 +969,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Secret crest triple-click access
+    // Triple click crest access
     const crestLogo = document.getElementById('crestLogo');
     let crestClickCount = 0;
     let crestClickTimer = null;
@@ -834,9 +991,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    if (cancelPasswordBtn) {
-        cancelPasswordBtn.addEventListener('click', hideLogin);
-    }
+    if (cancelPasswordBtn) cancelPasswordBtn.addEventListener('click', hideLogin);
 
     const verifyPIN = () => {
         const pin = adminPasswordInput ? adminPasswordInput.value.trim() : '';
@@ -853,26 +1008,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    if (submitPasswordBtn) {
-        submitPasswordBtn.addEventListener('click', verifyPIN);
-    }
+    if (submitPasswordBtn) submitPasswordBtn.addEventListener('click', verifyPIN);
     if (adminPasswordInput) {
         adminPasswordInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') verifyPIN();
         });
     }
 
-    // Switch views to Admin Console
     function switchToAdminConsole() {
-        // Hide normal envelope/invitation scenes
         if (scene1) scene1.classList.add('hidden-scene');
         if (scene3) scene3.classList.add('hidden-scene');
         if (gameIconsContainer) gameIconsContainer.style.display = 'none';
-
-        // Reveal Admin scene
         if (adminScene) adminScene.classList.remove('hidden-scene');
         
-        // Render Dashboard Stats and lists
         updateDashboardStats();
         renderMasterGuestList();
         renderActivityLogs();
@@ -881,7 +1029,6 @@ document.addEventListener('DOMContentLoaded', () => {
         checkGateLockdown();
     }
 
-    // Logout
     const adminLogoutBtn = document.getElementById('adminLogoutBtn');
     if (adminLogoutBtn) {
         adminLogoutBtn.addEventListener('click', () => {
@@ -890,43 +1037,55 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Auto-enter console if authorized on load
     if (isAuthorized() && (isAdminUrl || isGateUrl)) {
         switchToAdminConsole();
     }
 
 
-    // --- 11. ADMIN DASHBOARD STATS CALCULATION ---
+    // --- 12. ADMIN DASHBOARD METRICS CALCULATION (Dynamic stats) ---
     function updateDashboardStats() {
-        const totalInvites = guests.length;
-        const accepted = guests.filter(g => g.rsvp === 'Accepted').length;
-        const boys = guests.filter(g => g.gender === 'boy' && g.rsvp === 'Accepted').length;
-        const girls = guests.filter(g => g.gender === 'girl' && g.rsvp === 'Accepted').length;
-        const friends = guests.filter(g => g.rsvp === 'Guest Added').length;
+        const totalGuests = guests.length;
+        const accepted = guests.filter(g => g.rsvp === 'Accepted' || g.rsvp === 'Registered').length;
         const pending = guests.filter(g => g.rsvp === 'Pending').length;
         const declined = guests.filter(g => g.rsvp === 'Declined').length;
-        const checkedIn = guests.filter(g => g.checkIn === 'Checked In').length;
+
+        // Calculate Today's Registrations
+        const todayStr = new Date().toLocaleDateString();
+        const todaysRegs = guests.filter(g => {
+            if (!g.registered_at) return false;
+            const regDate = new Date(g.registered_at).toLocaleDateString();
+            return regDate === todayStr && g.rsvp !== 'Pending';
+        }).length;
 
         // Populate elements
         const statTotalInv = document.getElementById('stat-total-invites');
         const statTotalAcc = document.getElementById('stat-total-accepted');
-        const statBoysAcc = document.getElementById('stat-boys-accepted');
-        const statGirlsAcc = document.getElementById('stat-girls-accepted');
-        const statGuestsAdd = document.getElementById('stat-guests-added');
         const statPending = document.getElementById('stat-pending');
         const statChecked = document.getElementById('stat-checked-in');
         const statDeclined = document.getElementById('stat-declined');
+        const statBoysAcc = document.getElementById('stat-boys-accepted');
+        const statGirlsAcc = document.getElementById('stat-girls-accepted');
+        const statGuestsAdd = document.getElementById('stat-guests-added');
 
-        if (statTotalInv) statTotalInv.textContent = totalInvites;
+        if (statTotalInv) statTotalInv.textContent = totalGuests;
         if (statTotalAcc) statTotalAcc.textContent = accepted;
+        if (statPending) statPending.textContent = pending;
+        if (statDeclined) statDeclined.textContent = declined;
+        if (statChecked) statChecked.textContent = todaysRegs; // Re-purposed to Todays Registrations
+        
+        // Re-label card
+        const checkinLabel = document.querySelector('.checkin-card .stat-label');
+        if (checkinLabel) checkinLabel.textContent = "Today's Registrations";
+
+        // Count categories
+        const boys = guests.filter(g => g.gender === 'boy' && (g.rsvp === 'Accepted' || g.rsvp === 'Registered')).length;
+        const girls = guests.filter(g => g.gender === 'girl' && (g.rsvp === 'Accepted' || g.rsvp === 'Registered')).length;
+        const friends = guests.filter(g => g.rsvp === 'Guest Added').length;
+
         if (statBoysAcc) statBoysAcc.textContent = boys;
         if (statGirlsAcc) statGirlsAcc.textContent = girls;
         if (statGuestsAdd) statGuestsAdd.textContent = friends;
-        if (statPending) statPending.textContent = pending;
-        if (statChecked) statChecked.textContent = checkedIn;
-        if (statDeclined) statDeclined.textContent = declined;
 
-        // Set static overview info
         const dashVenue = document.getElementById('dash-venue');
         const dashDate = document.getElementById('dash-date');
         if (dashVenue) dashVenue.textContent = config.eventVenue;
@@ -934,19 +1093,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // --- 12. TAB STATE SELECTION NAVIGATOR ---
+    // --- 13. TAB SELECTION MANAGEMENT ---
     const tabButtons = document.querySelectorAll('.tab-nav-btn');
     const tabPanes = document.querySelectorAll('.tab-pane');
 
     tabButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             const targetTab = btn.getAttribute('data-tab');
-            
-            // Toggle active nav styling
             tabButtons.forEach(b => b.classList.remove('active-tab'));
             btn.classList.add('active-tab');
 
-            // Toggle active content pane
             tabPanes.forEach(pane => {
                 pane.classList.remove('active-pane');
                 if (pane.getAttribute('id') === `tab-${targetTab}`) {
@@ -954,14 +1110,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // Trigger log updates or render
             if (targetTab === 'guestlist') renderMasterGuestList();
             if (targetTab === 'dashboard') updateDashboardStats();
         });
     });
 
 
-    // --- 13. MASTER GUEST LIST CRUD OPERATIONS & EDIT MODAL ---
+    // --- 14. MASTER GUEST LIST CRUD OPERATIONS ---
     const guestSearchInput = document.getElementById('guestSearchInput');
     const guestFilterGender = document.getElementById('guestFilterGender');
     const guestFilterStatus = document.getElementById('guestFilterStatus');
@@ -972,14 +1127,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeGuestModal = document.getElementById('closeGuestModal');
     const saveGuestDetailsBtn = document.getElementById('saveGuestDetailsBtn');
 
-    // Input fields inside modal
+    // Input fields edit modal
     const editGuestName = document.getElementById('editGuestName');
+    const editGuestPhone = document.getElementById('editGuestPhone');
+    const editGuestEmail = document.getElementById('editGuestEmail');
     const editGuestRsvp = document.getElementById('editGuestRsvp');
     const editGuestFriend = document.getElementById('editGuestFriend');
     const editGuestBottle = document.getElementById('editGuestBottle');
     const editGuestCheckin = document.getElementById('editGuestCheckin');
     const editFriendNameGroup = document.getElementById('editFriendNameGroup');
     const editBottlePaymentGroup = document.getElementById('editBottlePaymentGroup');
+    
+    // Links modal
     const modalLinkBox = document.getElementById('modalLinkBox');
     const modalGeneratedUrl = document.getElementById('modalGeneratedUrl');
     const modalCopyLinkBtn = document.getElementById('modalCopyLinkBtn');
@@ -987,7 +1146,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentEditingGuestId = null;
 
-    // Helper to toggle groups based on selected gender
     const toggleModalFieldGroups = (gender) => {
         if (gender === 'girl') {
             if (editFriendNameGroup) editFriendNameGroup.style.display = 'block';
@@ -1010,7 +1168,6 @@ document.addEventListener('DOMContentLoaded', () => {
         radios.forEach(r => { r.checked = (r.value === value); });
     };
 
-    // Radios change listener
     document.getElementsByName('editGuestGender').forEach(radio => {
         radio.addEventListener('change', () => {
             toggleModalFieldGroups(radio.value);
@@ -1023,24 +1180,59 @@ document.addEventListener('DOMContentLoaded', () => {
         if (guest) {
             document.getElementById('guestModalTitle').textContent = 'Edit Guest Details';
             currentEditingGuestId = guest.id;
+            
             if (editGuestName) editGuestName.value = guest.name;
+            if (editGuestPhone) editGuestPhone.value = guest.phone_number || '';
+            if (editGuestEmail) editGuestEmail.value = guest.email || '';
+            
             setSelectedRadioByValue('editGuestGender', guest.gender);
             if (editGuestRsvp) editGuestRsvp.value = guest.rsvp;
             if (editGuestFriend) editGuestFriend.value = guest.friendName || '';
             if (editGuestBottle) editGuestBottle.value = guest.bottlePayment || 'Pending';
             if (editGuestCheckin) editGuestCheckin.value = guest.checkIn || 'Not Checked In';
+            
             toggleModalFieldGroups(guest.gender);
+            
+            // Populate Audit Elements
+            document.getElementById('auditGuestId').textContent = guest.guest_id || '-';
+            document.getElementById('auditTcVersion').textContent = guest.terms_version || 'v1.0';
+            document.getElementById('auditTcAccepted').textContent = guest.terms_accepted || 'No';
+            document.getElementById('auditTcTime').textContent = guest.terms_accepted_at || '-';
+
+            // Populate SMS Log Elements
+            document.getElementById('auditPhone').textContent = guest.phone_number || '-';
+            document.getElementById('auditEmail').textContent = guest.email || '-';
+            document.getElementById('auditSmsStatus').textContent = guest.sms_status || '-';
+            document.getElementById('auditSmsTime').textContent = guest.sms_sent_at || '-';
+
             updateModalGeneratedLink();
         } else {
             document.getElementById('guestModalTitle').textContent = 'Add New Guest';
             currentEditingGuestId = null;
+            
             if (editGuestName) editGuestName.value = '';
+            if (editGuestPhone) editGuestPhone.value = '';
+            if (editGuestEmail) editGuestEmail.value = '';
+            
             setSelectedRadioByValue('editGuestGender', 'boy');
             if (editGuestRsvp) editGuestRsvp.value = 'Pending';
             if (editGuestFriend) editGuestFriend.value = '';
             if (editGuestBottle) editGuestBottle.value = 'Pending';
             if (editGuestCheckin) editGuestCheckin.value = 'Not Checked In';
+            
             toggleModalFieldGroups('boy');
+
+            // Reset audit
+            document.getElementById('auditGuestId').textContent = '-';
+            document.getElementById('auditTcVersion').textContent = 'v1.0';
+            document.getElementById('auditTcAccepted').textContent = 'No';
+            document.getElementById('auditTcTime').textContent = '-';
+            
+            document.getElementById('auditPhone').textContent = '-';
+            document.getElementById('auditEmail').textContent = '-';
+            document.getElementById('auditSmsStatus').textContent = '-';
+            document.getElementById('auditSmsTime').textContent = '-';
+
             if (modalLinkBox) modalLinkBox.classList.add('hidden-box');
         }
     };
@@ -1052,11 +1244,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (modalLinkBox) modalLinkBox.classList.add('hidden-box');
             return;
         }
-
         const gender = getSelectedGenderFromRadio('editGuestGender');
         const baseUrl = window.location.origin + window.location.pathname;
         let tpl = gender === 'girl' ? templates.girlWa : templates.boyWa;
-        let rsvpTpl = gender === 'girl' ? templates.girlLetter : templates.boyLetter;
 
         let fullUrl = `${baseUrl}?name=${encodeURIComponent(nameVal)}&gender=${gender}`;
         fullUrl += `&rsvp=${encodeURIComponent(tpl)}`;
@@ -1070,9 +1260,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    if (editGuestName) {
-        editGuestName.addEventListener('input', updateModalGeneratedLink);
-    }
+    if (editGuestName) editGuestName.addEventListener('input', updateModalGeneratedLink);
 
     if (modalCopyLinkBtn && modalGeneratedUrl) {
         modalCopyLinkBtn.addEventListener('click', () => {
@@ -1083,9 +1271,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    if (addGuestBtn) {
-        addGuestBtn.addEventListener('click', () => openGuestModal());
-    }
+    if (addGuestBtn) addGuestBtn.addEventListener('click', () => openGuestModal());
     if (closeGuestModal) {
         closeGuestModal.addEventListener('click', () => {
             if (guestEditModal) guestEditModal.classList.add('hidden-modal');
@@ -1095,6 +1281,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (saveGuestDetailsBtn) {
         saveGuestDetailsBtn.addEventListener('click', () => {
             const nameVal = editGuestName ? editGuestName.value.trim() : '';
+            const phoneVal = editGuestPhone ? editGuestPhone.value.trim() : '';
+            const emailVal = editGuestEmail ? editGuestEmail.value.trim() : '';
             if (!nameVal) {
                 alert('Please enter a valid guest name.');
                 return;
@@ -1105,79 +1293,143 @@ document.addEventListener('DOMContentLoaded', () => {
             const friendName = editGuestFriend ? editGuestFriend.value.trim() : '';
             const bottle = editGuestBottle ? editGuestBottle.value : 'N/A';
             const checkin = editGuestCheckin ? editGuestCheckin.value : 'Not Checked In';
+            const timestamp = new Date().toLocaleString();
 
             if (currentEditingGuestId) {
-                // Edit mode
                 const guest = guests.find(g => g.id === currentEditingGuestId);
                 if (guest) {
                     const prevName = guest.name;
                     guest.name = nameVal;
+                    guest.phone_number = phoneVal;
+                    guest.email = emailVal;
                     guest.gender = gender;
                     guest.rsvp = rsvp;
                     guest.friendName = gender === 'girl' ? friendName : '';
                     guest.bottlePayment = gender === 'boy' ? bottle : 'N/A';
                     guest.checkIn = checkin;
+                    guest.updated_at = timestamp;
+
                     if (checkin === 'Checked In' && !guest.checkInTime) {
                         guest.checkInTime = new Date().toLocaleTimeString();
                     }
 
-                    // Sync companion friend record if applicable
+                    // Sync companion friend
                     if (gender === 'girl' && friendName) {
                         let comp = guests.find(g => g.isFriendOf === prevName);
                         if (comp) {
                             comp.name = friendName;
                             comp.isFriendOf = nameVal;
                         } else {
+                            let maxFriendNum = 0;
+                            guests.forEach(g => {
+                                if (g.guest_id && g.guest_id.startsWith('G-')) {
+                                    const num = parseInt(g.guest_id.split('-')[1]);
+                                    if (!isNaN(num) && num > maxFriendNum) maxFriendNum = num;
+                                }
+                            });
+                            const friendNextId = `G-${String(maxFriendNum + 1).padStart(3, '0')}`;
                             guests.push({
                                 id: 'f_' + Math.random().toString(36).substr(2, 9),
+                                guest_id: friendNextId,
+                                first_name: friendName.split(' ')[0],
+                                last_name: friendName.split(' ').slice(1).join(' ') || '-',
                                 name: friendName,
+                                phone_number: '-',
+                                email: '-',
                                 gender: 'girl',
                                 rsvp: 'Guest Added',
-                                rsvpTime: new Date().toLocaleString(),
+                                rsvpTime: timestamp,
                                 friendName: '',
                                 isFriendOf: nameVal,
                                 bottlePayment: 'N/A',
                                 checkIn: 'Not Checked In',
                                 checkInTime: '',
-                                approvalStatus: 'Approved'
+                                approvalStatus: 'Approved',
+                                terms_accepted: 'Yes',
+                                terms_version: 'v1.0',
+                                terms_accepted_at: timestamp,
+                                registered_at: timestamp,
+                                updated_at: timestamp,
+                                sms_status: 'N/A',
+                                sms_sent_at: ''
                             });
                         }
                     }
-                    logActivity(`Edited guest record: ${nameVal}`);
+                    logActivity(`Admin updated guest: ${nameVal}`);
                 }
             } else {
-                // Add mode
+                // Add Mode sequence-based ID generation
+                let maxNum = 0;
+                guests.forEach(g => {
+                    if (g.guest_id && g.guest_id.startsWith('G-')) {
+                        const num = parseInt(g.guest_id.split('-')[1]);
+                        if (!isNaN(num) && num > maxNum) maxNum = num;
+                    }
+                });
+                const nextId = `G-${String(maxNum + 1).padStart(3, '0')}`;
+
                 const newGuest = {
                     id: 'g_' + Math.random().toString(36).substr(2, 9),
+                    guest_id: nextId,
+                    first_name: nameVal.split(' ')[0],
+                    last_name: nameVal.split(' ').slice(1).join(' ') || '-',
                     name: nameVal,
+                    phone_number: phoneVal,
+                    email: emailVal,
                     gender: gender,
                     rsvp: rsvp,
-                    rsvpTime: rsvp !== 'Pending' ? new Date().toLocaleString() : '',
+                    rsvpTime: rsvp !== 'Pending' ? timestamp : '',
                     friendName: gender === 'girl' ? friendName : '',
                     bottlePayment: gender === 'boy' ? bottle : 'N/A',
                     checkIn: checkin,
                     checkInTime: checkin === 'Checked In' ? new Date().toLocaleTimeString() : '',
-                    approvalStatus: 'Approved'
+                    approvalStatus: 'Approved',
+                    terms_accepted: rsvp !== 'Pending' ? 'Yes' : 'No',
+                    terms_version: rsvp !== 'Pending' ? 'v1.0' : '',
+                    terms_accepted_at: rsvp !== 'Pending' ? timestamp : '',
+                    registered_at: timestamp,
+                    updated_at: timestamp,
+                    sms_status: 'Pending',
+                    sms_sent_at: ''
                 };
                 guests.push(newGuest);
 
-                // Add companion if registered in advance
                 if (gender === 'girl' && friendName) {
+                    let maxFriendNum = 0;
+                    guests.forEach(g => {
+                        if (g.guest_id && g.guest_id.startsWith('G-')) {
+                            const num = parseInt(g.guest_id.split('-')[1]);
+                            if (!isNaN(num) && num > maxFriendNum) maxFriendNum = num;
+                        }
+                    });
+                    const friendNextId = `G-${String(maxFriendNum + 1).padStart(3, '0')}`;
                     guests.push({
                         id: 'f_' + Math.random().toString(36).substr(2, 9),
+                        guest_id: friendNextId,
+                        first_name: friendName.split(' ')[0],
+                        last_name: friendName.split(' ').slice(1).join(' ') || '-',
                         name: friendName,
+                        phone_number: '-',
+                        email: '-',
                         gender: 'girl',
                         rsvp: 'Guest Added',
-                        rsvpTime: new Date().toLocaleString(),
+                        rsvpTime: timestamp,
                         friendName: '',
                         isFriendOf: nameVal,
                         bottlePayment: 'N/A',
                         checkIn: 'Not Checked In',
                         checkInTime: '',
-                        approvalStatus: 'Approved'
+                        approvalStatus: 'Approved',
+                        terms_accepted: 'Yes',
+                        terms_version: 'v1.0',
+                        terms_accepted_at: timestamp,
+                        registered_at: timestamp,
+                        updated_at: timestamp,
+                        sms_status: 'N/A',
+                        sms_sent_at: ''
                     });
                 }
-                logActivity(`Manually added guest: ${nameVal}`);
+                logActivity(`Admin manually added guest: ${nameVal}`);
             }
 
             saveState();
@@ -1187,7 +1439,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Render Master Guest Table
+    // Render Master list table rows
     function renderMasterGuestList() {
         if (!masterGuestTableBody) return;
 
@@ -1195,9 +1447,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const filterGender = guestFilterGender ? guestFilterGender.value : 'all';
         const filterStatus = guestFilterStatus ? guestFilterStatus.value : 'all';
 
-        // Filter guest data
         const filtered = guests.filter(g => {
-            const matchesSearch = g.name.toLowerCase().includes(q) || (g.friendName && g.friendName.toLowerCase().includes(q));
+            const matchesSearch = 
+                g.name.toLowerCase().includes(q) || 
+                (g.guest_id && g.guest_id.toLowerCase().includes(q)) || 
+                (g.phone_number && g.phone_number.includes(q)) || 
+                (g.email && g.email.toLowerCase().includes(q)) ||
+                (g.friendName && g.friendName.toLowerCase().includes(q));
+            
             const matchesGender = filterGender === 'all' || g.gender === filterGender;
             
             let matchesStatus = true;
@@ -1216,22 +1473,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (filtered.length === 0) {
-            masterGuestTableBody.innerHTML = `<tr><td colspan="7" class="empty-log" style="text-align:center;">No guests match your criteria.</td></tr>`;
+            masterGuestTableBody.innerHTML = `<tr><td colspan="9" class="empty-log" style="text-align:center;">No guests match your criteria.</td></tr>`;
             return;
         }
 
         masterGuestTableBody.innerHTML = filtered.map(g => {
-            const bottleLabel = g.gender === 'boy' ? (g.bottlePayment === 'Paid' ? 'Paid Le 150 🟢' : 'Pending Le 150 🟡') : 'N/A';
+            const dateStr = g.terms_accepted_at ? g.terms_accepted_at.split(' ')[0] : '-';
             const checkinTime = g.checkInTime ? ` (${g.checkInTime})` : '';
-            const statusClass = g.rsvp;
-            
             return `
                 <tr>
+                    <td><strong>${g.guest_id || '-'}</strong></td>
                     <td><strong>${g.name}</strong> ${g.isFriendOf ? `<span style="font-size:0.75rem; color:#888;">(Friend of ${g.isFriendOf})</span>` : ''}</td>
-                    <td>${g.gender === 'girl' ? 'Girl 💃' : 'Boy 🍾'}</td>
-                    <td><span class="status-badge ${statusClass}">${g.rsvp}</span></td>
-                    <td>${g.gender === 'girl' ? (g.friendName || 'None') : 'N/A'}</td>
-                    <td>${bottleLabel}</td>
+                    <td>${g.phone_number || '-'}</td>
+                    <td>${g.email || '-'}</td>
+                    <td><span class="status-badge ${g.rsvp}">${g.rsvp}</span></td>
+                    <td>${g.terms_accepted === 'Yes' ? 'Yes ✅' : 'No ❌'}</td>
+                    <td>${dateStr}</td>
                     <td><span class="gate-badge ${g.checkIn === 'Checked In' ? 'checked-in' : (g.checkIn === 'Rejected at Gate' ? 'rejected' : 'pending')}">${g.checkIn}${checkinTime}</span></td>
                     <td>
                         <button class="action-icon-btn edit-guest" data-id="${g.id}" title="Edit Guest Details">✏️</button>
@@ -1242,7 +1499,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         }).join('');
 
-        // Wire Action buttons in table
+        // Re-bind actions
         document.querySelectorAll('.edit-guest').forEach(btn => {
             btn.addEventListener('click', () => {
                 const id = btn.getAttribute('data-id');
@@ -1256,7 +1513,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const id = btn.getAttribute('data-id');
                 const guest = guests.find(g => g.id === id);
                 if (guest && confirm(`Are you sure you want to delete ${guest.name}?`)) {
-                    // If girl, also delete registered companion
                     if (guest.gender === 'girl' && guest.friendName) {
                         guests = guests.filter(g => g.isFriendOf !== guest.name);
                     }
@@ -1264,7 +1520,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     saveState();
                     renderMasterGuestList();
                     updateDashboardStats();
-                    logActivity(`Deleted guest record: ${guest.name}`);
+                    logActivity(`Deleted guest: ${guest.name}`);
                 }
             });
         });
@@ -1292,7 +1548,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (guestFilterStatus) guestFilterStatus.addEventListener('change', renderMasterGuestList);
 
 
-    // --- 14. GATE MANAGER CHECK-IN SCREEN LOGIC ---
+    // --- 15. GATE CHECK-IN SCREEN LOGIC (Verify arrivals) ---
     const gateSearchBox = document.getElementById('gateSearchBox');
     const gateResultsContainer = document.getElementById('gateResultsContainer');
 
@@ -1305,8 +1561,11 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Search in master guests (matching names or companion friend names)
-        const found = guests.filter(g => g.name.toLowerCase().includes(q) || (g.friendName && g.friendName.toLowerCase().includes(q)));
+        const found = guests.filter(g => 
+            g.name.toLowerCase().includes(q) || 
+            (g.guest_id && g.guest_id.toLowerCase().includes(q)) ||
+            (g.friendName && g.friendName.toLowerCase().includes(q))
+        );
 
         if (found.length === 0) {
             gateResultsContainer.innerHTML = `
@@ -1333,13 +1592,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="gate-card-header">
                         <div>
                             <h4 class="gate-guest-name">${g.name}</h4>
-                            <span class="gate-guest-role">${roleLabel}</span>
+                            <span class="gate-guest-role">${roleLabel} (${g.guest_id || 'No ID'})</span>
                         </div>
                         <span class="gate-badge ${g.checkIn === 'Checked In' ? 'checked-in' : (g.rsvp === 'Declined' ? 'rejected' : 'approved')}">${statusLabel}</span>
                     </div>
                     
                     <div class="gate-card-body">
-                        <p><strong>RSVP Response:</strong> ${g.rsvp}</p>
+                        <p><strong>Phone:</strong> ${g.phone_number || '-'}</p>
+                        <p><strong>T&C Accepted:</strong> ${g.terms_accepted === 'Yes' ? 'Yes ✅' : 'No ❌'}</p>
                         ${g.gender === 'girl' ? `<p><strong>Registered Companion Friend:</strong> ${g.friendName || 'None'}</p>` : ''}
                         ${g.isFriendOf ? `<p><strong>Invited As Guest Of:</strong> ${g.isFriendOf}</p>` : ''}
                         ${g.gender === 'boy' ? `<p><strong>Bottle Requirement:</strong> Le 150 bottle purchased at gate</p>` : ''}
@@ -1354,7 +1614,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     ` : ''}
 
                     <div class="gate-actions-row">
-                        <!-- Bottle payment action (Boys only) -->
+                        <!-- Bottle payment (Boys only) -->
                         ${g.gender === 'boy' && g.bottlePayment !== 'Paid' ? `
                             <button class="gate-action-btn pay-btn mark-paid-btn" data-id="${g.id}">
                                 💰 COLLECT Le 150 & MARK BOTTLE PAID
@@ -1363,9 +1623,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         <!-- Check-in actions -->
                         ${g.checkIn === 'Checked In' ? `
-                            <button class="gate-action-btn disabled-btn" disabled>
-                                🟢 ALREADY CHECKED IN (at ${g.checkInTime})
-                            </button>
+                            <div class="gate-closed-warning" style="background:rgba(49, 151, 149, 0.1); border-color:#319795; color:#319795;">
+                                ALREADY CHECKED IN (at ${g.checkInTime})
+                            </div>
                         ` : (showClosedNotice ? `
                             <button class="gate-action-btn override-btn admin-override-btn" data-id="${g.id}">
                                 ⚠️ ADMIN OVERRIDE CHECK-IN
@@ -1380,7 +1640,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         }).join('');
 
-        // Wire checking buttons
+        // Re-bind Checkin buttons
         document.querySelectorAll('.mark-paid-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const id = btn.getAttribute('data-id');
@@ -1389,7 +1649,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     guest.bottlePayment = 'Paid';
                     saveState();
                     renderGateCheckin();
-                    logActivity(`Collected Le 150 from ${guest.name}. Bottle payment marked completed.`);
+                    logActivity(`Collected Le 150 from ${guest.name}. Bottle payment completed.`);
                 }
             });
         });
@@ -1413,13 +1673,13 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.addEventListener('click', () => {
                 const id = btn.getAttribute('data-id');
                 const guest = guests.find(g => g.id === id);
-                if (guest && confirm(`ADMIN ACCESS OVERRIDE: Allow checked-in access to ${guest.name} after gate deadline?`)) {
+                if (guest && confirm(`ADMIN OVERRIDE: Check in ${guest.name} after gate closing?`)) {
                     guest.checkIn = 'Checked In';
                     guest.checkInTime = new Date().toLocaleTimeString();
                     saveState();
                     renderGateCheckin();
                     updateDashboardStats();
-                    logActivity(`ADMIN OVERRIDE: Checked in guest: ${guest.name} after lockdown`);
+                    logActivity(`ADMIN OVERRIDE: Checked in ${guest.name} after gate deadline`);
                 }
             });
         });
@@ -1428,7 +1688,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (gateSearchBox) gateSearchBox.addEventListener('input', renderGateCheckin);
 
 
-    // --- 15. LETTER TEMPLATES CONFIG EDITOR ---
+    // --- 16. LETTER TEMPLATES DESIGNER ---
     const tplBoyLetter = document.getElementById('tplBoyLetter');
     const tplBoyWa = document.getElementById('tplBoyWa');
     const tplGirlLetter = document.getElementById('tplGirlLetter');
@@ -1449,13 +1709,13 @@ document.addEventListener('DOMContentLoaded', () => {
             templates.girlLetter = tplGirlLetter.value;
             templates.girlWa = tplGirlWa.value;
             saveState();
-            alert('Acceptance and WhatsApp message templates updated successfully!');
-            logActivity('Organizer modified invitation templates.');
+            alert('Templates saved successfully!');
+            logActivity('Organizer updated email/WhatsApp templates.');
         });
     }
 
 
-    // --- 16. EVENT CONTROL SETTINGS ---
+    // --- 17. SETTINGS AND ENVIRONMENT CONFIGS ---
     const cfgPhoneFaisal = document.getElementById('cfgPhoneFaisal');
     const cfgPhoneDija = document.getElementById('cfgPhoneDija');
     const cfgHostEmail = document.getElementById('cfgHostEmail');
@@ -1492,15 +1752,15 @@ document.addEventListener('DOMContentLoaded', () => {
         cfgManualLockdown.addEventListener('change', () => {
             saveSettings();
             checkGateLockdown();
-            logActivity(`Organizer manually set Gate lockdown: ${config.manualLockdown ? 'CLOSED' : 'OPEN'}`);
+            logActivity(`Organizer set lockdown override: ${config.manualLockdown}`);
         });
     }
 
-    // Seed Data Controls
+    // Seed Data Controller
     const btnSeedDemoData = document.getElementById('btnSeedDemoData');
     if (btnSeedDemoData) {
         btnSeedDemoData.addEventListener('click', () => {
-            if (confirm('This will wipe all existing guests and reset to the 9 demo registrations. Continue?')) {
+            if (confirm('Reset database to the pre-seeded guests?')) {
                 guests = DEFAULT_GUESTS;
                 config = DEFAULT_CONFIG;
                 templates = DEFAULT_TEMPLATES;
@@ -1508,7 +1768,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 saveState();
                 logActivity('Database initialized and seeded with demo data.');
                 switchToAdminConsole();
-                alert('Database reset completed!');
+                alert('Database reset completed successfully.');
             }
         });
     }
@@ -1516,63 +1776,58 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnClearDatabase = document.getElementById('btnClearDatabase');
     if (btnClearDatabase) {
         btnClearDatabase.addEventListener('click', () => {
-            if (confirm('🚨 CRITICAL WARNING: You are about to erase the ENTIRE guest registry! This cannot be undone. Clear?')) {
+            if (confirm('🚨 Erase ENTIRE guest registry? This is destructive!')) {
                 guests = [];
                 localStorage.setItem('wgn_activity_logs', '[]');
                 saveState();
                 logActivity('Cleared guest records.');
                 switchToAdminConsole();
-                alert('All guest records deleted.');
+                alert('All guest records cleared.');
             }
         });
     }
 
 
-    // --- 17. REMINDER MESSAGES INTERACTION ---
+    // --- 18. REMINDERS DISPATCHER ---
     const reminderMsgTpl = document.getElementById('reminderMsgTpl');
     document.querySelectorAll('.send-rem-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const recipientGroup = btn.getAttribute('data-recipient');
-            const reminderText = reminderMsgTpl ? reminderMsgTpl.value.trim() : '';
+            const text = reminderMsgTpl ? reminderMsgTpl.value.trim() : '';
 
             let targets = [];
             if (recipientGroup === 'all') {
-                targets = guests.filter(g => g.rsvp === 'Accepted');
+                targets = guests.filter(g => g.rsvp === 'Accepted' || g.rsvp === 'Registered');
             } else if (recipientGroup === 'boys') {
-                targets = guests.filter(g => g.gender === 'boy' && g.rsvp === 'Accepted');
+                targets = guests.filter(g => g.gender === 'boy' && (g.rsvp === 'Accepted' || g.rsvp === 'Registered'));
             } else if (recipientGroup === 'girls') {
-                targets = guests.filter(g => g.gender === 'girl' && g.rsvp === 'Accepted');
+                targets = guests.filter(g => g.gender === 'girl' && (g.rsvp === 'Accepted' || g.rsvp === 'Registered'));
             } else if (recipientGroup === 'not-checked-in') {
-                targets = guests.filter(g => g.rsvp === 'Accepted' && g.checkIn !== 'Checked In');
+                targets = guests.filter(g => (g.rsvp === 'Accepted' || g.rsvp === 'Registered') && g.checkIn !== 'Checked In');
             }
 
             if (targets.length === 0) {
-                alert('No accepted guests match the selected filter to send reminders.');
+                alert('No guests match this filter.');
                 return;
             }
 
-            // In a production app, this iterates and fires API alerts. Let's simulate.
             const names = targets.map(t => t.name).join(', ');
-            alert(`📢 REMINDERS DISPATCHED!\n\nTarget Group: ${recipientGroup.toUpperCase()}\nTotal Recipients: ${targets.length}\nRecipients: ${names}\n\nMessage: "${reminderText}"`);
-            logActivity(`Dispatched bulk reminders to ${targets.length} guests (${recipientGroup} category).`);
+            alert(`📢 SMS REMINDERS SENT via Mock API Gateway!\n\nTo Group: ${recipientGroup.toUpperCase()}\nRecipients Count: ${targets.length}\nRecipients: ${names}\n\nMessage: "${text}"`);
+            logActivity(`Dispatched reminders to ${targets.length} guests (${recipientGroup})`);
         });
     });
 
 
-    // --- 18. MODALS (LOCATION, CALENDAR, SHARE PASS) ---
+    // --- 19. MODALS CONTROL (Location, Calendar, Pass) ---
     const locationBtn = document.getElementById('locationBtn');
     const locationModal = document.getElementById('locationModal');
     const closeLocModal = document.getElementById('closeLocModal');
 
     if (locationBtn && locationModal) {
-        locationBtn.addEventListener('click', () => {
-            locationModal.classList.remove('hidden-modal');
-        });
+        locationBtn.addEventListener('click', () => locationModal.classList.remove('hidden-modal'));
     }
     if (closeLocModal && locationModal) {
-        closeLocModal.addEventListener('click', () => {
-            locationModal.classList.add('hidden-modal');
-        });
+        closeLocModal.addEventListener('click', () => locationModal.classList.add('hidden-modal'));
     }
 
     const calendarBtn = document.getElementById('calendarBtn');
@@ -1580,21 +1835,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeCalModal = document.getElementById('closeCalModal');
 
     if (calendarBtn && calendarModal) {
-        calendarBtn.addEventListener('click', () => {
-            calendarModal.classList.remove('hidden-modal');
-        });
+        calendarBtn.addEventListener('click', () => calendarModal.classList.remove('hidden-modal'));
     }
     if (closeCalModal && calendarModal) {
-        closeCalModal.addEventListener('click', () => {
-            calendarModal.classList.add('hidden-modal');
-        });
+        closeCalModal.addEventListener('click', () => calendarModal.classList.add('hidden-modal'));
     }
 
     const googleCalBtn = document.getElementById('googleCalBtn');
     if (googleCalBtn) {
         googleCalBtn.addEventListener('click', () => {
             const title = encodeURIComponent(config.eventName);
-            const details = encodeURIComponent(`You are cordially invited to ${config.eventName}. Verification at gate strictly enforced!`);
+            const details = encodeURIComponent(`Invitation to ${config.eventName}. Verification strictly enforced!`);
             const locStr = encodeURIComponent(config.eventVenue);
             const dates = '20260731T200000Z/20260801T040000Z';
             const gCalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&location=${locStr}&dates=${dates}`;
@@ -1610,7 +1861,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'VERSION:2.0',
                 'BEGIN:VEVENT',
                 `SUMMARY:${config.eventName}`,
-                `DESCRIPTION:Wild Games Night. Gates close at 9:30 PM sharp!`,
+                `DESCRIPTION:Wild Games Night. Venue checklist open.`,
                 `LOCATION:${config.eventVenue}`,
                 'DTSTART:20260731T200000Z',
                 'DTEND:20260801T040000Z',
@@ -1618,7 +1869,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 'END:VEVENT',
                 'END:VCALENDAR'
             ].join('\r\n');
-
             const blob = new Blob([icsData], { type: 'text/calendar;charset=utf-8' });
             const link = document.createElement('a');
             link.href = window.URL.createObjectURL(blob);
@@ -1640,9 +1890,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     if (closePassModal && passModal) {
-        closePassModal.addEventListener('click', () => {
-            passModal.classList.add('hidden-modal');
-        });
+        closePassModal.addEventListener('click', () => passModal.classList.add('hidden-modal'));
     }
 
     if (copyLinkBtn) {
@@ -1651,8 +1899,6 @@ document.addEventListener('DOMContentLoaded', () => {
             navigator.clipboard.writeText(currentUrl).then(() => {
                 copyLinkBtn.textContent = '✓ Link Copied!';
                 setTimeout(() => { copyLinkBtn.textContent = '🔗 Copy Invitation Link'; }, 3000);
-            }).catch(() => {
-                alert('Invitation URL: ' + currentUrl);
             });
         });
     }
