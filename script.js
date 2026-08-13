@@ -19,8 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const DEFAULT_CONFIG = {
         eventName: 'Games Night',
-        eventVenue: 'Signal Inn, Old God Congo Cross',
-        eventDate: '2026-07-31',
+        eventVenue: 'Signal Hill Old Road, Congo Cross',
+        eventDate: '2026-08-14',
         eventTime: '20:00',
         eventDeadline: '21:30',
         manualLockdown: false,
@@ -32,8 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const DEFAULT_TEMPLATES = {
         boyLetter: `It is with great pleasure that we welcome you as one of the selected guests for Games Night.\n\nYour application has been reviewed, and we are delighted to inform you that you have officially earned your place at this exclusive gathering.\n\nPrepare yourself for an evening filled with exciting games, unforgettable moments, laughter, music, and new friendships.\n\nAll accepted male guests are required to purchase one bottle from the organizers at the gate for Le 150 upon arrival.`,
         girlLetter: `It is with great pleasure that we welcome you as one of the selected guests for Games Night.\n\nYour application has been reviewed, and we are delighted to inform you that you have officially earned your place at this exclusive gathering.\n\nPrepare yourself for an evening filled with exciting games, unforgettable moments, laughter, music, and new friendships.\n\nAs an accepted female guest, you may bring one female friend. Please enter her full name below in advance so we can approve her at the gate.`,
-        boyWa: `🎉 INVITATION ACCEPTED! 🎉\n\nHi! I, [Name], officially ACCEPT the invitation for Games Night on Friday, 31 July at 8 PM, agree to the rules and will purchase my bottle for Le 150 at the gate! 🍾`,
-        girlWa: `🎉 INVITATION ACCEPTED! 🎉\n\nHi! I, [Name], officially ACCEPT the invitation for Games Night on Friday, 31 July at 8 PM, agree to the rules and have registered my friend [Friend]! 💃`
+        boyWa: `🎉 INVITATION ACCEPTED! 🎉\n\nHi! I, [Name], officially ACCEPT the invitation for Games Night on Friday, 14 August at 8 PM, agree to the rules and will purchase my bottle for Le 150 at the gate! 🍾`,
+        girlWa: `🎉 INVITATION ACCEPTED! 🎉\n\nHi! I, [Name], officially ACCEPT the invitation for Games Night on Friday, 14 August at 8 PM, agree to the rules and have registered my friend [Friend]! 💃`
     };
 
     // Load state from localStorage or seed defaults
@@ -44,13 +44,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     let config = JSON.parse(localStorage.getItem('wgn_event_config'));
-    if (!config) {
+    // Force venue and date updates requested by the user
+    if (!config || config.eventVenue !== 'Signal Hill Old Road, Congo Cross' || config.eventDate !== '2026-08-14') {
         config = DEFAULT_CONFIG;
         localStorage.setItem('wgn_event_config', JSON.stringify(config));
     }
 
     let templates = JSON.parse(localStorage.getItem('wgn_letter_templates'));
-    if (!templates) {
+    // Force templates update if they contain old dates
+    if (!templates || !templates.boyWa.includes('14 August')) {
         templates = DEFAULT_TEMPLATES;
         localStorage.setItem('wgn_letter_templates', JSON.stringify(templates));
     }
@@ -84,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
 
-    // --- 2. MOCK BACKEND / DATABASE API LAYER (With duplicate checks & SMS routing) ---
+    // --- 2. MOCK BACKEND / DATABASE API LAYER ---
     const mockBackend = {
         // POST /api/guests/register
         registerGuest: (data) => {
@@ -107,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     return { success: false, error: 'This guest has already accepted the invitation.' };
                 }
                 
-                // If they are in the list but haven't accepted yet, update them!
+                // Update existing record
                 matchedGuest.rsvp = 'Accepted';
                 matchedGuest.terms_accepted = 'Yes';
                 matchedGuest.terms_version = data.termsVersion || 'v1.0';
@@ -115,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 matchedGuest.registered_at = new Date().toLocaleString();
                 matchedGuest.updated_at = new Date().toLocaleString();
                 
-                // Generate sequence ID if it doesn't exist
+                // Generate sequence ID
                 if (!matchedGuest.guest_id || matchedGuest.guest_id.startsWith('g_')) {
                     let maxNum = 0;
                     guests.forEach(g => {
@@ -173,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 mockBackend.sendSmsNotification(matchedGuest);
                 return { success: true, guest: matchedGuest };
             } else {
-                // If they are not in the list, automatically create a new guest!
+                // Automatically create a new guest if name is not in pre-seeds
                 let maxNum = 0;
                 guests.forEach(g => {
                     if (g.guest_id && g.guest_id.startsWith('G-')) {
@@ -255,7 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         },
 
-        // SMS notification dispatcher
+        // SMS dispatch outbox logger
         sendSmsNotification: (guest) => {
             const smsConfig = {
                 apiKey: (typeof process !== 'undefined' && process.env && process.env.SMS_API_KEY) || 'MOCK_SMS_API_KEY_XYZ',
@@ -265,7 +267,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const smsText = `Registration Confirmed. Hello ${guest.name}, your acceptance has been successfully recorded and you have been added to the Master Guest List. Your Guest ID is ${guest.guest_id}.`;
             console.log(`[SMS Gateway] Outbox dispatch: To: ${guest.phone_number} | Body: "${smsText}" (Sender ID: ${smsConfig.senderId})`);
 
-            // 90% Simulated dispatch success
             const isSuccess = Math.random() < 0.9;
 
             setTimeout(() => {
@@ -306,18 +307,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const genderSpecNote = document.getElementById('genderSpecNote');
     const friendRegistrationBlock = document.getElementById('friendRegistrationBlock');
 
-    const fallbackNameCard = document.getElementById('fallbackNameCard');
-    const fallbackGuestName = document.getElementById('fallbackGuestName');
-
-    // Display fallback name input ONLY if no name is in the URL parameter
-    if (!guestName || guestName === 'Guest') {
-        if (fallbackNameCard) fallbackNameCard.classList.remove('hidden-box');
-    }
+    const invalidLinkCard = document.getElementById('invalidLinkCard');
 
     if (guestNameDisplay) guestNameDisplay.textContent = guestName || 'Guest';
     if (passGuestName) passGuestName.textContent = guestName || 'Guest';
 
-    // Toggle dynamics
+    // Toggle letter dynamics
     if (dynamicLetterContent) {
         let letterTpl = guestGender === 'girl' ? templates.girlLetter : templates.boyLetter;
         dynamicLetterContent.innerHTML = letterTpl.split('\n\n').map(p => `<p class="body-paragraph">${p.replace(/\n/g, '<br>')}</p>`).join('');
@@ -784,7 +779,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
 
-    // --- 10. GUEST RSVP SELF-REGISTRATION ACTIONS (T&C Checkbox ONLY) ---
+    // --- 10. GUEST RSVP SELF-REGISTRATION ACTIONS ---
     const acceptBtn = document.getElementById('acceptBtn');
     const acceptBtnText = document.getElementById('acceptBtnText');
     const parchmentLetter = document.getElementById('parchmentLetter');
@@ -820,19 +815,20 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     };
 
-    // Live sync on triggers
-    if (fallbackGuestName) {
-        fallbackGuestName.addEventListener('input', () => {
-            const name = fallbackGuestName.value.trim() || 'Guest';
-            const friend = friendNameInput ? friendNameInput.value.trim() : '';
-            populateWaButtons(name, guestGender, friend);
-            if (guestNameDisplay) guestNameDisplay.textContent = name;
-            if (passGuestName) passGuestName.textContent = name;
-        });
+    // Block RSVP if no personalized name is in the URL parameters
+    const hasValidName = guestName && guestName !== 'Guest';
+    if (!hasValidName) {
+        if (invalidLinkCard) invalidLinkCard.classList.remove('hidden-box');
+        if (rulesCheckbox) rulesCheckbox.disabled = true;
+        if (acceptBtn) {
+            acceptBtn.disabled = true;
+            if (acceptBtnText) acceptBtnText.textContent = 'Access Denied 🔒';
+        }
     }
+
     if (friendNameInput) {
         friendNameInput.addEventListener('input', () => {
-            const name = guestName || (fallbackGuestName ? fallbackGuestName.value.trim() : 'Guest');
+            const name = guestName || 'Guest';
             const friend = friendNameInput.value.trim();
             populateWaButtons(name, guestGender, friend);
         });
@@ -843,6 +839,8 @@ document.addEventListener('DOMContentLoaded', () => {
         populateWaButtons(guestName || 'Guest', guestGender, '');
 
         acceptBtn.addEventListener('click', () => {
+            if (!hasValidName) return;
+
             // Check T&C Checkbox
             if (rulesCheckbox && !rulesCheckbox.checked) {
                 if (agreementWarning) {
@@ -857,20 +855,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            const nameVal = guestName || (fallbackGuestName ? fallbackGuestName.value.trim() : '');
-            if (!nameVal) {
-                if (agreementWarning) {
-                    agreementWarning.textContent = 'Please enter your name to accept the invitation.';
-                    agreementWarning.classList.remove('hidden-warning');
-                }
-                if (fallbackGuestName) fallbackGuestName.focus();
-                return;
-            }
-
+            const nameVal = guestName;
             const genderVal = guestGender || 'boy';
             const friendVal = friendNameInput ? friendNameInput.value.trim() : '';
 
-            // Register Guest via Backend matching logic
+            // Register Guest via matching logic
             const response = mockBackend.registerGuest({
                 name: nameVal,
                 gender: genderVal,
@@ -911,9 +900,6 @@ document.addEventListener('DOMContentLoaded', () => {
             acceptBtn.classList.add('accepted');
             acceptBtn.disabled = true;
             if (acceptBtnText) acceptBtnText.textContent = '✓ Accepted!';
-
-            // Hide fallback name box on success if displayed
-            if (fallbackNameCard) fallbackNameCard.classList.add('hidden-box');
 
             // Set up success toast elements
             const confGuestId = document.getElementById('confGuestId');
@@ -1376,7 +1362,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     logActivity(`Admin updated guest: ${nameVal}`);
                 }
             } else {
-                // Add Mode sequence ID generation
+                // Add Mode sequence-based ID generation
                 let maxNum = 0;
                 guests.forEach(g => {
                     if (g.guest_id && g.guest_id.startsWith('G-')) {
@@ -1566,7 +1552,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (guestFilterStatus) guestFilterStatus.addEventListener('change', renderMasterGuestList);
 
 
-    // --- 15. GATE CHECK-IN SCREEN LOGIC (Verify arrivals) ---
+    // --- 15. GATE CHECK-IN SCREEN LOGIC ---
     const gateSearchBox = document.getElementById('gateSearchBox');
     const gateResultsContainer = document.getElementById('gateResultsContainer');
 
@@ -1865,7 +1851,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const title = encodeURIComponent(config.eventName);
             const details = encodeURIComponent(`Invitation to ${config.eventName}. Verification strictly enforced!`);
             const locStr = encodeURIComponent(config.eventVenue);
-            const dates = '20260731T200000Z/20260801T040000Z';
+            const dates = '20260814T200000Z/20260815T040000Z';
             const gCalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&location=${locStr}&dates=${dates}`;
             window.open(gCalUrl, '_blank');
         });
@@ -1881,8 +1867,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 `SUMMARY:${config.eventName}`,
                 `DESCRIPTION:Wild Games Night. Venue checklist open.`,
                 `LOCATION:${config.eventVenue}`,
-                'DTSTART:20260731T200000Z',
-                'DTEND:20260801T040000Z',
+                'DTSTART:20260814T200000Z',
+                'DTEND:20260815T040000Z',
                 'STATUS:CONFIRMED',
                 'END:VEVENT',
                 'END:VCALENDAR'
