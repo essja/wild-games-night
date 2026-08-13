@@ -110,41 +110,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    const pullDataFromCloud = async () => {
-        try {
-            const resG = await fetch(`${KVDB_BASE}/guests`);
-            if (resG.ok) {
-                const cloudGuests = await resG.json();
-                if (cloudGuests && cloudGuests.length > 0) {
-                    guests = cloudGuests;
-                    localStorage.setItem('wgn_master_guests', JSON.stringify(guests));
-                }
-            }
-            const resI = await fetch(`${KVDB_BASE}/invitations`);
-            if (resI.ok) {
-                const cloudInv = await resI.json();
-                if (cloudInv && cloudInv.length > 0) {
-                    invitations = cloudInv;
-                    localStorage.setItem('wgn_invitations', JSON.stringify(invitations));
-                }
-            }
-            
-            // Sync current items in memory
-            if (inviteToken) {
-                loadedInvitation = invitations.find(i => i.secure_token === inviteToken);
-                if (loadedInvitation) {
-                    loadedGuest = guests.find(g => g.guest_id === loadedInvitation.guest_id);
-                }
-            }
-            
-            // Re-render UI
-            if (typeof renderInvitationsTable === 'function') renderInvitationsTable();
-            if (typeof renderMasterGuestList === 'function') renderMasterGuestList();
-            if (typeof updateDashboardStats === 'function') updateDashboardStats();
-            if (typeof renderGateCheckin === 'function') renderGateCheckin();
-        } catch(e) {
-            console.log('Cloud sync download failed, using local cache:', e);
-        }
+    const pullDataFromCloud = () => {
+        // Guest data now travels in the URL — no remote sync needed.
+        // Only re-render admin UI panels from localStorage.
+        if (typeof renderInvitationsTable === 'function') renderInvitationsTable();
+        if (typeof renderMasterGuestList === 'function') renderMasterGuestList();
+        if (typeof updateDashboardStats === 'function') updateDashboardStats();
+        if (typeof renderGateCheckin === 'function') renderGateCheckin();
     };
 
     // Save State Utility
@@ -153,7 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('wgn_invitations', JSON.stringify(invitations));
         localStorage.setItem('wgn_event_config', JSON.stringify(config));
         localStorage.setItem('wgn_letter_templates', JSON.stringify(templates));
-        pushDataToCloud();
     };
 
     // Activity Logger
@@ -850,9 +821,10 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const executeGuestRSVP = (responseType) => {
-        if (!hasValidInvite) return;
+        if (!hasValidInvite || !loadedGuest || !loadedInvitation) return;
 
         const timestamp = new Date().toLocaleString();
+        const isUrlGuest = (loadedGuest.id === 'url_guest');
         
         // 1. Update Invitation record
         loadedInvitation.status = responseType === 'Accepted' ? 'Accepted' : 'Declined';
@@ -874,7 +846,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         loadedGuest.updated_at = timestamp;
 
-        saveState();
+        // Only save to localStorage for real guests (not URL-param synthetic guests)
+        if (!isUrlGuest) {
+            saveState();
+        }
+
 
         // 3. Success display updates
         if (agreementWarning) agreementWarning.classList.add('hidden-warning');
