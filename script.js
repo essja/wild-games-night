@@ -95,25 +95,80 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    const pushDataToCloud = () => {
-        // No-op: guest data travels in invitation URLs, no cloud sync needed.
+    const pullDataFromCloud = async () => {
+        try {
+            const response = await fetch('/api/state');
+            if (response.ok) {
+                const data = await response.json();
+                guests = data.guests || [];
+                invitations = data.invitations || [];
+                config = data.config || config;
+                templates = data.templates || templates;
+
+                localStorage.setItem('wgn_master_guests', JSON.stringify(guests));
+                localStorage.setItem('wgn_invitations', JSON.stringify(invitations));
+                localStorage.setItem('wgn_event_config', JSON.stringify(config));
+                localStorage.setItem('wgn_letter_templates', JSON.stringify(templates));
+
+                if (typeof renderInvitationsTable === 'function') renderInvitationsTable();
+                if (typeof renderMasterGuestList === 'function') renderMasterGuestList();
+                if (typeof updateDashboardStats === 'function') updateDashboardStats();
+                if (typeof renderGateCheckin === 'function') renderGateCheckin();
+                if (typeof initializeGuestView === 'function') initializeGuestView();
+                if (typeof renderEventDetails === 'function') renderEventDetails();
+            }
+        } catch (e) {
+            console.error('Failed to pull from PostgreSQL API:', e);
+        }
     };
 
-    const pullDataFromCloud = () => {
-        // Guest data now travels in the URL — no remote sync needed.
-        // Only re-render admin UI panels from localStorage.
-        if (typeof renderInvitationsTable === 'function') renderInvitationsTable();
-        if (typeof renderMasterGuestList === 'function') renderMasterGuestList();
-        if (typeof updateDashboardStats === 'function') updateDashboardStats();
-        if (typeof renderGateCheckin === 'function') renderGateCheckin();
-    };
-
-    // Save State Utility
-    const saveState = () => {
+    // Save State Utility - pushes updates to server
+    const saveState = async (options = {}) => {
         localStorage.setItem('wgn_master_guests', JSON.stringify(guests));
         localStorage.setItem('wgn_invitations', JSON.stringify(invitations));
         localStorage.setItem('wgn_event_config', JSON.stringify(config));
         localStorage.setItem('wgn_letter_templates', JSON.stringify(templates));
+
+        try {
+            if (options.guest) {
+                await fetch('/api/guests/upsert', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(options.guest)
+                });
+            }
+            if (options.invitation) {
+                await fetch('/api/invitations/upsert', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(options.invitation)
+                });
+            }
+            if (options.config) {
+                await fetch('/api/config', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(config)
+                });
+            }
+            if (options.templates) {
+                await fetch('/api/templates', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(templates)
+                });
+            }
+            // Default full sync
+            if (!options.guest && !options.invitation && !options.config && !options.templates) {
+                await fetch('/api/sync', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ guests, invitations })
+                });
+            }
+        } catch (e) {
+            console.error('Failed to save state to PostgreSQL API:', e);
+        }
     };
 
     // Activity Logger
@@ -151,51 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const inviteToken = urlParams.get('invite') || urlParams.get('token');
     let loadedInvitation = null;
     let loadedGuest = null;
-
-    if (inviteToken) {
-        loadedInvitation = invitations.find(i => i.secure_token === inviteToken);
-        if (loadedInvitation) {
-            loadedGuest = guests.find(g => g.guest_id === loadedInvitation.guest_id);
-            // Track when the guest opens the invitation link
-            if (loadedInvitation.status === 'Draft' || loadedInvitation.status === 'Generated' || loadedInvitation.status === 'Sent') {
-                loadedInvitation.status = 'Opened';
-                loadedInvitation.opened_at = new Date().toLocaleString();
-                saveState();
-                logActivity(`Invitation opened by ${loadedInvitation.guest_name} (${loadedInvitation.guest_id})`);
-            }
-        }
-
-        // ---- FALLBACK: read name & gender directly from the URL (?n=Name&g=boy) ----
-        // This allows the letter to work on ANY device even if localStorage is empty
-        if (!loadedGuest) {
-            const urlName = urlParams.get('n');
-            const urlGender = urlParams.get('g') || 'boy';
-            if (urlName) {
-                // Build a lightweight synthetic guest so the letter renders correctly
-                loadedGuest = {
-                    id: 'url_guest',
-                    guest_id: 'G-URL',
-                    name: decodeURIComponent(urlName),
-                    gender: decodeURIComponent(urlGender),
-                    rsvp: 'Pending',
-                    terms_accepted: 'No',
-                };
-                loadedInvitation = {
-                    id: 'url_invite',
-                    guest_id: 'G-URL',
-                    guest_name: decodeURIComponent(urlName),
-                    secure_token: inviteToken,
-                    status: 'Opened',
-                    response: 'Pending',
-                    responded_at: '',
-                    accepted_at: '',
-                };
-                // Notify admin via WhatsApp when this link is opened (so they know someone viewed it)
-                logActivity(`URL-invite opened: ${decodeURIComponent(urlName)} (token: ${inviteToken})`);
-            }
-        }
-    }
-
+    let hasValidInvite = false;
 
     // --- 3. GUEST VIEW LETTER DISPLAY ---
     const guestNameDisplay = document.getElementById('guestNameDisplay');
@@ -203,76 +214,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const dynamicLetterContent = document.getElementById('dynamicLetterContent');
     const genderSpecNote = document.getElementById('genderSpecNote');
     const invalidLinkCard = document.getElementById('invalidLinkCard');
-
-    const hasValidInvite = loadedInvitation && loadedGuest;
-
-    if (!inviteToken && !isAdminUrl && !isGateUrl) {
-        // Block RSVP if accessing direct blank URL
-        if (invalidLinkCard) invalidLinkCard.classList.remove('hidden-box');
-        if (rulesCheckbox) rulesCheckbox.disabled = true;
-        if (acceptBtn) {
-            acceptBtn.disabled = true;
-            if (acceptBtnText) acceptBtnText.textContent = 'Access Denied 🔒';
-        }
-    } else if (inviteToken && !hasValidInvite) {
-        // Token is invalid/expired
-        if (invalidLinkCard) {
-            invalidLinkCard.classList.remove('hidden-box');
-            invalidLinkCard.querySelector('p').textContent = 'The invitation link you opened is invalid or has expired. Please check with organizers.';
-        }
-        if (rulesCheckbox) rulesCheckbox.disabled = true;
-        if (acceptBtn) {
-            acceptBtn.disabled = true;
-            if (acceptBtnText) acceptBtnText.textContent = 'Access Denied 🔒';
-        }
-    }
-
-    if (hasValidInvite) {
-        const guestName = loadedGuest.name;
-        const guestGender = loadedGuest.gender;
-
-        if (guestNameDisplay) guestNameDisplay.textContent = guestName;
-        if (passGuestName) passGuestName.textContent = guestName;
-
-        // Skip envelope entirely — jump straight to the letter on page load
-        const scene1 = document.getElementById('scene1');
-        const scene3 = document.getElementById('scene3');
-        if (scene1) { scene1.classList.remove('active-scene'); scene1.classList.add('hidden-scene'); }
-        if (scene3) { scene3.classList.remove('hidden-scene'); scene3.classList.add('active-scene'); }
-        window.scrollTo({ top: 0 });
-        // Play a welcome voice greeting
-        setTimeout(() => {
-            if (guestGender === 'girl') {
-                audioSystem.speak(`Congratulations ${guestName}! We are so excited to invite you to Games Night!`);
-            } else {
-                audioSystem.speak(`Congratulations ${guestName}! You have been selected for Games Night. Remember, bring your bottle!`);
-            }
-        }, 800);
-
-        // Render letter body text
-        if (dynamicLetterContent) {
-            let letterTpl = guestGender === 'girl' ? templates.girlLetter : templates.boyLetter;
-            dynamicLetterContent.innerHTML = letterTpl.split('\n\n').map(p => `<p class="body-paragraph">${p.replace(/\n/g, '<br>')}</p>`).join('');
-        }
-
-        // Render rules alerts
-        if (genderSpecNote) {
-            if (guestGender === 'girl') {
-                genderSpecNote.classList.add('note-girl');
-                genderSpecNote.innerHTML = `✨ <strong>Ladies Guest Policy:</strong> You are welcome to register one female friend after accepting your invitation. Her name will be added to the gate checklist.`;
-            } else {
-                genderSpecNote.classList.add('note-boy');
-                genderSpecNote.innerHTML = `⚠️ <strong>Bottle Purchase Policy:</strong> All accepted male guests are required to purchase one bottle from the organizers at the gate for Le 150 upon arrival.`;
-            }
-        }
-
-        // Check if guest already responded
-        if (loadedInvitation.response === 'Accepted') {
-            disableAcceptanceView('Accepted', guestName, guestGender);
-        } else if (loadedInvitation.response === 'Declined') {
-            disableAcceptanceView('Declined', guestName, guestGender);
-        }
-    }
 
     function disableAcceptanceView(response, name, gender) {
         if (acceptBtn) {
@@ -314,16 +255,131 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    const evtDateDisplay = document.getElementById('evtDateDisplay');
-    const evtTimeDisplay = document.getElementById('evtTimeDisplay');
-    const evtVenueDisplay = document.getElementById('evtVenueDisplay');
+    const initializeGuestView = () => {
+        if (inviteToken) {
+            loadedInvitation = invitations.find(i => i.secure_token === inviteToken);
+            if (loadedInvitation) {
+                loadedGuest = guests.find(g => g.guest_id === loadedInvitation.guest_id);
+                // Track when the guest opens the invitation link
+                if (loadedInvitation.status === 'Draft' || loadedInvitation.status === 'Generated' || loadedInvitation.status === 'Sent') {
+                    loadedInvitation.status = 'Opened';
+                    loadedInvitation.opened_at = new Date().toLocaleString();
+                    saveState({ invitation: loadedInvitation });
+                    logActivity(`Invitation opened by ${loadedInvitation.guest_name} (${loadedInvitation.guest_id})`);
+                }
+            }
 
-    if (evtDateDisplay) evtDateDisplay.textContent = new Date(config.eventDate + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-    if (evtTimeDisplay) {
-        const [hr, min] = config.eventTime.split(':');
-        evtTimeDisplay.textContent = `${hr % 12 || 12}:${min} ${hr >= 12 ? 'PM' : 'AM'} (Arrival Deadline ${config.eventDeadline} sharp)`;
-    }
-    if (evtVenueDisplay) evtVenueDisplay.textContent = config.eventVenue;
+            // ---- FALLBACK: read name & gender directly from the URL ----
+            if (!loadedGuest) {
+                const urlName = urlParams.get('n');
+                const urlGender = urlParams.get('g') || 'boy';
+                if (urlName) {
+                    loadedGuest = {
+                        id: 'url_guest',
+                        guest_id: 'G-URL',
+                        name: decodeURIComponent(urlName),
+                        gender: decodeURIComponent(urlGender),
+                        rsvp: 'Pending',
+                        terms_accepted: 'No',
+                    };
+                    loadedInvitation = {
+                        id: 'url_invite',
+                        guest_id: 'G-URL',
+                        guest_name: decodeURIComponent(urlName),
+                        secure_token: inviteToken,
+                        status: 'Opened',
+                        response: 'Pending',
+                        responded_at: '',
+                        accepted_at: '',
+                    };
+                }
+            }
+        }
+
+        hasValidInvite = !!(loadedInvitation && loadedGuest);
+
+        if (!inviteToken && !isAdminUrl && !isGateUrl) {
+            if (invalidLinkCard) invalidLinkCard.classList.remove('hidden-box');
+            if (rulesCheckbox) rulesCheckbox.disabled = true;
+            if (acceptBtn) {
+                acceptBtn.disabled = true;
+                if (acceptBtnText) acceptBtnText.textContent = 'Access Denied 🔒';
+            }
+        } else if (inviteToken && !hasValidInvite) {
+            if (invalidLinkCard) {
+                invalidLinkCard.classList.remove('hidden-box');
+                invalidLinkCard.querySelector('p').textContent = 'The invitation link you opened is invalid or has expired. Please check with organizers.';
+            }
+            if (rulesCheckbox) rulesCheckbox.disabled = true;
+            if (acceptBtn) {
+                acceptBtn.disabled = true;
+                if (acceptBtnText) acceptBtnText.textContent = 'Access Denied 🔒';
+            }
+        }
+
+        if (hasValidInvite) {
+            const guestName = loadedGuest.name;
+            const guestGender = loadedGuest.gender;
+
+            if (guestNameDisplay) guestNameDisplay.textContent = guestName;
+            if (passGuestName) passGuestName.textContent = guestName;
+
+            // Skip envelope entirely — jump straight to the letter on page load
+            const scene1 = document.getElementById('scene1');
+            const scene3 = document.getElementById('scene3');
+            if (scene1) { scene1.classList.remove('active-scene'); scene1.classList.add('hidden-scene'); }
+            if (scene3) { scene3.classList.remove('hidden-scene'); scene3.classList.add('active-scene'); }
+            window.scrollTo({ top: 0 });
+
+            // Play voice greeting only once per session
+            if (!window.hasSpokenGreeting) {
+                window.hasSpokenGreeting = true;
+                setTimeout(() => {
+                    if (guestGender === 'girl') {
+                        audioSystem.speak(`Congratulations ${guestName}! We are so excited to invite you to Games Night!`);
+                    } else {
+                        audioSystem.speak(`Congratulations ${guestName}! You have been selected for Games Night. Remember, bring your bottle!`);
+                    }
+                }, 800);
+            }
+
+            if (dynamicLetterContent) {
+                let letterTpl = guestGender === 'girl' ? templates.girlLetter : templates.boyLetter;
+                dynamicLetterContent.innerHTML = letterTpl.split('\n\n').map(p => `<p class="body-paragraph">${p.replace(/\n/g, '<br>')}</p>`).join('');
+            }
+
+            if (genderSpecNote) {
+                if (guestGender === 'girl') {
+                    genderSpecNote.classList.add('note-girl');
+                    genderSpecNote.innerHTML = `✨ <strong>Ladies Guest Policy:</strong> You are welcome to register one female friend after accepting your invitation. Her name will be added to the gate checklist.`;
+                } else {
+                    genderSpecNote.classList.add('note-boy');
+                    genderSpecNote.innerHTML = `⚠️ <strong>Bottle Purchase Policy:</strong> All accepted male guests are required to purchase one bottle from the organizers at the gate for Le 150 upon arrival.`;
+                }
+            }
+
+            if (loadedInvitation.response === 'Accepted') {
+                disableAcceptanceView('Accepted', guestName, guestGender);
+            } else if (loadedInvitation.response === 'Declined') {
+                disableAcceptanceView('Declined', guestName, guestGender);
+            }
+        }
+    };
+
+    const renderEventDetails = () => {
+        const evtDateDisplay = document.getElementById('evtDateDisplay');
+        const evtTimeDisplay = document.getElementById('evtTimeDisplay');
+        const evtVenueDisplay = document.getElementById('evtVenueDisplay');
+
+        if (config.eventDate) {
+            if (evtDateDisplay) evtDateDisplay.textContent = new Date(config.eventDate + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            if (evtTimeDisplay) {
+                const [hr, min] = config.eventTime.split(':');
+                evtTimeDisplay.textContent = `${hr % 12 || 12}:${min} ${hr >= 12 ? 'PM' : 'AM'} (Arrival Deadline ${config.eventDeadline} sharp)`;
+            }
+            if (evtVenueDisplay) evtVenueDisplay.textContent = config.eventVenue;
+        }
+    };
 
 
     // --- 4. AUDIO ENGINE (Text-To-Speech & ambient synthesis) ---
@@ -1221,9 +1277,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            if (targetTab === 'invitations') renderInvitationsTable();
-            if (targetTab === 'guestlist') renderMasterGuestList();
-            if (targetTab === 'dashboard') updateDashboardStats();
+            pullDataFromCloud().then(() => {
+                if (targetTab === 'invitations') renderInvitationsTable();
+                if (targetTab === 'guestlist') renderMasterGuestList();
+                if (targetTab === 'dashboard') updateDashboardStats();
+            });
         });
     });
 
@@ -2339,7 +2397,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target === guestEditModal) guestEditModal.classList.add('hidden-modal');
     });
 
-    // Pull latest data from cloud bucket on initialization
+    // Pull latest data from PostgreSQL backend on initialization and start auto-sync polling
     pullDataFromCloud();
+    setInterval(pullDataFromCloud, 10000);
 
 });
